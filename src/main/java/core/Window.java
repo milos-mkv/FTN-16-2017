@@ -71,6 +71,20 @@ public abstract class Window {
             }
         });
 
+        GLFW.glfwSetMouseButtonCallback(handle, new GLFWMouseButtonCallback() {
+            @Override
+            public void invoke(long window, int button, int action, int mods) {
+                if (button == GLFW.GLFW_MOUSE_BUTTON_RIGHT && action == GLFW.GLFW_PRESS)
+                {
+                    GLFW.glfwSetInputMode(window, GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_DISABLED);
+                }
+                if (button == GLFW.GLFW_MOUSE_BUTTON_RIGHT && action == GLFW.GLFW_RELEASE)
+                {
+                    GLFW.glfwSetInputMode(window, GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_NORMAL);
+                }
+            }
+        });
+
         if (configuration.isFullScreen()) {
             GLFW.glfwMaximizeWindow(handle);
         }

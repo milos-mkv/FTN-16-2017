@@ -32,6 +32,7 @@ public class Shader {
             GL32.glDeleteShader(frag);
             message = "Shader program compiled successfully!";
         } catch (Exception e) {
+            System.out.println(e);
             message = e.getMessage();
         }
     }

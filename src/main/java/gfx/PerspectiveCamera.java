@@ -20,15 +20,15 @@ public class PerspectiveCamera {
     public float aspect;
 
     public PerspectiveCamera(float fov, float aspect, float near, float far) {
-        this.fov        = fov;
-        this.aspect     = aspect;
-        this.near       = near;
-        this.far        = far;
-        this.position   = new Vector3f(0, 0, 0);
-        this.front      = new Vector3f(0, 0, 0);
-        this.direction  = new Vector3f(0, 0, 0);
-        this.up         = new Vector3f(0, 0, 0);
-        this.right      = new Vector3f(0, 0, 0);
+        this.fov = fov;
+        this.aspect = aspect;
+        this.near = near;
+        this.far = far;
+        this.position = new Vector3f(0, 0, 0);
+        this.front = new Vector3f(0, 0, 0);
+        this.direction = new Vector3f(0, 0, 0);
+        this.up = new Vector3f(0, 0, 0);
+        this.right = new Vector3f(0, 0, 0);
         UpdateCamera();
     }
 

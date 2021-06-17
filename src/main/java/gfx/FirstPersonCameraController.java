@@ -44,10 +44,10 @@ public class FirstPersonCameraController extends PerspectiveCamera {
             position.sub(tmp.set(front).mul(speed * delta));
         }
         if(GLFW.glfwGetKey(Window.getHandle(), GLFW.GLFW_KEY_A) == GLFW.GLFW_PRESS) {
-            position.add(tmp.set(right).mul(speed * delta));
+            position.sub(tmp.set(right).mul(speed * delta));
         }
         if(GLFW.glfwGetKey(Window.getHandle(), GLFW.GLFW_KEY_D) == GLFW.GLFW_PRESS) {
-            position.sub(tmp.set(right).mul(speed * delta));
+            position.add(tmp.set(right).mul(speed * delta));
         }
 
         yaw += (Window.getMouse().x - Window.getMouse().z) * 0.25f;
