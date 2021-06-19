@@ -32,7 +32,7 @@ public class Model extends TransformComponent {
             throw new RuntimeException("Failed to load model");
         }
 
-        int numMaterials = scene.mNumMaterials();
+        int numMaterials = scene.mNumMaterials() - 1;
         System.out.println(numMaterials);
         PointerBuffer aiMaterials = scene.mMaterials();
         materials = new ArrayList<>();
@@ -44,50 +44,33 @@ public class Model extends TransformComponent {
         processNode(Objects.requireNonNull(scene.mRootNode()), scene);
     }
 
+    private Texture getMaterialTexture(AIMaterial material, String texturesDir, int type) {
+        AIString buffer = AIString.calloc();
+        Assimp.aiGetMaterialTexture(material, type, 0, buffer, (IntBuffer) null, null, null, null, null, null);
+        if (!buffer.dataString().equals("")) {
+            return TextureCache.getTexture(texturesDir + "/" + buffer.dataString());
+        }
+        return null;
+    }
+
+    private Vector4f getMaterialColor(AIMaterial material, String type) {
+        AIColor4D color = AIColor4D.create();
+        int result = Assimp.aiGetMaterialColor(material, type, Assimp.aiTextureType_NONE, 0, color);
+        if (result == 0) {
+            return new Vector4f(color.r(), color.g(), color.b(), color.a());
+        }
+        return Material.DEFAULT_COLOR;
+    }
+
     public void processMaterial(AIMaterial aiMaterial, String texturesDir) throws RuntimeException {
-        AIColor4D colour = AIColor4D.create();
+        Texture diffuseTexture = getMaterialTexture(aiMaterial, texturesDir, Assimp.aiTextureType_DIFFUSE);
+        Texture specularTexture = getMaterialTexture(aiMaterial, texturesDir, Assimp.aiTextureType_SPECULAR);
+        Texture normalsTexture = getMaterialTexture(aiMaterial, texturesDir, Assimp.aiTextureType_NORMALS);
 
-        AIString path = AIString.calloc();
+        Vector4f ambient = getMaterialColor(aiMaterial, Assimp.AI_MATKEY_COLOR_AMBIENT);
+        Vector4f diffuse = getMaterialColor(aiMaterial, Assimp.AI_MATKEY_COLOR_DIFFUSE);
+        Vector4f specular = getMaterialColor(aiMaterial, Assimp.AI_MATKEY_COLOR_SPECULAR);
 
-        Assimp.aiGetMaterialTexture(aiMaterial, Assimp.aiTextureType_DIFFUSE, 0, path, (IntBuffer) null, null, null, null, null, null);
-        String diffuseTexturePath = texturesDir + "/" + path.dataString();
-        System.out.println(path.dataString());
-        Texture diffuseTexture = null;
-        if (!path.dataString().equals("")) {
-            diffuseTexture = TextureCache.getTexture(diffuseTexturePath);
-        }
-
-        Assimp.aiGetMaterialTexture(aiMaterial, Assimp.aiTextureType_SPECULAR, 0, path, (IntBuffer) null, null, null, null, null, null);
-        String specularTexturePath = texturesDir + "/" + path.dataString();
-        Texture specularTexture = null;
-        if (!path.dataString().equals("")) {
-            specularTexture = TextureCache.getTexture(specularTexturePath);
-        }
-
-        Assimp.aiGetMaterialTexture(aiMaterial, Assimp.aiTextureType_NORMALS, 0, path, (IntBuffer) null, null, null, null, null, null);
-        String normalsTexturePath = texturesDir + "/" + path.dataString();
-        Texture normalsTexture = null;
-        if (!path.dataString().equals("")) {
-            normalsTexture = TextureCache.getTexture(normalsTexturePath);
-        }
-
-        Vector4f ambient = Material.DEFAULT_COLOR;
-        int result = Assimp.aiGetMaterialColor(aiMaterial, Assimp.AI_MATKEY_COLOR_AMBIENT, Assimp.aiTextureType_NONE, 0, colour);
-        if (result == 0) {
-            ambient = new Vector4f(colour.r(), colour.g(), colour.b(), colour.a());
-        }
-
-        Vector4f diffuse = Material.DEFAULT_COLOR;
-        result = Assimp.aiGetMaterialColor(aiMaterial, Assimp.AI_MATKEY_COLOR_DIFFUSE, Assimp.aiTextureType_NONE, 0, colour);
-        if (result == 0) {
-            diffuse = new Vector4f(colour.r(), colour.g(), colour.b(), colour.a());
-        }
-
-        Vector4f specular = Material.DEFAULT_COLOR;
-        result = Assimp.aiGetMaterialColor(aiMaterial, Assimp.AI_MATKEY_COLOR_SPECULAR, Assimp.aiTextureType_NONE, 0, colour);
-        if (result == 0) {
-            specular = new Vector4f(colour.r(), colour.g(), colour.b(), colour.a());
-        }
 
         Material material = new Material(ambient, diffuse, specular, 1.0f);
         material.diffuseTexture = diffuseTexture;
