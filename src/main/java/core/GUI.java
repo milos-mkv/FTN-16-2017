@@ -25,10 +25,12 @@ public abstract class GUI {
     public static void renderMenuBar(FrameBuffer fb) {
         if (ImGui.beginMainMenuBar()) {
             if (ImGui.beginMenu("File")) {
-                if (ImGui.menuItem("New")) { }
-                if (ImGui.menuItem("Open", "Ctrl+O")) { }
+                if (ImGui.menuItem("New")) {
+                }
+                if (ImGui.menuItem("Open", "Ctrl+O")) {
+                }
                 ImGui.separator();
-                if(ImGui.menuItem("Import Model")) {
+                if (ImGui.menuItem("Import Model")) {
                     try {
                         PointerBuffer pointerBuffer = PointerBuffer.allocateDirect(1);
                         NativeFileDialog.NFD_OpenDialog((CharSequence) null, null, pointerBuffer);
@@ -38,6 +40,7 @@ public abstract class GUI {
                         System.out.println(e.getMessage());
                     }
                 }
+
                 ImGui.separator();
                 if (ImGui.menuItem("Exit", "Ctrl+Q")) {
                     GLFW.glfwSetWindowShouldClose(Window.handle, true);
@@ -55,8 +58,12 @@ public abstract class GUI {
                     STBImageWrite.stbi_write_jpg("test.jpg", 1280, 769, 3, data, 1280 * 3);
                     GL32.glBindFramebuffer(GL32.GL_FRAMEBUFFER, 0);
                 }
+                if (ImGui.menuItem("Enable/Disable Grid")) {
+                    Settings.EnableGrid = !Settings.EnableGrid;
+                }
                 ImGui.endMenu();
             }
+
             ImGui.endMainMenuBar();
         }
     }
@@ -73,15 +80,16 @@ public abstract class GUI {
     public static void renderSceneItemsDock() {
         ImGui.begin("Scene Items");
         int i = 0;
-        for(Model model : Scene.models) {
+        for (Model model : Scene.models) {
 
             if (ImGui.treeNode("Model: " + i)) {
 //                Scene.selected = model;
-                for(Mesh mesh : model.meshes) {
-                    if(ImGui.selectable(mesh.name)) {
+                for (Mesh mesh : model.meshes) {
+                    if (ImGui.selectable(mesh.name)) {
                         System.out.println(mesh.name);
                         Scene.selected = mesh;
-                    };
+                    }
+                    ;
                 }
                 ImGui.treePop();
             }
@@ -94,7 +102,7 @@ public abstract class GUI {
     public static void renderProperties() {
         ImGui.begin("Properties");
         if (ImGui.treeNode("Transform")) {
-            if(Scene.selected != null) {
+            if (Scene.selected != null) {
                 renderDragFloat3("Position", Scene.selected.position);
                 renderDragFloat3("Rotation", Scene.selected.rotation);
                 renderDragFloat3("Scale", Scene.selected.scale);
@@ -112,7 +120,7 @@ public abstract class GUI {
     private static void renderDragFloat3(String text, Vector3f vec) {
         float[] buffer = ToFloat3(vec);
         ImGui.text(text);
-        ImGui.dragFloat3("##"+text, buffer, 0.01f);
+        ImGui.dragFloat3("##" + text, buffer, 0.01f);
         vec.set(buffer);
     }
 

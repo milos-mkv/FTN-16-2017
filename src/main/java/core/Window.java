@@ -64,7 +64,7 @@ public abstract class Window {
         }
 
         GLFW.glfwMakeContextCurrent(handle);
-        GLFW.glfwSwapInterval(GLFW.GLFW_TRUE);
+//        GLFW.glfwSwapInterval(GLFW.GLFW_TRUE);
         GLFW.glfwShowWindow(handle);
         GLFW.glfwSetCursorPosCallback(handle, new GLFWCursorPosCallback() {
             @Override
