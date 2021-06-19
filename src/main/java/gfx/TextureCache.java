@@ -1,21 +1,20 @@
 package gfx;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class TextureCache {
 
-    private static TextureCache textureCache;
+    public static Map<String, Texture> loadedTextures = new HashMap<>();
 
-    public HashMap<String, Texture> loadedTextures;
-
-    public static TextureCache getInstance() {
-        if (textureCache == null) {
-            textureCache = new TextureCache();
+    public static Texture getTexture(final String path) {
+        for(String key : loadedTextures.keySet()) {
+            if(key.equals(path)) {
+                return loadedTextures.get(key);
+            }
         }
-        return textureCache;
+        loadedTextures.put(path, new Texture(path));
+        return loadedTextures.get(path);
     }
 
-    private TextureCache() {
-        loadedTextures = new HashMap<>();
-    }
 }

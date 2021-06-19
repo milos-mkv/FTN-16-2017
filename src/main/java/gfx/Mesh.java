@@ -1,6 +1,6 @@
 package gfx;
 
-import org.joml.Vector3f;
+import org.joml.Matrix4f;
 import org.lwjgl.opengl.GL32;
 import org.lwjgl.system.MemoryUtil;
 
@@ -8,23 +8,32 @@ import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
 
-public class Mesh {
+public class Mesh extends TransformComponent {
 
     private int VAO, VBO, EBO;
 
+    public String name;
+    public Matrix4f getTransform() {
+        return new Matrix4f().translate(position).rotate(rotation.x, 1, 0, 0)
+                .rotate(rotation.y, 0, 1, 0).rotate(rotation.z, 0, 0, 1).scale(scale);
+    }
+
     public ArrayList<Vertex> vertices;
     public ArrayList<Integer> indices;
-    public ArrayList<Texture> textures;
+    public Material material;
 
-    public Mesh(ArrayList<Vertex> vertices, ArrayList<Integer> indices, ArrayList<Texture> textures) {
+    public Mesh(String name, ArrayList<Vertex> vertices, ArrayList<Integer> indices, Material materials) {
         this.vertices = new ArrayList<>(vertices);
         this.indices = new ArrayList<>(indices);
-        this.textures = new ArrayList<>(textures);
+        this.material = materials;
+        this.name = name;
 
         setupMesh();
     }
 
     public void draw(Shader shader) {
+        shader.setUniformMat4("model", getTransform());
+
         GL32.glBindVertexArray(VAO);
         GL32.glDrawElements(GL32.GL_TRIANGLES, indices.size(), GL32.GL_UNSIGNED_INT, 0);
         GL32.glBindVertexArray(0);

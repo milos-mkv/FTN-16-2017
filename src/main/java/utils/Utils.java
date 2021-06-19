@@ -1,5 +1,7 @@
 package utils;
 
+import org.joml.Vector3f;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -26,6 +28,10 @@ public abstract class Utils {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static float[] ToFloat3(final Vector3f vec) {
+        return new float[] { vec.x, vec.y, vec.z };
     }
 
 }

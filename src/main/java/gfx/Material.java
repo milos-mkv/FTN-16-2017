@@ -1,6 +1,5 @@
 package gfx;
 
-import org.joml.Vector3f;
 import org.joml.Vector4f;
 
 public class Material {
@@ -11,18 +10,23 @@ public class Material {
     public Vector4f diffuseColor;
     public Vector4f specularColor;
 
-    public float shniness;
+    public float shininess;
     public float reflectance;
 
-    public Texture texture;
-    public Texture normalMap;
+    public Texture diffuseTexture;
+    public Texture specularTexture;
+    public Texture normalTexture;
 
     public Material() {
         this.ambientColor = DEFAULT_COLOR;
         this.diffuseColor = DEFAULT_COLOR;
         this.specularColor = DEFAULT_COLOR;
-        this.texture = null;
-        this.normalMap = null;
-        this.reflectance = 0;
+    }
+
+    public Material(Vector4f ambient, Vector4f diffuse, Vector4f specular, float shininess ) {
+        this.ambientColor = ambient;
+        this.diffuseColor = diffuse;
+        this.specularColor = specular;
+        this.shininess = shininess;
     }
 }

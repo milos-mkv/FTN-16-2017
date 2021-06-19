@@ -1,6 +1,7 @@
 package core;
 
 import imgui.ImGui;
+import imgui.flag.ImGuiCol;
 import imgui.flag.ImGuiConfigFlags;
 import imgui.gl3.ImGuiImplGl3;
 import imgui.glfw.ImGuiImplGlfw;
@@ -96,6 +97,7 @@ public abstract class Window {
         ImGui.createContext();
         ImGui.styleColorsDark();
         ImGui.getIO().addConfigFlags(ImGuiConfigFlags.DockingEnable | ImGuiConfigFlags.ViewportsEnable);
+        ImGui.getIO().getFonts().addFontFromFileTTF("src/main/resources/fonts/font.ttf", 21.f);
     }
 
     protected final void run() {
