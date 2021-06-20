@@ -5,6 +5,7 @@ import imgui.ImGui;
 import imgui.flag.ImGuiStyleVar;
 import imgui.flag.ImGuiWindowFlags;
 import org.joml.Vector3f;
+import org.joml.Vector4f;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.PointerBuffer;
 import org.lwjgl.glfw.GLFW;
@@ -13,8 +14,10 @@ import org.lwjgl.stb.STBImageWrite;
 import org.lwjgl.util.nfd.NativeFileDialog;
 
 import java.nio.ByteBuffer;
+import java.util.List;
 
 import static utils.Utils.ToFloat3;
+import static utils.Utils.ToFloat4;
 
 public abstract class GUI {
 
@@ -44,6 +47,12 @@ public abstract class GUI {
                 ImGui.separator();
                 if (ImGui.menuItem("Exit", "Ctrl+Q")) {
                     GLFW.glfwSetWindowShouldClose(Window.handle, true);
+                }
+                ImGui.endMenu();
+            }
+            if (ImGui.beginMenu("View")) {
+                if (ImGui.menuItem("Show/Hide Light Properties")) {
+                    Settings.ShowLightProperties.set(!Settings.ShowLightProperties.get());
                 }
                 ImGui.endMenu();
             }
@@ -81,21 +90,17 @@ public abstract class GUI {
         ImGui.begin("Scene Items");
         int i = 0;
         for (Model model : Scene.models) {
-
             if (ImGui.treeNode("Model: " + i)) {
-//                Scene.selected = model;
                 for (Mesh mesh : model.meshes) {
                     if (ImGui.selectable(mesh.name)) {
                         System.out.println(mesh.name);
                         Scene.selected = mesh;
                     }
-                    ;
                 }
                 ImGui.treePop();
             }
             i++;
         }
-
         ImGui.end();
     }
 
@@ -110,8 +115,37 @@ public abstract class GUI {
             ImGui.treePop();
         }
         if (ImGui.treeNode("Material")) {
-
+            renderDragFloat4("Ambient", Scene.selected.material.ambientColor, 0, 1);
+            renderDragFloat4("Diffuse", Scene.selected.material.diffuseColor, 0, 1);
+            renderDragFloat4("Specular", Scene.selected.material.specularColor, 0, 1);
             ImGui.treePop();
+        }
+        ImGui.end();
+    }
+
+
+    public static void renderLightProperties(DirectionalLight directionalLight, List<PointLight> pointLightList) {
+        if (!Settings.ShowLightProperties.get()) {
+            return;
+        }
+        ImGui.begin("Light Properties", Settings.ShowLightProperties);
+        if (ImGui.treeNode("Directional Light")) {
+            renderDragFloat3("Direction", directionalLight.direction);
+            renderDragFloat3("Ambient", directionalLight.ambient, 0, 1);
+            renderDragFloat3("Diffuse", directionalLight.diffuse, 0, 1);
+            renderDragFloat3("Specular", directionalLight.specular, 0, 1);
+            ImGui.treePop();
+        }
+        int i = 0;
+        for(PointLight pointLight : pointLightList) {
+            if (ImGui.treeNode("Point Light " + i)) {
+                renderDragFloat3("Position", pointLightList.get(i).position);
+                renderDragFloat3("Ambient", pointLightList.get(i).ambient, 0, 1);
+                renderDragFloat3("Diffuse", pointLightList.get(i).diffuse, 0, 1);
+                renderDragFloat3("Specular", pointLightList.get(i).specular, 0, 1);
+                ImGui.treePop();
+            }
+            i++;
         }
         ImGui.end();
     }
@@ -123,5 +157,20 @@ public abstract class GUI {
         ImGui.dragFloat3("##" + text, buffer, 0.01f);
         vec.set(buffer);
     }
+
+    private static void renderDragFloat3(String text, Vector3f vec, float min, float max) {
+        float[] buffer = ToFloat3(vec);
+        ImGui.text(text);
+        ImGui.dragFloat3("##" + text, buffer, 0.01f, min, max);
+        vec.set(buffer);
+    }
+
+    private static void renderDragFloat4(String text, Vector4f vec, float min, float max) {
+        float[] buffer = ToFloat4(vec);
+        ImGui.text(text);
+        ImGui.dragFloat4("##" + text, buffer, 0.01f, min, max);
+        vec.set(buffer);
+    }
+
 
 }

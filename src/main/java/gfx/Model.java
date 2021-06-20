@@ -1,6 +1,7 @@
 package gfx;
 
 
+import lombok.SneakyThrows;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class Model extends TransformComponent {
+public class Model extends TransformComponent implements Cloneable {
 
     public ArrayList<Mesh> meshes = new ArrayList<>();
     public List<Material> materials = new ArrayList<>();
@@ -22,6 +23,10 @@ public class Model extends TransformComponent {
     public Matrix4f getTransform() {
         return new Matrix4f().translate(position).rotate(rotation.x, 1, 0, 0)
                 .rotate(rotation.y, 0, 1, 0).rotate(rotation.z, 0, 0, 1).scale(scale);
+    }
+
+    public Model clone() throws CloneNotSupportedException {
+        return (Model) super.clone();
     }
 
     public Model(String resourcePath) {
@@ -61,6 +66,7 @@ public class Model extends TransformComponent {
         return Material.DEFAULT_COLOR;
     }
 
+    @SneakyThrows
     public void processMaterial(AIMaterial aiMaterial, String texturesDir) throws RuntimeException {
 
         System.out.println(texturesDir);
@@ -75,7 +81,7 @@ public class Model extends TransformComponent {
         Vector4f specular = getMaterialColor(aiMaterial, Assimp.AI_MATKEY_COLOR_SPECULAR);
 
 
-        Material material = new Material(ambient, diffuse, specular, 1.0f);
+        Material material = new Material((Vector4f)ambient.clone(), (Vector4f)diffuse.clone(),(Vector4f) specular.clone(), 1.0f);
         material.diffuseTexture = diffuseTexture;
         material.specularTexture = specularTexture;
         material.normalTexture = normalsTexture;
@@ -98,6 +104,7 @@ public class Model extends TransformComponent {
         }
     }
 
+    @SneakyThrows
     public Mesh processMesh(AIMesh mesh, AIScene scene) {
         ArrayList<Vertex> vertices = new ArrayList<>();
         ArrayList<Integer> indices = new ArrayList<>();
@@ -128,10 +135,12 @@ public class Model extends TransformComponent {
 
         Material material;
 
-
         int materialIdx = mesh.mMaterialIndex();
         if (materialIdx >= 0 && materialIdx < materials.size()) {
-            material = materials.get(materialIdx);
+            material = materials.get(materialIdx).clone();
+            material.ambientColor = (Vector4f) materials.get(materialIdx).ambientColor.clone();
+            material.diffuseColor = (Vector4f) materials.get(materialIdx).diffuseColor.clone();
+            material.specularColor = (Vector4f) materials.get(materialIdx).specularColor.clone();
         } else {
             material = new Material();
         }

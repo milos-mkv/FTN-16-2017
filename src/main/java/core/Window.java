@@ -205,7 +205,6 @@ public abstract class Window {
         colors[ImGuiCol.NavWindowingDimBg]      = new float[]{0.000f, 0.000f, 0.000f, 0.586f};
         colors[ImGuiCol.ModalWindowDimBg]       = new float[]{0.000f, 0.000f, 0.000f, 0.586f};
 
-
         style.setColors(colors);
         style.setChildRounding(4.0f);
         style.setFrameBorderSize(1.0f);

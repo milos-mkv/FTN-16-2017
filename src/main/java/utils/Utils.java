@@ -1,6 +1,7 @@
 package utils;
 
 import org.joml.Vector3f;
+import org.joml.Vector4f;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -32,6 +33,10 @@ public abstract class Utils {
 
     public static float[] ToFloat3(final Vector3f vec) {
         return new float[] { vec.x, vec.y, vec.z };
+    }
+
+    public static float[] ToFloat4(final Vector4f vec) {
+        return new float[] { vec.x, vec.y, vec.z, vec.w };
     }
 
 }

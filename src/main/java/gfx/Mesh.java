@@ -1,5 +1,6 @@
 package gfx;
 
+import lombok.SneakyThrows;
 import org.joml.Matrix4f;
 import org.lwjgl.opengl.GL32;
 import org.lwjgl.system.MemoryUtil;
@@ -8,7 +9,7 @@ import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
 
-public class Mesh extends TransformComponent {
+public class Mesh extends TransformComponent implements Cloneable {
 
     private int VAO, VBO, EBO;
 
@@ -16,6 +17,10 @@ public class Mesh extends TransformComponent {
     public Matrix4f getTransform() {
         return new Matrix4f().translate(position).rotate(rotation.x, 1, 0, 0)
                 .rotate(rotation.y, 0, 1, 0).rotate(rotation.z, 0, 0, 1).scale(scale);
+    }
+
+    public Mesh clone() throws CloneNotSupportedException {
+        return (Mesh) super.clone();
     }
 
     public ArrayList<Vertex> vertices;

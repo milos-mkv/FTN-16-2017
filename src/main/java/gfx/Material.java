@@ -2,10 +2,13 @@ package gfx;
 
 import org.joml.Vector4f;
 
-public class Material {
+public class Material implements Cloneable {
 
     public static final Vector4f DEFAULT_COLOR = new Vector4f(1, 1, 1, 1);
 
+    public Material clone() throws CloneNotSupportedException {
+        return (Material) super.clone();
+    }
     public Vector4f ambientColor;
     public Vector4f diffuseColor;
     public Vector4f specularColor;
