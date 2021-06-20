@@ -32,10 +32,9 @@ public class Model extends TransformComponent {
             throw new RuntimeException("Failed to load model");
         }
 
-        int numMaterials = scene.mNumMaterials() - 1;
+        int numMaterials = scene.mNumMaterials();
         System.out.println(numMaterials);
         PointerBuffer aiMaterials = scene.mMaterials();
-        materials = new ArrayList<>();
         for (int i = 0; i < numMaterials; i++) {
             AIMaterial aiMaterial = AIMaterial.create(Objects.requireNonNull(aiMaterials).get(i));
             processMaterial(aiMaterial, resourcePath.substring(0, resourcePath.lastIndexOf("/")));
@@ -63,9 +62,13 @@ public class Model extends TransformComponent {
     }
 
     public void processMaterial(AIMaterial aiMaterial, String texturesDir) throws RuntimeException {
+
+        System.out.println(texturesDir);
+
         Texture diffuseTexture = getMaterialTexture(aiMaterial, texturesDir, Assimp.aiTextureType_DIFFUSE);
         Texture specularTexture = getMaterialTexture(aiMaterial, texturesDir, Assimp.aiTextureType_SPECULAR);
         Texture normalsTexture = getMaterialTexture(aiMaterial, texturesDir, Assimp.aiTextureType_NORMALS);
+
 
         Vector4f ambient = getMaterialColor(aiMaterial, Assimp.AI_MATKEY_COLOR_AMBIENT);
         Vector4f diffuse = getMaterialColor(aiMaterial, Assimp.AI_MATKEY_COLOR_DIFFUSE);
@@ -98,7 +101,6 @@ public class Model extends TransformComponent {
     public Mesh processMesh(AIMesh mesh, AIScene scene) {
         ArrayList<Vertex> vertices = new ArrayList<>();
         ArrayList<Integer> indices = new ArrayList<>();
-        ArrayList<Material> materials = new ArrayList<>();
 
         for (int i = 0; i < mesh.mNumVertices(); i++) {
             Vertex vertex = new Vertex();
@@ -125,6 +127,8 @@ public class Model extends TransformComponent {
         }
 
         Material material;
+
+
         int materialIdx = mesh.mMaterialIndex();
         if (materialIdx >= 0 && materialIdx < materials.size()) {
             material = materials.get(materialIdx);

@@ -3,9 +3,22 @@
 out vec4 FragColor;
 in vec3 col;
 
-uniform sampler2D tex;
-uniform sampler2D tex1;
+struct Material {
+    vec4 ambient;
+    vec4 diffuse;
+    vec4 specular;
+
+    float shininess;
+};
+
+uniform Material material;
+
+uniform sampler2D diffuseTexture;
+uniform sampler2D specularTexture;
+uniform sampler2D normalsTexture;
+
 in vec2 TexCoords;
+
 void main() {
-    FragColor = texture(tex, TexCoords) ;//* texture(tex1, TexCoords); //l* vec4(col, 1);
+    FragColor = texture(diffuseTexture, TexCoords) * material.diffuse;
 }

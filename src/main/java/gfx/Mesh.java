@@ -22,10 +22,10 @@ public class Mesh extends TransformComponent {
     public ArrayList<Integer> indices;
     public Material material;
 
-    public Mesh(String name, ArrayList<Vertex> vertices, ArrayList<Integer> indices, Material materials) {
+    public Mesh(String name, ArrayList<Vertex> vertices, ArrayList<Integer> indices, Material material) {
         this.vertices = new ArrayList<>(vertices);
         this.indices = new ArrayList<>(indices);
-        this.material = materials;
+        this.material = material;
         this.name = name;
 
         setupMesh();
@@ -33,6 +33,23 @@ public class Mesh extends TransformComponent {
 
     public void draw(Shader shader) {
         shader.setUniformMat4("model", getTransform());
+        shader.setUniformVec4("material.diffuse", material.diffuseColor);
+        shader.setUniformVec4("material.ambient", material.ambientColor);
+        shader.setUniformVec4("material.specular", material.specularColor);
+        shader.setUniformFloat("material.shniness", material.shininess);
+
+        if(material.diffuseTexture != null) {
+            GL32.glActiveTexture(GL32.GL_TEXTURE0);
+            GL32.glBindTexture(GL32.GL_TEXTURE_2D, material.diffuseTexture.getId());
+        }
+        if(material.specularTexture != null) {
+            GL32.glActiveTexture(GL32.GL_TEXTURE1);
+            GL32.glBindTexture(GL32.GL_TEXTURE_2D, material.specularTexture.getId());
+        }
+        if(material.normalTexture != null) {
+            GL32.glActiveTexture(GL32.GL_TEXTURE2);
+            GL32.glBindTexture(GL32.GL_TEXTURE_2D, material.normalTexture.getId());
+        }
 
         GL32.glBindVertexArray(VAO);
         GL32.glDrawElements(GL32.GL_TRIANGLES, indices.size(), GL32.GL_UNSIGNED_INT, 0);
