@@ -8,6 +8,7 @@ import org.joml.Vector4f;
 import org.lwjgl.opengl.GL32;
 
 import static utils.Utils.Assert;
+import static utils.Utils.ReadFromFile;
 
 public class Shader {
     @Getter
@@ -17,8 +18,8 @@ public class Shader {
 
     public Shader(final String vertShaderCode, final String fragShaderCode) {
         try {
-            int vert = createShader(GL32.GL_VERTEX_SHADER, vertShaderCode);
-            int frag = createShader(GL32.GL_FRAGMENT_SHADER, fragShaderCode);
+            int vert = createShader(GL32.GL_VERTEX_SHADER, ReadFromFile(vertShaderCode));
+            int frag = createShader(GL32.GL_FRAGMENT_SHADER, ReadFromFile(fragShaderCode));
 
             id = GL32.glCreateProgram();
             GL32.glAttachShader(id, vert);

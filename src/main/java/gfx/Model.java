@@ -1,6 +1,7 @@
 package gfx;
 
 
+import core.Constants;
 import lombok.SneakyThrows;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
@@ -52,7 +53,7 @@ public class Model extends TransformComponent implements Cloneable {
         AIString buffer = AIString.calloc();
         Assimp.aiGetMaterialTexture(material, type, 0, buffer, (IntBuffer) null, null, null, null, null, null);
         if (!buffer.dataString().equals("")) {
-            return TextureCache.getTexture(texturesDir + "/" + buffer.dataString());
+            return TextureManager.getInstance().getTexture(texturesDir + "/" + buffer.dataString());
         }
         return null;
     }
@@ -63,7 +64,7 @@ public class Model extends TransformComponent implements Cloneable {
         if (result == 0) {
             return new Vector4f(color.r(), color.g(), color.b(), color.a());
         }
-        return Material.DEFAULT_COLOR;
+        return Constants.DEFAULT_COLOR;
     }
 
     @SneakyThrows
@@ -138,9 +139,6 @@ public class Model extends TransformComponent implements Cloneable {
         int materialIdx = mesh.mMaterialIndex();
         if (materialIdx >= 0 && materialIdx < materials.size()) {
             material = materials.get(materialIdx).clone();
-            material.ambientColor = (Vector4f) materials.get(materialIdx).ambientColor.clone();
-            material.diffuseColor = (Vector4f) materials.get(materialIdx).diffuseColor.clone();
-            material.specularColor = (Vector4f) materials.get(materialIdx).specularColor.clone();
         } else {
             material = new Material();
         }

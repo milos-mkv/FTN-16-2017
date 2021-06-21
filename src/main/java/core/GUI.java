@@ -136,17 +136,6 @@ public abstract class GUI {
             renderDragFloat3("Specular", directionalLight.specular, 0, 1);
             ImGui.treePop();
         }
-        int i = 0;
-        for(PointLight pointLight : pointLightList) {
-            if (ImGui.treeNode("Point Light " + i)) {
-                renderDragFloat3("Position", pointLightList.get(i).position);
-                renderDragFloat3("Ambient", pointLightList.get(i).ambient, 0, 1);
-                renderDragFloat3("Diffuse", pointLightList.get(i).diffuse, 0, 1);
-                renderDragFloat3("Specular", pointLightList.get(i).specular, 0, 1);
-                ImGui.treePop();
-            }
-            i++;
-        }
         ImGui.end();
     }
 
@@ -172,5 +161,11 @@ public abstract class GUI {
         vec.set(buffer);
     }
 
+    private static float renderDragFloat(String text, float f, float min, float max) {
+        float[] buffer = { f };
+        ImGui.text(text);
+        ImGui.dragFloat("##" + text, buffer, 0.01f, min, max);
+        return buffer[0];
+    }
 
 }

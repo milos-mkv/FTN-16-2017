@@ -10,7 +10,8 @@ import java.nio.IntBuffer;
 
 import static utils.Utils.Assert;
 
-public class Texture {
+public class Texture implements Cloneable {
+
     @Getter
     private final int id;
 
@@ -22,7 +23,7 @@ public class Texture {
 
             ByteBuffer data = STBImage.stbi_load(filePath, width, height, noc, 0);
 
-            Assert(data != null, "Failed to load image!");
+            Assert(data != null, "Failed to load image: " + filePath);
 
             int format = (noc.get(0) == 3) ? GL32.GL_RGB : (noc.get(0) == 4) ? GL32.GL_RGBA : GL32.GL_RED;
 
@@ -39,8 +40,11 @@ public class Texture {
         }
     }
 
-
     public void dispose() {
         GL32.glDeleteTextures(id);
+    }
+
+    public Texture clone() throws CloneNotSupportedException {
+        return (Texture) super.clone();
     }
 }
