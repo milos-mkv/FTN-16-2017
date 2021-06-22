@@ -1,8 +1,9 @@
 package gfx;
 
-
 import core.Constants;
+import lombok.Getter;
 import lombok.SneakyThrows;
+import managers.TextureManager;
 import org.joml.Matrix4f;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
@@ -13,22 +14,15 @@ import org.lwjgl.assimp.*;
 import java.nio.IntBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class Model extends TransformComponent implements Cloneable {
 
-    public ArrayList<Mesh> meshes = new ArrayList<>();
-    public List<Material> materials = new ArrayList<>();
+    @Getter
+    private final ArrayList<Mesh> meshes = new ArrayList<>();
 
-    public Matrix4f getTransform() {
-        return new Matrix4f().translate(position).rotate(rotation.x, 1, 0, 0)
-                .rotate(rotation.y, 0, 1, 0).rotate(rotation.z, 0, 0, 1).scale(scale);
-    }
-
-    public Model clone() throws CloneNotSupportedException {
-        return (Model) super.clone();
-    }
+    @Getter
+    private final ArrayList<Material> materials = new ArrayList<>();
 
     public Model(String resourcePath) {
         super();
@@ -49,47 +43,55 @@ public class Model extends TransformComponent implements Cloneable {
         processNode(Objects.requireNonNull(scene.mRootNode()), scene);
     }
 
+    public Matrix4f getTransform() {
+        return new Matrix4f().translate(position).rotate(rotation.x, 1, 0, 0)
+                .rotate(rotation.y, 0, 1, 0).rotate(rotation.z, 0, 0, 1).scale(scale);
+    }
+
+    public void draw(Shader shader) {
+        shader.setUniformMat4("model", getTransform());
+
+        for (int i = 0; i < meshes.size(); i++) {
+            meshes.get(i).draw(shader);
+        }
+    }
+
     private Texture getMaterialTexture(AIMaterial material, String texturesDir, int type) {
         AIString buffer = AIString.calloc();
         Assimp.aiGetMaterialTexture(material, type, 0, buffer, (IntBuffer) null, null, null, null, null, null);
         if (!buffer.dataString().equals("")) {
-            return TextureManager.getInstance().getTexture(texturesDir + "/" + buffer.dataString());
+            return TextureManager.getTexture(texturesDir + "/" + buffer.dataString());
         }
         return null;
     }
 
-    private Vector4f getMaterialColor(AIMaterial material, String type) {
+    private Vector3f getMaterialColor(AIMaterial material, String type) {
         AIColor4D color = AIColor4D.create();
         int result = Assimp.aiGetMaterialColor(material, type, Assimp.aiTextureType_NONE, 0, color);
         if (result == 0) {
-            return new Vector4f(color.r(), color.g(), color.b(), color.a());
+            return new Vector3f(color.r(), color.g(), color.b());
         }
         return Constants.DEFAULT_COLOR;
     }
 
     @SneakyThrows
-    public void processMaterial(AIMaterial aiMaterial, String texturesDir) throws RuntimeException {
-
-        System.out.println(texturesDir);
-
+    private void processMaterial(AIMaterial aiMaterial, String texturesDir) throws RuntimeException {
         Texture diffuseTexture = getMaterialTexture(aiMaterial, texturesDir, Assimp.aiTextureType_DIFFUSE);
         Texture specularTexture = getMaterialTexture(aiMaterial, texturesDir, Assimp.aiTextureType_SPECULAR);
         Texture normalsTexture = getMaterialTexture(aiMaterial, texturesDir, Assimp.aiTextureType_NORMALS);
 
+        Vector3f ambient = getMaterialColor(aiMaterial, Assimp.AI_MATKEY_COLOR_AMBIENT);
+        Vector3f diffuse = getMaterialColor(aiMaterial, Assimp.AI_MATKEY_COLOR_DIFFUSE);
+        Vector3f specular = getMaterialColor(aiMaterial, Assimp.AI_MATKEY_COLOR_SPECULAR);
 
-        Vector4f ambient = getMaterialColor(aiMaterial, Assimp.AI_MATKEY_COLOR_AMBIENT);
-        Vector4f diffuse = getMaterialColor(aiMaterial, Assimp.AI_MATKEY_COLOR_DIFFUSE);
-        Vector4f specular = getMaterialColor(aiMaterial, Assimp.AI_MATKEY_COLOR_SPECULAR);
-
-
-        Material material = new Material((Vector4f)ambient.clone(), (Vector4f)diffuse.clone(),(Vector4f) specular.clone(), 1.0f);
-        material.diffuseTexture = diffuseTexture;
+        Material material = new Material((Vector3f)ambient.clone(), (Vector3f)diffuse.clone(),(Vector3f) specular.clone(), 1.0f);
+        material.diffuseTexture  = diffuseTexture;
         material.specularTexture = specularTexture;
-        material.normalTexture = normalsTexture;
+        material.normalTexture   = normalsTexture;
         materials.add(material);
     }
 
-    public void processNode(AINode node, AIScene scene) {
+    private void processNode(AINode node, AIScene scene) {
         for (int i = 0; i < node.mNumMeshes(); i++) {
             AIMesh mesh = AIMesh.create(Objects.requireNonNull(scene.mMeshes()).get(Objects.requireNonNull(node.mMeshes()).get(i)));
             meshes.add(processMesh(mesh, scene));
@@ -99,14 +101,8 @@ public class Model extends TransformComponent implements Cloneable {
         }
     }
 
-    public void draw(Shader shader) {
-        for (int i = 0; i < meshes.size(); i++) {
-            meshes.get(i).draw(shader);
-        }
-    }
-
     @SneakyThrows
-    public Mesh processMesh(AIMesh mesh, AIScene scene) {
+    private Mesh processMesh(AIMesh mesh, AIScene scene) {
         ArrayList<Vertex> vertices = new ArrayList<>();
         ArrayList<Integer> indices = new ArrayList<>();
 

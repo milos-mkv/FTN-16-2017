@@ -4,6 +4,8 @@ import imgui.type.ImBoolean;
 
 public abstract class Settings {
 
-    public static boolean EnableGrid = false;
-    public static ImBoolean ShowLightProperties = new ImBoolean(true);
+    public static ImBoolean ShowLightPropertiesDock = new ImBoolean(true);
+    public static ImBoolean ShowSceneItemsDock = new ImBoolean(true);
+
+    public static boolean EnableGrid = true;
 }

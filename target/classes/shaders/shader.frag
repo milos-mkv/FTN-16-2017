@@ -6,7 +6,7 @@ in vec3 normals;
 in vec3 fragPos;
 
 struct Material {
-    vec4 ambient, diffuse, specular;
+    vec3 ambient, diffuse, specular;
     float shininess;
 };
 
@@ -23,6 +23,10 @@ uniform vec3 viewPos;
 uniform sampler2D diffuseTexture;
 uniform sampler2D specularTexture;
 uniform sampler2D normalsTexture;
+
+uniform bool isDiffuseTextureSet;
+uniform bool isSpecularTextureSet;
+uniform bool isNormalsTextureSet;
 
 
 vec4 CalculateDirectionalLight(vec3 objColor)
@@ -46,6 +50,10 @@ vec4 CalculateDirectionalLight(vec3 objColor)
 }
 
 void main() {
-    vec3 objColor =(texture(diffuseTexture, TexCoords) * material.diffuse).xyz;
+    vec3 objColor;
+    if(isDiffuseTextureSet)
+        objColor = texture(diffuseTexture, TexCoords).xyz * material.diffuse;
+    else
+        objColor = material.diffuse;
     FragColor = CalculateDirectionalLight(objColor);
 }

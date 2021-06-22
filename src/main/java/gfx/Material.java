@@ -1,13 +1,13 @@
 package gfx;
 
 import core.Constants;
-import org.joml.Vector4f;
+import org.joml.Vector3f;
 
 public class Material implements Cloneable {
 
-    public Vector4f ambientColor;
-    public Vector4f diffuseColor;
-    public Vector4f specularColor;
+    public Vector3f ambientColor;
+    public Vector3f diffuseColor;
+    public Vector3f specularColor;
 
     public float shininess;
     public float reflectance;
@@ -22,7 +22,7 @@ public class Material implements Cloneable {
         this.specularColor = Constants.DEFAULT_COLOR;
     }
 
-    public Material(Vector4f ambient, Vector4f diffuse, Vector4f specular, float shininess) {
+    public Material(Vector3f ambient, Vector3f diffuse, Vector3f specular, float shininess) {
         this.ambientColor  = ambient;
         this.diffuseColor  = diffuse;
         this.specularColor = specular;
@@ -31,9 +31,9 @@ public class Material implements Cloneable {
 
     public Material clone() throws CloneNotSupportedException {
         Material clone      = (Material) super.clone();
-        clone.diffuseColor  = (Vector4f) diffuseColor.clone();
-        clone.ambientColor  = (Vector4f) ambientColor.clone();
-        clone.specularColor = (Vector4f) specularColor.clone();
+        clone.diffuseColor  = (Vector3f) diffuseColor.clone();
+        clone.ambientColor  = (Vector3f) ambientColor.clone();
+        clone.specularColor = (Vector3f) specularColor.clone();
         return clone;
     }
 }

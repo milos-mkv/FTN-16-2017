@@ -1,6 +1,5 @@
 package gfx;
 
-import lombok.SneakyThrows;
 import org.joml.Matrix4f;
 import org.lwjgl.opengl.GL32;
 import org.lwjgl.system.MemoryUtil;
@@ -8,57 +7,33 @@ import org.lwjgl.system.MemoryUtil;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
+import java.util.List;
 
-public class Mesh extends TransformComponent implements Cloneable {
+public class Mesh implements Cloneable {
 
-    private int VAO, VBO, EBO;
+    private int VAO;
+    private int VBO;
+    private int EBO;
 
     public String name;
-    public Matrix4f getTransform() {
-        return new Matrix4f().translate(position).rotate(rotation.x, 1, 0, 0)
-                .rotate(rotation.y, 0, 1, 0).rotate(rotation.z, 0, 0, 1).scale(scale);
-    }
 
-    public Mesh clone() throws CloneNotSupportedException {
-        return (Mesh) super.clone();
-    }
+    private List<Vertex> vertices;
+    private List<Integer> indices;
+    private Material material;
 
-    public ArrayList<Vertex> vertices;
-    public ArrayList<Integer> indices;
-    public Material material;
-
-    public Mesh(String name, ArrayList<Vertex> vertices, ArrayList<Integer> indices, Material material) {
+    public Mesh(String name, List<Vertex> vertices, List<Integer> indices, Material material) {
         this.vertices = new ArrayList<>(vertices);
-        this.indices = new ArrayList<>(indices);
+        this.indices  = new ArrayList<>(indices);
         this.material = material;
-        this.name = name;
+        this.name     = name;
 
         setupMesh();
     }
 
-    public void draw(Shader shader) {
-        shader.setUniformMat4("model", getTransform());
-        shader.setUniformVec4("material.diffuse", material.diffuseColor);
-        shader.setUniformVec4("material.ambient", material.ambientColor);
-        shader.setUniformVec4("material.specular", material.specularColor);
-        shader.setUniformFloat("material.shniness", material.shininess);
-
-        if(material.diffuseTexture != null) {
-            GL32.glActiveTexture(GL32.GL_TEXTURE0);
-            GL32.glBindTexture(GL32.GL_TEXTURE_2D, material.diffuseTexture.getId());
-        }
-        if(material.specularTexture != null) {
-            GL32.glActiveTexture(GL32.GL_TEXTURE1);
-            GL32.glBindTexture(GL32.GL_TEXTURE_2D, material.specularTexture.getId());
-        }
-        if(material.normalTexture != null) {
-            GL32.glActiveTexture(GL32.GL_TEXTURE2);
-            GL32.glBindTexture(GL32.GL_TEXTURE_2D, material.normalTexture.getId());
-        }
-
-        GL32.glBindVertexArray(VAO);
-        GL32.glDrawElements(GL32.GL_TRIANGLES, indices.size(), GL32.GL_UNSIGNED_INT, 0);
-        GL32.glBindVertexArray(0);
+    public void dispose() {
+        GL32.glDeleteBuffers(VBO);
+        GL32.glDeleteBuffers(EBO);
+        GL32.glDeleteVertexArrays(VAO);
     }
 
     private void setupMesh() {
@@ -88,16 +63,40 @@ public class Mesh extends TransformComponent implements Cloneable {
         GL32.glBindBuffer(GL32.GL_ELEMENT_ARRAY_BUFFER, EBO);
         GL32.glBufferData(GL32.GL_ELEMENT_ARRAY_BUFFER, ind, GL32.GL_STATIC_DRAW);
 
-        // vertex positions
         GL32.glEnableVertexAttribArray(0);
         GL32.glVertexAttribPointer(0, 3, GL32.GL_FLOAT, false, 8 * (Float.SIZE / 8), 0);
-        // vertex normals
         GL32.glEnableVertexAttribArray(1);
         GL32.glVertexAttribPointer(1, 3, GL32.GL_FLOAT, false, 8 * (Float.SIZE / 8), 3 * (Float.SIZE / 8));
-        // vertex texture coords
         GL32.glEnableVertexAttribArray(2);
         GL32.glVertexAttribPointer(2, 2, GL32.GL_FLOAT, false, 8 * (Float.SIZE / 8), 6 * (Float.SIZE / 8));
 
+        GL32.glBindVertexArray(0);
+    }
+
+    public void draw(Shader shader) {
+        shader.setUniformVec3("material.diffuse", material.diffuseColor);
+        shader.setUniformVec3("material.ambient", material.ambientColor);
+        shader.setUniformVec3("material.specular", material.specularColor);
+        shader.setUniformFloat("material.shniness", material.shininess);
+
+        if(material.diffuseTexture != null) {
+            GL32.glActiveTexture(GL32.GL_TEXTURE0);
+            GL32.glBindTexture(GL32.GL_TEXTURE_2D, material.diffuseTexture.getId());
+            shader.setUniformBoolean("isDiffuseTextureSet", 1);
+        } else {
+            shader.setUniformBoolean("isDiffuseTextureSet", 0);
+        }
+        if(material.specularTexture != null) {
+            GL32.glActiveTexture(GL32.GL_TEXTURE1);
+            GL32.glBindTexture(GL32.GL_TEXTURE_2D, material.specularTexture.getId());
+        }
+        if(material.normalTexture != null) {
+            GL32.glActiveTexture(GL32.GL_TEXTURE2);
+            GL32.glBindTexture(GL32.GL_TEXTURE_2D, material.normalTexture.getId());
+        }
+
+        GL32.glBindVertexArray(VAO);
+        GL32.glDrawElements(GL32.GL_TRIANGLES, indices.size(), GL32.GL_UNSIGNED_INT, 0);
         GL32.glBindVertexArray(0);
     }
 }

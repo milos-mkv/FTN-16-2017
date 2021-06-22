@@ -17,4 +17,5 @@ public class DirectionalLight extends Light {
         shader.setUniformVec3("dirLight.diffuse", diffuse);
         shader.setUniformVec3("dirLight.specular", specular);
     }
+
 }

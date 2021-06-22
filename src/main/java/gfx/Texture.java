@@ -8,9 +8,7 @@ import org.lwjgl.system.MemoryStack;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 
-import static utils.Utils.Assert;
-
-public class Texture implements Cloneable {
+public class Texture {
 
     @Getter
     private final int id;
@@ -23,7 +21,9 @@ public class Texture implements Cloneable {
 
             ByteBuffer data = STBImage.stbi_load(filePath, width, height, noc, 0);
 
-            Assert(data != null, "Failed to load image: " + filePath);
+            if (data == null) {
+                throw new RuntimeException("Failed to load image: " + filePath);
+            }
 
             int format = (noc.get(0) == 3) ? GL32.GL_RGB : (noc.get(0) == 4) ? GL32.GL_RGBA : GL32.GL_RED;
 
@@ -44,7 +44,4 @@ public class Texture implements Cloneable {
         GL32.glDeleteTextures(id);
     }
 
-    public Texture clone() throws CloneNotSupportedException {
-        return (Texture) super.clone();
-    }
 }

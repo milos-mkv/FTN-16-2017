@@ -7,14 +7,12 @@ import org.joml.Vector3f;
 import org.joml.Vector4f;
 import org.lwjgl.opengl.GL32;
 
-import static utils.Utils.Assert;
 import static utils.Utils.ReadFromFile;
 
 public class Shader {
+
     @Getter
     private int id = 0;
-    @Getter
-    private String message;
 
     public Shader(final String vertShaderCode, final String fragShaderCode) {
         try {
@@ -27,14 +25,16 @@ public class Shader {
             GL32.glLinkProgram(id);
 
             String err = GL32.glGetProgramInfoLog(id, GL32.glGetProgrami(id, GL32.GL_INFO_LOG_LENGTH));
-            Assert(GL32.glGetProgrami(id, GL32.GL_LINK_STATUS) != GL32.GL_FALSE, err);
+            if (GL32.glGetProgrami(id, GL32.GL_LINK_STATUS) == GL32.GL_FALSE) {
+                throw new RuntimeException(err);
+            }
 
             GL32.glDeleteShader(vert);
             GL32.glDeleteShader(frag);
-            message = "Shader program compiled successfully!";
         } catch (Exception e) {
-            System.out.println(e);
-            message = e.getMessage();
+            e.printStackTrace();
+            System.out.println("ERROR");
+            System.out.println(e.getMessage());
         }
     }
 
@@ -44,7 +44,9 @@ public class Shader {
         GL32.glCompileShader(shader);
 
         String err = GL32.glGetShaderInfoLog(shader, GL32.glGetShaderi(shader, GL32.GL_INFO_LOG_LENGTH));
-        Assert(GL32.glGetShaderi(shader, GL32.GL_COMPILE_STATUS) != GL32.GL_FALSE, err);
+        if (GL32.glGetShaderi(shader, GL32.GL_COMPILE_STATUS) == GL32.GL_FALSE) {
+            throw new RuntimeException(err);
+        }
 
         return shader;
     }

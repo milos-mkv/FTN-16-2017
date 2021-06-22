@@ -1,34 +1,50 @@
 package core;
 
 import gfx.*;
+import lombok.Getter;
+import org.joml.Vector3f;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public abstract class Scene {
 
+    @Getter
+    private static Shader sceneShader;
 
-    public static FirstPersonCameraController FPSCamera;
-    public static FrameBuffer frameBuffer;
+    @Getter
+    private static Shader gridShader;
 
-    public static ArrayList<Model> models = new ArrayList<>();
+    @Getter
+    private static Shader skyboxShader;
 
-    public static List<PointLight> pointLights = new ArrayList<>();
+    @Getter
+    private static FrameBuffer frameBuffer;
 
-    public static Mesh selected;
+    @Getter
+    private static FirstPersonCameraController FPSCamera;
 
-    public static void loadModelFromFile(String file) {
-        models.add(new Model(file));
-    }
+    @Getter
+    private static DirectionalLight directionalLight;
 
+    @Getter
+    private static Map<String, Model> models;
 
-    public static void init() {
-        frameBuffer = new FrameBuffer(Constants.FRAMEBUFFER_DEFAULT_WIDTH, Constants.FRAMEBUFFER_DEFAULT_HEIGHT);
-        FPSCamera = new FirstPersonCameraController(Constants.FPS_CAMERA_DEFAULT_FOV, Constants.FPS_CAMERA_DEFAULT_ASPECT,
-                Constants.FPS_CAMERA_DEFAULT_NEAR, Constants.FPS_CAMERA_DEFAULT_FAR);
+    public static void initialize() {
+        sceneShader = new Shader(Constants.DEFAULT_SCENE_VERTEX_SHADER_PATH, Constants.DEFAULT_SCENE_FRAGMENT_SHADER_PATH);
+        gridShader  = new Shader(Constants.DEFAULT_GRID_VERTEX_SHADER_PATH, Constants.DEFAULT_GRID_FRAGMENT_SHADER_PATH);
+        skyboxShader = new Shader(Constants.DEFAULT_SKYBOX_VERTEX_SHADER_PATH, Constants.DEFAULT_SKYBOX_FRAGMENT_SHADER_PATH);
+
+        frameBuffer = new FrameBuffer(Constants.WINDOW_DEFAULT_WIDTH, Constants.WINDOW_DEFAULT_HEIGHT);
+        FPSCamera   = new FirstPersonCameraController(Constants.FPS_CAMERA_DEFAULT_FOV, Constants.FPS_CAMERA_DEFAULT_ASPECT, Constants.FPS_CAMERA_DEFAULT_NEAR, Constants.FPS_CAMERA_DEFAULT_FAR);
+        directionalLight = new DirectionalLight(new Vector3f(0.3f, -0.5f, 0.5f), new Vector3f(0.1f, 0.1f, 0.1f), new Vector3f(1.0f, 1.0f, 1.0f), new Vector3f(0.4f, 0.4f, 0.4f));
+        models = new LinkedHashMap<>();
         FPSCamera.position.set(0, 1, 0);
         FPSCamera.UpdateVectors();
     }
 
-
+    public static void dispose() {
+        sceneShader.dispose();
+        gridShader.dispose();
+        frameBuffer.dispose();
+    }
 }

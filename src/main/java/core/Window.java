@@ -2,7 +2,6 @@ package core;
 
 import imgui.ImGui;
 import imgui.ImGuiStyle;
-import imgui.ImVec4;
 import imgui.flag.ImGuiCol;
 import imgui.flag.ImGuiConfigFlags;
 import imgui.gl3.ImGuiImplGl3;
@@ -11,36 +10,45 @@ import lombok.Getter;
 import org.joml.Vector4f;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.GL;
-import org.lwjgl.system.MemoryStack;
 import org.lwjgl.system.MemoryUtil;
 
-import java.nio.IntBuffer;
 import java.util.Objects;
-
-import static utils.Utils.Assert;
 
 public abstract class Window {
 
-    private final ImGuiImplGlfw imGuiGlfw = new ImGuiImplGlfw();
-    private final ImGuiImplGl3 imGuiGl3 = new ImGuiImplGl3();
+    protected final ImGuiImplGlfw imGuiGlfw = new ImGuiImplGlfw();
+    protected final ImGuiImplGl3  imGuiGl3  = new ImGuiImplGl3();
 
     @Getter
     protected static long handle;
 
     @Getter
-    protected static Vector4f mouse = new Vector4f(0, 0, 0, 0);
+    protected static Vector4f mouse = new Vector4f();
 
-    protected void init(final Configuration configuration) {
-        initWindow(configuration);
-        initImGui(configuration);
+    protected void initialize() {
+        initializeWindow();
+        initializeImGui();
+        initializeImGuiStyle();
         imGuiGlfw.init(handle, true);
         imGuiGl3.init("#version 130");
     }
 
-    protected void initWindow(final Configuration configuration) {
+    protected void dispose() {
+        imGuiGl3.dispose();
+        imGuiGlfw.dispose();
+        ImGui.destroyContext();
+        Callbacks.glfwFreeCallbacks(handle);
+        GLFW.glfwDestroyWindow(handle);
+        GLFW.glfwTerminate();
+        Objects.requireNonNull(GLFW.glfwSetErrorCallback(null)).free();
+    }
+
+    private void initializeWindow() {
         GLFWErrorCallback.createPrint(System.err).set();
 
-        Assert(GLFW.glfwInit(), "Unable to initialize GLFW");
+        if (!GLFW.glfwInit()) {
+            throw new RuntimeException("Failed to initialize GLFW!");
+        }
 
         GLFW.glfwWindowHint(GLFW.GLFW_CONTEXT_VERSION_MAJOR, 3);
         GLFW.glfwWindowHint(GLFW.GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -51,24 +59,23 @@ public abstract class Window {
             GLFW.glfwWindowHint(GLFW.GLFW_OPENGL_FORWARD_COMPAT, GLFW.GLFW_TRUE);
         }
 
-        handle = GLFW.glfwCreateWindow(configuration.getWidth(), configuration.getHeight(), configuration.getTitle(), MemoryUtil.NULL, MemoryUtil.NULL);
-        Assert(handle != MemoryUtil.NULL, "Failed to create the GLFW window");
-
-        try (MemoryStack stack = MemoryStack.stackPush()) {
-            final IntBuffer pWidth = stack.mallocInt(1);
-            final IntBuffer pHeight = stack.mallocInt(1);
-
-            GLFW.glfwGetWindowSize(handle, pWidth, pHeight);
-            final GLFWVidMode vidmode = Objects.requireNonNull(GLFW.glfwGetVideoMode(GLFW.glfwGetPrimaryMonitor()));
-            GLFW.glfwSetWindowPos(handle, (vidmode.width() - pWidth.get(0)) / 2, (vidmode.height() - pHeight.get(0)) / 2);
+        handle = GLFW.glfwCreateWindow(Constants.WINDOW_DEFAULT_WIDTH, Constants.WINDOW_DEFAULT_HEIGHT,
+                "Simple OpenGL Renderer", MemoryUtil.NULL, MemoryUtil.NULL);
+        if (handle == MemoryUtil.NULL) {
+            throw new RuntimeException("Failed to create the GLFW window");
         }
 
+        final GLFWVidMode vidmode = Objects.requireNonNull(GLFW.glfwGetVideoMode(GLFW.glfwGetPrimaryMonitor()));
+        GLFW.glfwSetWindowPos(handle, (vidmode.width() - Constants.WINDOW_DEFAULT_WIDTH) / 2,
+                (vidmode.height() - Constants.WINDOW_DEFAULT_HEIGHT) / 2);
+
         GLFW.glfwMakeContextCurrent(handle);
-//        GLFW.glfwSwapInterval(GLFW.GLFW_TRUE);
+        GLFW.glfwSwapInterval(GLFW.GLFW_TRUE);
         GLFW.glfwShowWindow(handle);
+
         GLFW.glfwSetCursorPosCallback(handle, new GLFWCursorPosCallback() {
             @Override
-            public void invoke(long l, double xPos, double yPos) {
+            public void invoke(long window, double xPos, double yPos) {
                 mouse.x = (float) xPos;
                 mouse.y = (float) yPos;
             }
@@ -77,80 +84,26 @@ public abstract class Window {
         GLFW.glfwSetMouseButtonCallback(handle, new GLFWMouseButtonCallback() {
             @Override
             public void invoke(long window, int button, int action, int mods) {
-                if (button == GLFW.GLFW_MOUSE_BUTTON_RIGHT && action == GLFW.GLFW_PRESS)
-                {
+                if (button == GLFW.GLFW_MOUSE_BUTTON_RIGHT && action == GLFW.GLFW_PRESS) {
                     GLFW.glfwSetInputMode(window, GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_DISABLED);
                 }
-                if (button == GLFW.GLFW_MOUSE_BUTTON_RIGHT && action == GLFW.GLFW_RELEASE)
-                {
+                if (button == GLFW.GLFW_MOUSE_BUTTON_RIGHT && action == GLFW.GLFW_RELEASE) {
                     GLFW.glfwSetInputMode(window, GLFW.GLFW_CURSOR, GLFW.GLFW_CURSOR_NORMAL);
                 }
             }
         });
 
-        if (configuration.isFullScreen()) {
-            GLFW.glfwMaximizeWindow(handle);
-        }
-
         GL.createCapabilities();
     }
 
-    protected void initImGui(final Configuration config) {
+    private void initializeImGui() {
         ImGui.createContext();
         ImGui.styleColorsDark();
         ImGui.getIO().addConfigFlags(ImGuiConfigFlags.DockingEnable | ImGuiConfigFlags.ViewportsEnable);
-        ImGui.getIO().getFonts().addFontFromFileTTF("src/main/resources/fonts/font.ttf", 21.f);
-        imguiApplyDefaultStyle();
+        ImGui.getIO().getFonts().addFontFromFileTTF(Constants.IMGUI_DEFAULT_FONT_PATH, Constants.IMGUI_DEFAULT_FONT_SIZE);
     }
 
-    protected final void run() {
-        while (!GLFW.glfwWindowShouldClose(handle)) {
-            render(ImGui.getIO().getDeltaTime());
-            startFrame();
-            process();
-            endFrame();
-        }
-    }
-
-    protected void startFrame() {
-        imGuiGlfw.newFrame();
-        ImGui.newFrame();
-        ImGui.dockSpaceOverViewport(ImGui.getMainViewport());
-    }
-
-    public abstract void render(float delta);
-
-    public abstract void process();
-
-    protected void endFrame() {
-        ImGui.render();
-        imGuiGl3.renderDrawData(ImGui.getDrawData());
-
-        if (ImGui.getIO().hasConfigFlags(ImGuiConfigFlags.ViewportsEnable)) {
-            final long backupWindowPtr = GLFW.glfwGetCurrentContext();
-            ImGui.updatePlatformWindows();
-            ImGui.renderPlatformWindowsDefault();
-            GLFW.glfwMakeContextCurrent(backupWindowPtr);
-        }
-
-        GLFW.glfwSwapBuffers(handle);
-        mouse.z = mouse.x;
-        mouse.w = mouse.y;
-        GLFW.glfwPollEvents();
-    }
-
-    protected final void dispose() {
-        imGuiGl3.dispose();
-        imGuiGlfw.dispose();
-        ImGui.destroyContext();
-        Callbacks.glfwFreeCallbacks(handle);
-        GLFW.glfwDestroyWindow(handle);
-        GLFW.glfwTerminate();
-        Objects.requireNonNull(GLFW.glfwSetErrorCallback(null)).free();
-    }
-
-    private void imguiApplyDefaultStyle()
-    {
+    private void initializeImGuiStyle() {
         ImGuiStyle style = ImGui.getStyle();
         float[][] colors = style.getColors();
 
@@ -158,7 +111,7 @@ public abstract class Window {
         colors[ImGuiCol.TextDisabled]           = new float[]{0.500f, 0.500f, 0.500f, 1.000f};
         colors[ImGuiCol.WindowBg]               = new float[]{0.180f, 0.180f, 0.180f, 1.000f};
         colors[ImGuiCol.ChildBg]                = new float[]{0.280f, 0.280f, 0.280f, 0.000f};
-        colors[ImGuiCol.PopupBg]                =new float[]{0.313f, 0.313f, 0.313f, 1.000f};
+        colors[ImGuiCol.PopupBg]                = new float[]{0.313f, 0.313f, 0.313f, 1.000f};
         colors[ImGuiCol.Border]                 = new float[]{0.266f, 0.266f, 0.266f, 1.000f};
         colors[ImGuiCol.BorderShadow]           = new float[]{0.000f, 0.000f, 0.000f, 0.000f};
         colors[ImGuiCol.FrameBg]                = new float[]{0.160f, 0.160f, 0.160f, 1.000f};
@@ -217,4 +170,5 @@ public abstract class Window {
         style.setTabRounding(0.0f);
         style.setWindowRounding(4.0f);
     }
+
 }

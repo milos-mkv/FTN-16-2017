@@ -4,13 +4,15 @@ import lombok.Getter;
 import org.lwjgl.opengl.GL32;
 
 import static org.lwjgl.system.MemoryUtil.NULL;
-import static utils.Utils.Assert;
 
 public class FrameBuffer {
+
     @Getter
     private final int id;
+
     @Getter
     private final int texture;
+
     @Getter
     private final int rbo;
 
@@ -32,12 +34,15 @@ public class FrameBuffer {
         GL32.glRenderbufferStorage(GL32.GL_RENDERBUFFER, GL32.GL_DEPTH24_STENCIL8, width, height);
         GL32.glFramebufferRenderbuffer(GL32.GL_FRAMEBUFFER, GL32.GL_DEPTH_STENCIL_ATTACHMENT, GL32.GL_RENDERBUFFER, rbo);
 
-        Assert(GL32.glCheckFramebufferStatus(GL32.GL_FRAMEBUFFER) == GL32.GL_FRAMEBUFFER_COMPLETE, "Failed to create framebuffer!");
+        if (GL32.glCheckFramebufferStatus(GL32.GL_FRAMEBUFFER) != GL32.GL_FRAMEBUFFER_COMPLETE) {
+            throw new RuntimeException("Failed to create framebuffer!");
+        }
         GL32.glBindFramebuffer(GL32.GL_FRAMEBUFFER, 0);
     }
 
     public void dispose() {
         GL32.glDeleteFramebuffers(id);
+        GL32.glDeleteRenderbuffers(rbo);
         GL32.glDeleteTextures(texture);
     }
 }

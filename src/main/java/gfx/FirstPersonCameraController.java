@@ -1,5 +1,6 @@
 package gfx;
 
+import core.Constants;
 import core.Window;
 import org.joml.Matrix4f;
 import org.lwjgl.glfw.GLFW;
@@ -13,9 +14,9 @@ public class FirstPersonCameraController extends PerspectiveCamera {
 
     public FirstPersonCameraController(float fov, float aspect, float near, float far) {
         super(fov, aspect, near, far);
-        this.yaw = -90.0F;
-        this.pitch = 0.0F;
-        this.speed = 6.0F;
+        this.yaw    = -90.0F;
+        this.pitch  = 0.0F;
+        this.speed  = 6.0F;
         this.sensitivity = 0.25F;
         UpdateCamera();
         UpdateVectors();
@@ -27,7 +28,7 @@ public class FirstPersonCameraController extends PerspectiveCamera {
         front.z = (float) (Math.sin(Math.toRadians(yaw)) * Math.cos(Math.toRadians(pitch)));
 
         front.normalize();
-        tmp.set(front).cross(WORLD_UP).normalize(right);
+        tmp.set(front).cross(Constants.WORLD_UP).normalize(right);
         tmp.set(right).cross(front).normalize(up);
     }
 

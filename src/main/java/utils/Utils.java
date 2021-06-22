@@ -1,19 +1,10 @@
 package utils;
 
-import org.joml.Vector3f;
-import org.joml.Vector4f;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
 public abstract class Utils {
-
-    public static void Assert(boolean expression, final String message) {
-        if (!expression) {
-            throw new RuntimeException(message);
-        }
-    }
 
     public static String ReadFromFile(final String file) {
         try {
@@ -30,13 +21,4 @@ public abstract class Utils {
         }
         return null;
     }
-
-    public static float[] ToFloat3(final Vector3f vec) {
-        return new float[] { vec.x, vec.y, vec.z };
-    }
-
-    public static float[] ToFloat4(final Vector4f vec) {
-        return new float[] { vec.x, vec.y, vec.z, vec.w };
-    }
-
 }
