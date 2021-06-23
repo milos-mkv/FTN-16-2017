@@ -23,15 +23,7 @@ public class Main extends Application {
         Scene.initialize();
         TextureManager.initialize();
         SkyBox.initialize();
-
-        ArrayList<String> cm = new ArrayList<>();
-        cm.add("src/main/resources/images/right.jpg");
-        cm.add("src/main/resources/images/left.jpg");
-        cm.add("src/main/resources/images/top.jpg");
-        cm.add("src/main/resources/images/bottom.jpg");
-        cm.add("src/main/resources/images/back.jpg");
-        cm.add("src/main/resources/images/front.jpg");
-        SkyBox.setCubeMap(new CubeMap(cm));
+        GL32.glEnable(GL32.GL_MULTISAMPLE);
         GL32.glEnable(GL32.GL_DEPTH_TEST);
     }
 
@@ -45,7 +37,7 @@ public class Main extends Application {
         GL32.glClearColor(0.1F, 0.1F, 0.1F, 1.0F);
         GL32.glClear(GL32.GL_COLOR_BUFFER_BIT | GL32.GL_DEPTH_BUFFER_BIT | GL32.GL_STENCIL_BUFFER_BIT);
 
-        SkyBox.render();
+//        SkyBox.render();
 
         GL32.glUseProgram(Scene.getSceneShader().getId());
         Scene.getSceneShader().setUniformVec3("viewPos", Scene.getFPSCamera().position);

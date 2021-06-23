@@ -14,8 +14,6 @@ public abstract class Scene {
     @Getter
     private static Shader gridShader;
 
-    @Getter
-    private static Shader skyboxShader;
 
     @Getter
     private static FrameBuffer frameBuffer;
@@ -32,7 +30,6 @@ public abstract class Scene {
     public static void initialize() {
         sceneShader = new Shader(Constants.DEFAULT_SCENE_VERTEX_SHADER_PATH, Constants.DEFAULT_SCENE_FRAGMENT_SHADER_PATH);
         gridShader  = new Shader(Constants.DEFAULT_GRID_VERTEX_SHADER_PATH, Constants.DEFAULT_GRID_FRAGMENT_SHADER_PATH);
-        skyboxShader = new Shader(Constants.DEFAULT_SKYBOX_VERTEX_SHADER_PATH, Constants.DEFAULT_SKYBOX_FRAGMENT_SHADER_PATH);
 
         frameBuffer = new FrameBuffer(Constants.WINDOW_DEFAULT_WIDTH, Constants.WINDOW_DEFAULT_HEIGHT);
         FPSCamera   = new FirstPersonCameraController(Constants.FPS_CAMERA_DEFAULT_FOV, Constants.FPS_CAMERA_DEFAULT_ASPECT, Constants.FPS_CAMERA_DEFAULT_NEAR, Constants.FPS_CAMERA_DEFAULT_FAR);

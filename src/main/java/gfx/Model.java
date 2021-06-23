@@ -24,7 +24,7 @@ public class Model extends TransformComponent implements Cloneable {
     @Getter
     private final ArrayList<Material> materials = new ArrayList<>();
 
-    public Model(String resourcePath) {
+    public Model(String resourcePath) throws RuntimeException {
         super();
         AIScene scene = Assimp.aiImportFile(resourcePath, Assimp.aiProcess_Triangulate | Assimp.aiProcess_FlipUVs
                 | Assimp.aiProcess_GenSmoothNormals | Assimp.aiProcess_CalcTangentSpace);
