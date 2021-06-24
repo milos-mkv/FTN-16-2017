@@ -1,15 +1,12 @@
 import core.Application;
 import core.Scene;
-import gfx.CubeMap;
-import gfx.Model;
 import gfx.SkyBox;
 import gui.GUI;
 import imgui.ImGui;
+import imgui.extension.imguizmo.ImGuizmo;
 import managers.TextureManager;
 import org.lwjgl.opengl.GL32;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class Main extends Application {
 
@@ -32,9 +29,9 @@ public class Main extends Application {
         if (ImGui.isMouseDown(1)) {
             Scene.getFPSCamera().UpdateController(delta);
         }
-
+        
         GL32.glBindFramebuffer(GL32.GL_FRAMEBUFFER, Scene.getFrameBuffer().getId());
-        GL32.glClearColor(0.1F, 0.1F, 0.1F, 1.0F);
+        GL32.glClearColor(Scene.ClearColor[0], Scene.ClearColor[1], Scene.ClearColor[2], Scene.ClearColor[3]);
         GL32.glClear(GL32.GL_COLOR_BUFFER_BIT | GL32.GL_DEPTH_BUFFER_BIT | GL32.GL_STENCIL_BUFFER_BIT);
 
 //        SkyBox.render();
@@ -56,8 +53,8 @@ public class Main extends Application {
         ImGui.showDemoWindow();
         GUI.renderMenuBar();
         GUI.renderViewport();
-        GUI.renderLightProperties();
-        GUI.renderSceneItemsDock();
+        GUI.renderScenePropertiesDock();
+        GUI.renderModelPropertiesDock();
     }
 
     @Override

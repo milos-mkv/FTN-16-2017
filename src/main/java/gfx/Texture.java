@@ -14,6 +14,7 @@ public class Texture {
     private final int id;
 
     public Texture(final String filePath) {
+//        STBImage.stbi_set_flip_vertically_on_load(true);
         try (MemoryStack stack = MemoryStack.stackPush()) {
             IntBuffer width  = stack.mallocInt(1);
             IntBuffer height = stack.mallocInt(1);

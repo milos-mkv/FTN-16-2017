@@ -1,6 +1,7 @@
 package core;
 
 import imgui.ImGui;
+import imgui.extension.imguizmo.ImGuizmo;
 import imgui.flag.ImGuiConfigFlags;
 import org.lwjgl.glfw.GLFW;
 
@@ -36,6 +37,7 @@ public abstract class Application extends Window {
         imGuiGlfw.newFrame();
         ImGui.newFrame();
         ImGui.dockSpaceOverViewport(ImGui.getMainViewport());
+        ImGuizmo.beginFrame();
     }
 
     private void endFrameImGui() {

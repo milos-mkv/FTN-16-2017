@@ -6,8 +6,15 @@ import core.Settings;
 import core.Window;
 import gfx.Model;
 import imgui.ImGui;
+import imgui.extension.imguizmo.ImGuizmo;
+import imgui.extension.imguizmo.flag.Mode;
+import imgui.extension.imguizmo.flag.Operation;
 import imgui.flag.ImGuiStyleVar;
 import imgui.flag.ImGuiWindowFlags;
+import managers.TextureManager;
+import org.joml.Matrix2d;
+import org.joml.Matrix4f;
+import org.joml.Vector3f;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.PointerBuffer;
 import org.lwjgl.glfw.GLFW;
@@ -78,45 +85,85 @@ public abstract class GUI {
             ImGui.endMainMenuBar();
         }
     }
-
+    private static final float[] INPUT_BOUNDS = new float[]{-0.5f, -0.5f, -0.5f, 0.5f, 0.5f, 0.5f};
+    private static final float[] INPUT_BOUNDS_SNAP = new float[]{1f, 1f, 1f};
+    private static final float[] INPUT_SNAP_VALUE = new float[]{1f, 1f, 1f};
     public static void renderViewport() {
         ImGui.pushStyleVar(ImGuiStyleVar.WindowPadding, 0, 0);
         ImGui.begin("Viewport", ImGuiWindowFlags.NoScrollbar);
         ImGui.image(Scene.getFrameBuffer().getTexture(), ImGui.getWindowSizeX(), ImGui.getWindowSizeY(), 0, 1, 1, 0);
         Scene.getFPSCamera().aspect = ImGui.getWindowSize().x / ImGui.getWindowSize().y;
+
+        // ImGuizmo
+        if(Scene.SelectedModel !=null) {
+            ImGuizmo.setOrthographic(false);
+            ImGuizmo.setEnabled(true);
+            ImGuizmo.setDrawList();
+            float wwidht = ImGui.getWindowWidth();
+            float wheight = ImGui.getWindowHeight();
+            ImGuizmo.setRect(ImGui.getWindowPos().x, ImGui.getWindowPos().y, wwidht, wheight);
+            float[] view = new float[16];
+            Scene.getFPSCamera().getViewMatrix().get(view);
+            float[] proj = new float[16];
+            Scene.getFPSCamera().getProjectionMatrix().get(proj);
+            float[] arr = new float[16];
+            Scene.getModels().get(Scene.SelectedModel).getTransform().get(arr);
+
+            float[] id = new float[16];
+            new Matrix4f().set(id);
+            ImGuizmo.drawGrid(view, proj, id, 100);
+
+            ImGuizmo.manipulate(view, proj, arr , Operation.TRANSLATE, Mode.WORLD);
+
+            if(ImGuizmo.isUsing()) {
+                float[] pos = { arr[12], arr[13], arr[14] };
+
+                Scene.getModels().get(Scene.SelectedModel).position.set(pos);
+            }
+        }
+
+
+
         ImGui.end();
         ImGui.popStyleVar();
     }
 
-    public static void renderSceneItemsDock() {
+    public static void renderScenePropertiesDock() {
         if(!Settings.ShowSceneItemsDock.get()) {
             return;
         }
-        ImGui.begin("Scene Items");
-        if(ImGui.treeNode("Scene Collection")) {
+        ImGui.begin("Scene Properties");
+        if(ImGui.collapsingHeader("Scene Items")) {
             Scene.getModels().forEach((key, value) -> {
+                ImGui.image(TextureManager.getTexture("src/main/resources/images/3dd.png").getId(), 20, 20);
+                ImGui.sameLine();
                 if (ImGui.selectable(key)) {
-                    System.out.println(key);
+                    Scene.SelectedModel = key;
                 }
             });
-            ImGui.treePop();
         }
-        ImGui.end();
-    }
-
-    public static void renderLightProperties() {
-        if(!Settings.ShowLightPropertiesDock.get()) {
-            return;
-        }
-        ImGui.begin("Light Properties", Settings.ShowLightPropertiesDock);
-        if (ImGui.treeNode("Directional Light")) {
+        if (ImGui.collapsingHeader("Directional Light")) {
             renderDragFloat3("Direction", Scene.getDirectionalLight().direction);
             renderDragFloat3("Ambient", Scene.getDirectionalLight().ambient, 0, 1);
             renderDragFloat3("Diffuse", Scene.getDirectionalLight().diffuse, 0, 1);
             renderDragFloat3("Specular", Scene.getDirectionalLight().specular, 0, 1);
-            ImGui.treePop();
+        }
+        if (ImGui.collapsingHeader("Clear Color")) {
+            ImGui.colorPicker4("##ClearColor", Scene.ClearColor);
         }
         ImGui.end();
     }
+
+    public static void renderModelPropertiesDock() {
+        ImGui.begin("Model Properties");
+
+        if (ImGui.collapsingHeader("Transform Component") && Scene.SelectedModel != null) {
+            renderDragFloat3("Position", Scene.getModels().get(Scene.SelectedModel).position);
+            renderDragFloat3("Rotation", Scene.getModels().get(Scene.SelectedModel).rotation);
+            renderDragFloat3("Scale",    Scene.getModels().get(Scene.SelectedModel).scale);
+        }
+        ImGui.end();
+    }
+
 
 }
