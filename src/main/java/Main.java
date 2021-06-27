@@ -3,7 +3,8 @@ import core.Scene;
 import gfx.SkyBox;
 import gui.GUI;
 import imgui.ImGui;
-import imgui.extension.imguizmo.ImGuizmo;
+import imgui.flag.ImGuiCol;
+import managers.ErrorManager;
 import managers.TextureManager;
 import org.lwjgl.opengl.GL32;
 
@@ -19,6 +20,7 @@ public class Main extends Application {
         GUI.initialize();
         Scene.initialize();
         TextureManager.initialize();
+        ErrorManager.initialize();
         SkyBox.initialize();
         GL32.glEnable(GL32.GL_MULTISAMPLE);
         GL32.glEnable(GL32.GL_DEPTH_TEST);
@@ -50,11 +52,15 @@ public class Main extends Application {
 
     @Override
     protected void renderImGui() {
+
         ImGui.showDemoWindow();
-        GUI.renderMenuBar();
+        GUI.renderMainMenuBar();
         GUI.renderViewport();
+        GUI.renderModals();
+        GUI.renderConsoleDock();
         GUI.renderScenePropertiesDock();
         GUI.renderModelPropertiesDock();
+
     }
 
     @Override

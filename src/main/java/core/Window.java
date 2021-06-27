@@ -1,5 +1,6 @@
 package core;
 
+import imgui.ImFont;
 import imgui.ImGui;
 import imgui.ImGuiStyle;
 import imgui.flag.ImGuiCol;
@@ -18,6 +19,8 @@ public abstract class Window {
 
     protected final ImGuiImplGlfw imGuiGlfw = new ImGuiImplGlfw();
     protected final ImGuiImplGl3  imGuiGl3  = new ImGuiImplGl3();
+
+    public static ImFont codeFont;
 
     @Getter
     protected static long handle;
@@ -103,6 +106,7 @@ public abstract class Window {
         ImGui.styleColorsDark();
         ImGui.getIO().addConfigFlags(ImGuiConfigFlags.DockingEnable | ImGuiConfigFlags.ViewportsEnable);
         ImGui.getIO().getFonts().addFontFromFileTTF(Constants.IMGUI_DEFAULT_FONT_PATH, Constants.IMGUI_DEFAULT_FONT_SIZE);
+        codeFont = ImGui.getIO().getFonts().addFontFromFileTTF("src/main/resources/fonts/CONSOLA.ttf", 16.f);
     }
 
     private void initializeImGuiStyle() {
@@ -139,9 +143,9 @@ public abstract class Window {
         colors[ImGuiCol.Separator]              = colors[ImGuiCol.Border];
         colors[ImGuiCol.SeparatorHovered]       = new float[]{0.391f, 0.391f, 0.391f, 1.000f};
         colors[ImGuiCol.SeparatorActive]        = new float[]{1.000f, 0.391f, 0.000f, 1.000f};
-        colors[ImGuiCol.ResizeGrip]             = new float[]{1.000f, 1.000f, 1.000f, 0.250f};
-        colors[ImGuiCol.ResizeGripHovered]      = new float[]{1.000f, 1.000f, 1.000f, 0.670f};
-        colors[ImGuiCol.ResizeGripActive]       = new float[]{1.000f, 0.391f, 0.000f, 1.000f};
+        colors[ImGuiCol.ResizeGrip]             = new float[]{0.000f, 0.000f, 0.000f, 0.000f};
+        colors[ImGuiCol.ResizeGripHovered]      = new float[]{0.000f, 0.000f, 0.000f, 0.000f};
+        colors[ImGuiCol.ResizeGripActive]       = new float[]{0.000f, 0.000f, 0.000f, 0.000f};
         colors[ImGuiCol.Tab]                    = new float[]{0.098f, 0.098f, 0.098f, 1.000f};
         colors[ImGuiCol.TabHovered]             = new float[]{0.352f, 0.352f, 0.352f, 1.000f};
         colors[ImGuiCol.TabActive]              = new float[]{0.195f, 0.195f, 0.195f, 1.000f};
@@ -165,12 +169,13 @@ public abstract class Window {
         style.setFrameBorderSize(1.0f);
         style.setFrameRounding(2.0f);
         style.setGrabMinSize(7.0f);
-        style.setPopupRounding(2.0f);
+        style.setPopupRounding(0.0f);
         style.setScrollbarRounding(12.0f);
         style.setScrollbarSize(13.0f);
         style.setTabBorderSize(1.0f);
         style.setTabRounding(0.0f);
-        style.setWindowRounding(4.0f);
+        style.setWindowRounding(1.0f);
+
     }
 
 }

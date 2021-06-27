@@ -1,6 +1,7 @@
 package gfx;
 
 import core.Constants;
+import exceptions.InvalidDocumentException;
 import lombok.Getter;
 import lombok.SneakyThrows;
 import managers.TextureManager;
@@ -24,12 +25,14 @@ public class Model extends TransformComponent implements Cloneable {
     @Getter
     private final ArrayList<Material> materials = new ArrayList<>();
 
-    public Model(String resourcePath) throws RuntimeException {
+
+
+    public Model(String resourcePath) throws InvalidDocumentException {
         super();
         AIScene scene = Assimp.aiImportFile(resourcePath, Assimp.aiProcess_Triangulate | Assimp.aiProcess_FlipUVs
                 | Assimp.aiProcess_GenSmoothNormals | Assimp.aiProcess_CalcTangentSpace);
         if (scene == null) {
-            throw new RuntimeException("Failed to load model");
+            throw new InvalidDocumentException("Failed to load model:\n" + resourcePath);
         }
 
         int numMaterials = scene.mNumMaterials();
@@ -43,10 +46,7 @@ public class Model extends TransformComponent implements Cloneable {
         processNode(Objects.requireNonNull(scene.mRootNode()), scene);
     }
 
-    public Matrix4f getTransform() {
-        return new Matrix4f().translate(position).rotate(rotation.x, 1, 0, 0)
-                .rotate(rotation.y, 0, 1, 0).rotate(rotation.z, 0, 0, 1).scale(scale);
-    }
+
 
     public void draw(Shader shader) {
         shader.setUniformMat4("model", getTransform());

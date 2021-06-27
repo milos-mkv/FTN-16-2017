@@ -8,4 +8,6 @@ public abstract class Settings {
     public static ImBoolean ShowSceneItemsDock = new ImBoolean(true);
 
     public static boolean EnableGrid = true;
+
+    public static boolean OpenImportModelDialog = false;
 }

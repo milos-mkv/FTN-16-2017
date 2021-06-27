@@ -1,6 +1,5 @@
 package gfx;
 
-import org.joml.Matrix4f;
 import org.lwjgl.opengl.GL32;
 import org.lwjgl.system.MemoryUtil;
 
@@ -74,6 +73,7 @@ public class Mesh implements Cloneable {
     }
 
     public void draw(Shader shader) {
+
         shader.setUniformVec3("material.diffuse", material.diffuseColor);
         shader.setUniformVec3("material.ambient", material.ambientColor);
         shader.setUniformVec3("material.specular", material.specularColor);
