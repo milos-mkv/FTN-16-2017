@@ -8,14 +8,12 @@ import java.util.List;
 public abstract class ErrorManager {
 
     @Getter
-    private static List<String> errors;
+    private static final List<String> errors = new ArrayList<>();
 
-    public static void initialize() {
-        errors = new ArrayList<>();
-    }
+    private ErrorManager() { /* Empty */ }
 
     public static String getLatestError() {
-        return errors.size() > 0 ? errors.get(errors.size() - 1) : "";
+        return !errors.isEmpty() ? errors.get(errors.size() - 1) : "";
     }
 
 }

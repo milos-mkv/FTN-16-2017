@@ -2,15 +2,19 @@ package gfx;
 
 import core.Constants;
 import core.Window;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.joml.Matrix4f;
 import org.lwjgl.glfw.GLFW;
 
+@EqualsAndHashCode(callSuper = true)
+@Data
 public class FirstPersonCameraController extends PerspectiveCamera {
 
-    public float yaw;
-    public float pitch;
-    public float speed;
-    public float sensitivity;
+    protected float yaw;
+    protected float pitch;
+    protected float speed;
+    protected float sensitivity;
 
     public FirstPersonCameraController(float fov, float aspect, float near, float far) {
         super(fov, aspect, near, far);
@@ -18,11 +22,11 @@ public class FirstPersonCameraController extends PerspectiveCamera {
         this.pitch  = 0.0F;
         this.speed  = 6.0F;
         this.sensitivity = 0.25F;
-        UpdateCamera();
-        UpdateVectors();
+        updateCamera();
+        updateVectors();
     }
 
-    public void UpdateVectors() {
+    public void updateVectors() {
         front.x = (float) (Math.cos(Math.toRadians(yaw)) * Math.cos(Math.toRadians(pitch)));
         front.y = (float) Math.sin(Math.toRadians(pitch));
         front.z = (float) (Math.sin(Math.toRadians(yaw)) * Math.cos(Math.toRadians(pitch)));
@@ -37,7 +41,7 @@ public class FirstPersonCameraController extends PerspectiveCamera {
         return new Matrix4f().lookAt(position, tmp.set(position).add(front), up);
     }
 
-    public void UpdateController(float delta) {
+    public void updateController(float delta) {
         if(GLFW.glfwGetKey(Window.getHandle(), GLFW.GLFW_KEY_W) == GLFW.GLFW_PRESS) {
             position.add(tmp.set(front).mul(speed * delta));
         }
@@ -58,7 +62,7 @@ public class FirstPersonCameraController extends PerspectiveCamera {
         if (pitch > 89.0F)  pitch =  89.0F;
         if (pitch < -89.0F) pitch = -89.0F;
 
-        UpdateVectors();
+        updateVectors();
     }
 
 }

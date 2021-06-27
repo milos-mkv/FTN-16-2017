@@ -1,56 +1,60 @@
 package gfx;
 
-import org.lwjgl.opengl.GL32;
+import components.Disposable;
+import lombok.Data;
 import org.lwjgl.system.MemoryUtil;
 
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
-import java.util.ArrayList;
 import java.util.List;
 
-public class Mesh implements Cloneable {
+import static org.lwjgl.opengl.GL15.glGenBuffers;
+import static org.lwjgl.opengl.GL15C.glDeleteBuffers;
+import static org.lwjgl.opengl.GL30C.*;
 
-    private int VAO;
-    private int VBO;
-    private int EBO;
+@Data
+public class Mesh implements Disposable {
 
-    public String name;
+    private int vao;
+    private int vbo;
+    private int ebo;
+    private int indicesSize;
 
-    private List<Vertex> vertices;
-    private List<Integer> indices;
+    private String name;
     private Material material;
 
     public Mesh(String name, List<Vertex> vertices, List<Integer> indices, Material material) {
-        this.vertices = new ArrayList<>(vertices);
-        this.indices  = new ArrayList<>(indices);
         this.material = material;
         this.name     = name;
+        this.indicesSize = indices.size();
 
-        setupMesh();
+        setupMesh(vertices, indices);
     }
 
+    @Override
     public void dispose() {
-        GL32.glDeleteBuffers(VBO);
-        GL32.glDeleteBuffers(EBO);
-        GL32.glDeleteVertexArrays(VAO);
+        glDeleteBuffers(vbo);
+        glDeleteBuffers(ebo);
+        glDeleteVertexArrays(vao);
     }
 
-    private void setupMesh() {
-        VAO = GL32.glGenVertexArrays();
-        VBO = GL32.glGenBuffers();
-        EBO = GL32.glGenBuffers();
+    private void setupMesh(List<Vertex> vertices, List<Integer> indices) {
+        vao = glGenVertexArrays();
+        vbo = glGenBuffers();
+        ebo = glGenBuffers();
 
-        GL32.glBindVertexArray(VAO);
+        glBindVertexArray(vao);
 
         FloatBuffer vert = MemoryUtil.memAllocFloat(vertices.size() * 8);
         for (Vertex tmp : vertices) {
-            vert.put(tmp.position.x).put(tmp.position.y).put(tmp.position.z)
-                    .put(tmp.normal.x).put(tmp.normal.y).put(tmp.normal.z).put(tmp.texCoords.x).put(tmp.texCoords.y);
+            vert.put(tmp.getPosition().x).put(tmp.getPosition().y).put(tmp.getPosition().z)
+                .put(tmp.getNormal().x).put(tmp.getNormal().y).put(tmp.getNormal().z)
+                .put(tmp.getTexCoords().x).put(tmp.getTexCoords().y);
         }
         vert.flip();
 
-        GL32.glBindBuffer(GL32.GL_ARRAY_BUFFER, VBO);
-        GL32.glBufferData(GL32.GL_ARRAY_BUFFER, vert, GL32.GL_STATIC_DRAW);
+        glBindBuffer(GL_ARRAY_BUFFER, vbo);
+        glBufferData(GL_ARRAY_BUFFER, vert, GL_STATIC_DRAW);
 
 
         IntBuffer ind = MemoryUtil.memAllocInt(indices.size());
@@ -59,44 +63,44 @@ public class Mesh implements Cloneable {
         }
         ind.flip();
 
-        GL32.glBindBuffer(GL32.GL_ELEMENT_ARRAY_BUFFER, EBO);
-        GL32.glBufferData(GL32.GL_ELEMENT_ARRAY_BUFFER, ind, GL32.GL_STATIC_DRAW);
+        glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+        glBufferData(GL_ELEMENT_ARRAY_BUFFER, ind, GL_STATIC_DRAW);
 
-        GL32.glEnableVertexAttribArray(0);
-        GL32.glVertexAttribPointer(0, 3, GL32.GL_FLOAT, false, 8 * (Float.SIZE / 8), 0);
-        GL32.glEnableVertexAttribArray(1);
-        GL32.glVertexAttribPointer(1, 3, GL32.GL_FLOAT, false, 8 * (Float.SIZE / 8), 3 * (Float.SIZE / 8));
-        GL32.glEnableVertexAttribArray(2);
-        GL32.glVertexAttribPointer(2, 2, GL32.GL_FLOAT, false, 8 * (Float.SIZE / 8), 6 * (Float.SIZE / 8));
+        glEnableVertexAttribArray(0);
+        glVertexAttribPointer(0, 3, GL_FLOAT, false, 8 * 4, 0L);
+        glEnableVertexAttribArray(1);
+        glVertexAttribPointer(1, 3, GL_FLOAT, false, 8 * 4, 3L * 4);
+        glEnableVertexAttribArray(2);
+        glVertexAttribPointer(2, 2, GL_FLOAT, false, 8 * 4, 6L * 4);
 
-        GL32.glBindVertexArray(0);
+        glBindVertexArray(0);
     }
 
     public void draw(Shader shader) {
 
-        shader.setUniformVec3("material.diffuse", material.diffuseColor);
-        shader.setUniformVec3("material.ambient", material.ambientColor);
-        shader.setUniformVec3("material.specular", material.specularColor);
-        shader.setUniformFloat("material.shniness", material.shininess);
+        shader.setUniformVec3("material.diffuse", material.getDiffuseColor());
+        shader.setUniformVec3("material.ambient", material.getAmbientColor());
+        shader.setUniformVec3("material.specular", material.getSpecularColor());
+        shader.setUniformFloat("material.shniness", material.getShininess());
 
-        if(material.diffuseTexture != null) {
-            GL32.glActiveTexture(GL32.GL_TEXTURE0);
-            GL32.glBindTexture(GL32.GL_TEXTURE_2D, material.diffuseTexture.getId());
+        if(material.getDiffuseTexture() != null) {
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, material.getDiffuseTexture().getId());
             shader.setUniformBoolean("isDiffuseTextureSet", 1);
         } else {
             shader.setUniformBoolean("isDiffuseTextureSet", 0);
         }
-        if(material.specularTexture != null) {
-            GL32.glActiveTexture(GL32.GL_TEXTURE1);
-            GL32.glBindTexture(GL32.GL_TEXTURE_2D, material.specularTexture.getId());
+        if(material.getSpecularTexture() != null) {
+            glActiveTexture(GL_TEXTURE1);
+            glBindTexture(GL_TEXTURE_2D, material.getSpecularTexture().getId());
         }
-        if(material.normalTexture != null) {
-            GL32.glActiveTexture(GL32.GL_TEXTURE2);
-            GL32.glBindTexture(GL32.GL_TEXTURE_2D, material.normalTexture.getId());
+        if(material.getNormalTexture() != null) {
+            glActiveTexture(GL_TEXTURE2);
+            glBindTexture(GL_TEXTURE_2D, material.getNormalTexture().getId());
         }
 
-        GL32.glBindVertexArray(VAO);
-        GL32.glDrawElements(GL32.GL_TRIANGLES, indices.size(), GL32.GL_UNSIGNED_INT, 0);
-        GL32.glBindVertexArray(0);
+        glBindVertexArray(vao);
+        glDrawElements(GL_TRIANGLES, indicesSize, GL_UNSIGNED_INT, 0);
+        glBindVertexArray(0);
     }
 }

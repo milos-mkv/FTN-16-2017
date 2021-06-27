@@ -1,22 +1,26 @@
 package gfx;
 
 import core.Constants;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
+@NoArgsConstructor
+@Data
 public class PerspectiveCamera {
 
-    public Vector3f position;
-    public Vector3f direction;
-    public Vector3f up;
-    public Vector3f right;
-    public Vector3f front;
-    public Vector3f tmp;
+    protected Vector3f position;
+    protected Vector3f direction;
+    protected Vector3f up;
+    protected Vector3f right;
+    protected Vector3f front;
+    protected Vector3f tmp;
 
-    public float near;
-    public float far;
-    public float fov;
-    public float aspect;
+    protected float near;
+    protected float far;
+    protected float fov;
+    protected float aspect;
 
     public PerspectiveCamera(float fov, float aspect, float near, float far) {
         this.fov        = fov;
@@ -29,10 +33,10 @@ public class PerspectiveCamera {
         this.up         = new Vector3f(0, 0, 0);
         this.right      = new Vector3f(0, 0, 0);
         this.tmp        = new Vector3f(0, 0, 0);
-        UpdateCamera();
+        updateCamera();
     }
 
-    public void UpdateCamera() {
+    public void updateCamera() {
         tmp.set(position).add(front).normalize(direction);
         tmp.set(Constants.WORLD_UP).cross(direction).normalize(right);
         up.set(tmp.set(direction).cross(right));

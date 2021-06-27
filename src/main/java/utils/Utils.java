@@ -3,22 +3,22 @@ package utils;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-public abstract class Utils {
+public interface Utils {
 
-    public static String ReadFromFile(final String file) {
-        try {
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
-            StringBuilder stringBuilder = new StringBuilder();
+    static String readFromFile(final String file) {
+        StringBuilder stringBuilder = null;
+        try (var bufferedReader = new BufferedReader(new FileReader(file))) {
+            stringBuilder = new StringBuilder();
             String line;
-            while((line = bufferedReader.readLine()) != null) {
+            while ((line = bufferedReader.readLine()) != null) {
                 stringBuilder.append(line).append(System.getProperty("line.separator"));
             }
-            bufferedReader.close();
-            return stringBuilder.toString();
         } catch (IOException e) {
-            e.printStackTrace();
+            Logger.getGlobal().log(Level.WARNING, e.getMessage());
         }
-        return null;
+        return stringBuilder != null ? stringBuilder.toString() : null;
     }
 }

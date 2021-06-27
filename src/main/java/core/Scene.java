@@ -39,8 +39,8 @@ public abstract class Scene {
         FPSCamera   = new FirstPersonCameraController(Constants.FPS_CAMERA_DEFAULT_FOV, Constants.FPS_CAMERA_DEFAULT_ASPECT, Constants.FPS_CAMERA_DEFAULT_NEAR, Constants.FPS_CAMERA_DEFAULT_FAR);
         directionalLight = new DirectionalLight(new Vector3f(0.3f, -0.5f, 0.5f), new Vector3f(0.1f, 0.1f, 0.1f), new Vector3f(1.0f, 1.0f, 1.0f), new Vector3f(0.4f, 0.4f, 0.4f));
         models = new LinkedHashMap<>();
-        FPSCamera.position.set(0, 1, 0);
-        FPSCamera.UpdateVectors();
+        FPSCamera.getPosition().set(0, 1, 0);
+        FPSCamera.updateVectors();
     }
 
     public static void dispose() {

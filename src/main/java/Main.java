@@ -3,10 +3,18 @@ import core.Scene;
 import gfx.SkyBox;
 import gui.GUI;
 import imgui.ImGui;
-import imgui.flag.ImGuiCol;
-import managers.ErrorManager;
 import managers.TextureManager;
-import org.lwjgl.opengl.GL32;
+
+import java.io.IOException;
+import java.util.logging.FileHandler;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
+
+import static org.lwjgl.opengl.GL11C.*;
+import static org.lwjgl.opengl.GL13C.GL_MULTISAMPLE;
+import static org.lwjgl.opengl.GL20.glUseProgram;
+import static org.lwjgl.opengl.GL30C.GL_FRAMEBUFFER;
+import static org.lwjgl.opengl.GL30C.glBindFramebuffer;
 
 
 public class Main extends Application {
@@ -17,29 +25,33 @@ public class Main extends Application {
 
     @Override
     protected void onStart() {
-        GUI.initialize();
+
+        try {
+            var handler = new FileHandler("tmp.log");
+            Logger.getGlobal().addHandler(handler);
+            handler.setFormatter(new SimpleFormatter());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
         Scene.initialize();
-        TextureManager.initialize();
-        ErrorManager.initialize();
         SkyBox.initialize();
-        GL32.glEnable(GL32.GL_MULTISAMPLE);
-        GL32.glEnable(GL32.GL_DEPTH_TEST);
+        glEnable(GL_MULTISAMPLE);
+        glEnable(GL_DEPTH_TEST);
     }
 
     @Override
     protected void render(float delta) {
         if (ImGui.isMouseDown(1)) {
-            Scene.getFPSCamera().UpdateController(delta);
+            Scene.getFPSCamera().updateController(delta);
         }
         
-        GL32.glBindFramebuffer(GL32.GL_FRAMEBUFFER, Scene.getFrameBuffer().getId());
-        GL32.glClearColor(Scene.ClearColor[0], Scene.ClearColor[1], Scene.ClearColor[2], Scene.ClearColor[3]);
-        GL32.glClear(GL32.GL_COLOR_BUFFER_BIT | GL32.GL_DEPTH_BUFFER_BIT | GL32.GL_STENCIL_BUFFER_BIT);
+        glBindFramebuffer(GL_FRAMEBUFFER, Scene.getFrameBuffer().getId());
+        glClearColor(Scene.ClearColor[0], Scene.ClearColor[1], Scene.ClearColor[2], Scene.ClearColor[3]);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-//        SkyBox.render();
-
-        GL32.glUseProgram(Scene.getSceneShader().getId());
-        Scene.getSceneShader().setUniformVec3("viewPos", Scene.getFPSCamera().position);
+        glUseProgram(Scene.getSceneShader().getId());
+        Scene.getSceneShader().setUniformVec3("viewPos", Scene.getFPSCamera().getPosition());
         Scene.getDirectionalLight().apply(Scene.getSceneShader());
         Scene.getSceneShader().setUniformMat4("view", Scene.getFPSCamera().getViewMatrix());
         Scene.getSceneShader().setUniformMat4("proj", Scene.getFPSCamera().getProjectionMatrix());
@@ -47,20 +59,13 @@ public class Main extends Application {
 
         Scene.getModels().forEach((key, value) -> value.draw(Scene.getSceneShader()));
 
-        GL32.glBindFramebuffer(GL32.GL_FRAMEBUFFER, 0);
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
     }
 
     @Override
     protected void renderImGui() {
-
         ImGui.showDemoWindow();
-        GUI.renderMainMenuBar();
-        GUI.renderViewport();
-        GUI.renderModals();
-        GUI.renderConsoleDock();
-        GUI.renderScenePropertiesDock();
-        GUI.renderModelPropertiesDock();
-
+        GUI.render();
     }
 
     @Override

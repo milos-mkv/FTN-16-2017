@@ -1,20 +1,22 @@
 package gfx;
 
 import core.Constants;
+import lombok.Data;
 import org.joml.Vector3f;
 
-public class Material implements Cloneable {
+@Data
+public class Material {
 
-    public Vector3f ambientColor;
-    public Vector3f diffuseColor;
-    public Vector3f specularColor;
+    private Vector3f ambientColor;
+    private Vector3f diffuseColor;
+    private Vector3f specularColor;
 
-    public float shininess;
-    public float reflectance;
+    private float shininess;
+    private float reflectance;
 
-    public Texture diffuseTexture;
-    public Texture specularTexture;
-    public Texture normalTexture;
+    private Texture diffuseTexture;
+    private Texture specularTexture;
+    private Texture normalTexture;
 
     public Material() {
         this.ambientColor  = Constants.DEFAULT_COLOR;
@@ -29,11 +31,4 @@ public class Material implements Cloneable {
         this.shininess     = shininess;
     }
 
-    public Material clone() throws CloneNotSupportedException {
-        Material clone      = (Material) super.clone();
-        clone.diffuseColor  = (Vector3f) diffuseColor.clone();
-        clone.ambientColor  = (Vector3f) ambientColor.clone();
-        clone.specularColor = (Vector3f) specularColor.clone();
-        return clone;
-    }
 }

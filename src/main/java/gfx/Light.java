@@ -1,16 +1,17 @@
 package gfx;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.joml.Vector3f;
 
+@NoArgsConstructor
+@Data
+@AllArgsConstructor
 public class Light {
 
-    public Vector3f ambient;
-    public Vector3f diffuse;
-    public Vector3f specular;
+    protected Vector3f ambient;
+    protected Vector3f diffuse;
+    protected Vector3f specular;
 
-    public Light(Vector3f ambient, Vector3f diffuse, Vector3f specular) {
-        this.ambient  = ambient;
-        this.diffuse  = diffuse;
-        this.specular = specular;
-    }
 }
