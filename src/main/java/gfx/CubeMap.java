@@ -12,8 +12,8 @@ import java.util.List;
 import static org.lwjgl.opengl.GL11C.*;
 import static org.lwjgl.opengl.GL12.GL_CLAMP_TO_EDGE;
 import static org.lwjgl.opengl.GL12.GL_TEXTURE_WRAP_R;
-import static org.lwjgl.opengl.GL13C.GL_TEXTURE_CUBE_MAP;
-import static org.lwjgl.opengl.GL13C.GL_TEXTURE_CUBE_MAP_POSITIVE_X;
+import static org.lwjgl.opengl.GL13.GL_TEXTURE_CUBE_MAP;
+import static org.lwjgl.opengl.GL13.GL_TEXTURE_CUBE_MAP_POSITIVE_X;
 
 public class CubeMap {
 
@@ -37,15 +37,7 @@ public class CubeMap {
                     throw new InvalidDocumentException("Failed to load image for CubeMap: " + faces.get(i));
                 }
 
-                glTexImage2D(
-                        GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
-                        0,
-                        GL_RGB,
-                        width.get(),
-                        height.get(),
-                        0,
-                        GL_RGB,
-                        GL_UNSIGNED_BYTE, image);
+                glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, width.get(), height.get(), 0, GL_RGB, GL_UNSIGNED_BYTE, image);
             }
 
             glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);

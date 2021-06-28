@@ -12,7 +12,6 @@ import org.lwjgl.assimp.*;
 import java.nio.IntBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 public class Model extends TransformComponent {
@@ -29,7 +28,7 @@ public class Model extends TransformComponent {
                 | Assimp.aiProcess_GenSmoothNormals | Assimp.aiProcess_CalcTangentSpace);
 
         if (scene == null) {
-            throw new InvalidDocumentException("Failed to load model:\n" + resourcePath);
+            throw new InvalidDocumentException("Failed to load model: " + resourcePath);
         }
 
         PointerBuffer aiMaterials = scene.mMaterials();
@@ -86,8 +85,8 @@ public class Model extends TransformComponent {
     }
 
     private Mesh processMesh(AIMesh mesh) {
-        List<Vertex> vertices = new ArrayList<>();
-        List<Integer> indices = new ArrayList<>();
+        var vertices = new ArrayList<Vertex>();
+        var indices  = new ArrayList<Integer>();
 
         for (var i = 0; i < mesh.mNumVertices(); i++) {
             var vertex = new Vertex();

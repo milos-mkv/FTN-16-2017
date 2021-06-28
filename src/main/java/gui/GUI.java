@@ -10,6 +10,7 @@ import imgui.ImGui;
 import imgui.extension.imguizmo.ImGuizmo;
 import imgui.extension.imguizmo.flag.Mode;
 import imgui.extension.imguizmo.flag.Operation;
+import imgui.flag.ImGuiCol;
 import imgui.flag.ImGuiStyleVar;
 import imgui.flag.ImGuiWindowFlags;
 import managers.ErrorManager;
@@ -56,7 +57,7 @@ public interface GUI {
         }
     }
 
-    public static void renderViewport() {
+    static void renderViewport() {
         ImGui.pushStyleVar(ImGuiStyleVar.WindowPadding, 0, 0);
 
         ImGui.begin("Viewport", ImGuiWindowFlags.NoScrollbar);
@@ -99,16 +100,19 @@ public interface GUI {
         ImGui.popStyleVar();
     }
 
-    public static void renderConsoleDock() {
+    static void renderConsoleDock() {
         ImGui.begin("Console");
         ImGui.pushFont(Window.codeFont);
-        for (String error : ErrorManager.getErrors())
-            ImGui.text(error);
+        ImGui.pushStyleColor(ImGuiCol.Text, 0.8F, 0.3F, 0.3F, 1.F);
+        for (String error : ErrorManager.getErrors()) {
+            ImGui.textUnformatted(error);
+        }
+        ImGui.popStyleColor();
         ImGui.popFont();
         ImGui.end();
     }
 
-    public static void renderModals() {
+    static void renderModals() {
         if (Settings.OpenImportModelDialog) {
             ImGui.openPopup("Import Model Failed");
             Settings.OpenImportModelDialog = false;
@@ -116,7 +120,7 @@ public interface GUI {
         errorDialog("Import Model Failed");
     }
 
-     static void renderScenePropertiesDock() {
+    static void renderScenePropertiesDock() {
         if (!Settings.ShowSceneItemsDock.get()) {
             return;
         }
@@ -124,11 +128,17 @@ public interface GUI {
         ImGui.begin("Scene Properties");
 
         if (ImGui.collapsingHeader("Scene Items")) {
-            Scene.getModels().forEach((key, value) -> {
-                ImGui.image(TextureManager.getTexture("src/main/resources/images/3dd.png").getId(), 20, 20);
+            Scene.getModels().forEach((key, model) -> {
+                ImGui.image(TextureManager.getTexture("src/main/resources/images/cube.png").getId(), 20, 20);
                 ImGui.sameLine();
-                if (ImGui.selectable(key)) {
+                if (ImGui.treeNode(key)) {
                     Scene.SelectedModel = key;
+                    model.getMeshes().forEach(mesh -> {
+                        ImGui.image(TextureManager.getTexture("src/main/resources/images/rsd.png").getId(), 20, 20);
+                        ImGui.sameLine();
+                        ImGui.selectable(mesh.getName());
+                    });
+                    ImGui.treePop();
                 }
             });
         }

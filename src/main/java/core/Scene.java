@@ -31,6 +31,9 @@ public abstract class Scene {
 
     public static float[] ClearColor = { 0.1f, 0.1f, 0.1f, 1.0f };
 
+
+    private Scene() { }
+
     public static void initialize() {
         sceneShader = new Shader(Constants.DEFAULT_SCENE_VERTEX_SHADER_PATH, Constants.DEFAULT_SCENE_FRAGMENT_SHADER_PATH);
         gridShader  = new Shader(Constants.DEFAULT_GRID_VERTEX_SHADER_PATH, Constants.DEFAULT_GRID_FRAGMENT_SHADER_PATH);

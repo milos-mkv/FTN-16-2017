@@ -7,6 +7,8 @@ import java.util.List;
 
 public abstract class Constants {
 
+    private Constants() {}
+
     public static final String IMGUI_DEFAULT_FONT_PATH = "src/main/resources/fonts/font.ttf";
     public static final float IMGUI_DEFAULT_FONT_SIZE = 21.0F;
     public static final int WINDOW_DEFAULT_WIDTH = 1280;
@@ -25,7 +27,7 @@ public abstract class Constants {
     public static final String DEFAULT_SKYBOX_VERTEX_SHADER_PATH = "src/main/resources/shaders/skybox.vert";
     public static final String DEFAULT_SKYBOX_FRAGMENT_SHADER_PATH = "src/main/resources/shaders/skybox.frag";
 
-    public static List<String> DEFAULT_SKYBOX_FACES = Arrays.asList(
+    public static final List<String> DEFAULT_SKYBOX_FACES = Arrays.asList(
             "src/main/resources/images/right.jpg",
             "src/main/resources/images/left.jpg",
             "src/main/resources/images/top.jpg",
