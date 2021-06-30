@@ -5,7 +5,7 @@ in vec3 nearPoint;
 in vec3 farPoint;
 in mat4 fragView;
 in mat4 fragProj;
-float near = 0.1f;
+float near = 0.01f;
 float far =100.f;
 vec4 grid(vec3 fragPos3D, float scale, bool drawAxis) {
     vec2 coord = fragPos3D.xz * scale;

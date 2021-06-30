@@ -74,7 +74,7 @@ public abstract class Window {
                 (vidmode.height() - Constants.WINDOW_DEFAULT_HEIGHT) / 2);
 
         GLFW.glfwMakeContextCurrent(handle);
-        GLFW.glfwSwapInterval(GLFW.GLFW_TRUE);
+//        GLFW.glfwSwapInterval(GLFW.GLFW_TRUE);
         GLFW.glfwShowWindow(handle);
 
         GLFW.glfwSetCursorPosCallback(handle, new GLFWCursorPosCallback() {
@@ -106,7 +106,7 @@ public abstract class Window {
         ImGui.styleColorsDark();
         ImGui.getIO().addConfigFlags(ImGuiConfigFlags.DockingEnable | ImGuiConfigFlags.ViewportsEnable);
         ImGui.getIO().getFonts().addFontFromFileTTF(Constants.IMGUI_DEFAULT_FONT_PATH, Constants.IMGUI_DEFAULT_FONT_SIZE);
-        codeFont = ImGui.getIO().getFonts().addFontFromFileTTF("src/main/resources/fonts/CONSOLA.ttf", 16.f);
+        codeFont = ImGui.getIO().getFonts().addFontFromFileTTF("src/main/resources/fonts/CONSOLA.ttf", 14.f);
     }
 
     private void initializeImGuiStyle() {

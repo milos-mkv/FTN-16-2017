@@ -1,6 +1,6 @@
 package gfx;
 
-import components.Disposable;
+import utils.Disposable;
 import exceptions.InvalidDocumentException;
 import lombok.Getter;
 import org.lwjgl.stb.STBImage;

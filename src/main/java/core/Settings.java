@@ -2,12 +2,11 @@ package core;
 
 import imgui.type.ImBoolean;
 
-public abstract class Settings {
+public interface Settings {
 
-    public static ImBoolean ShowLightPropertiesDock = new ImBoolean(true);
-    public static ImBoolean ShowSceneItemsDock = new ImBoolean(true);
+    ImBoolean ShowScenePropertiesDock = new ImBoolean(true);
+    ImBoolean ShowModelPropertiesDock = new ImBoolean(true);
+    ImBoolean ShowConsoleDock         = new ImBoolean(true);
 
-    public static boolean EnableGrid = true;
 
-    public static boolean OpenImportModelDialog = false;
 }

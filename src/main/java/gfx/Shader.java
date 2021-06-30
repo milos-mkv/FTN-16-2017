@@ -1,6 +1,6 @@
 package gfx;
 
-import components.Disposable;
+import utils.Disposable;
 import exceptions.OpenGLShaderCompilationException;
 import lombok.Getter;
 import org.joml.Matrix4f;

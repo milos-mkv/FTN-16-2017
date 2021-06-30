@@ -1,6 +1,6 @@
 package gfx;
 
-import components.Disposable;
+import utils.Disposable;
 import lombok.Data;
 import org.lwjgl.system.MemoryUtil;
 

@@ -22,8 +22,12 @@ public class Model extends TransformComponent {
     @Getter
     private final ArrayList<Material> materials = new ArrayList<>();
 
+    @Getter
+    private String path;
+
     public Model(String resourcePath) throws InvalidDocumentException {
         super();
+        path = resourcePath;
         AIScene scene = Assimp.aiImportFile(resourcePath, Assimp.aiProcess_Triangulate | Assimp.aiProcess_FlipUVs
                 | Assimp.aiProcess_GenSmoothNormals | Assimp.aiProcess_CalcTangentSpace);
 
