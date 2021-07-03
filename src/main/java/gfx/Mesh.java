@@ -84,19 +84,11 @@ public class Mesh implements Disposable {
         shader.setUniformFloat("material.shniness", material.getShininess());
 
         if(material.getDiffuseTexture() != null) {
-            glActiveTexture(GL_TEXTURE0);
+            glActiveTexture(GL_TEXTURE1);
             glBindTexture(GL_TEXTURE_2D, material.getDiffuseTexture().getId());
             shader.setUniformBoolean("isDiffuseTextureSet", 1);
         } else {
             shader.setUniformBoolean("isDiffuseTextureSet", 0);
-        }
-        if(material.getSpecularTexture() != null) {
-            glActiveTexture(GL_TEXTURE1);
-            glBindTexture(GL_TEXTURE_2D, material.getSpecularTexture().getId());
-        }
-        if(material.getNormalTexture() != null) {
-            glActiveTexture(GL_TEXTURE2);
-            glBindTexture(GL_TEXTURE_2D, material.getNormalTexture().getId());
         }
 
         glBindVertexArray(vao);

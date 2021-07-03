@@ -21,6 +21,7 @@ public abstract class Window {
     protected final ImGuiImplGl3  imGuiGl3  = new ImGuiImplGl3();
 
     public static ImFont codeFont;
+    public static ImFont japFont;
 
     @Getter
     protected static long handle;
@@ -107,6 +108,8 @@ public abstract class Window {
         ImGui.getIO().addConfigFlags(ImGuiConfigFlags.DockingEnable | ImGuiConfigFlags.ViewportsEnable);
         ImGui.getIO().getFonts().addFontFromFileTTF(Constants.IMGUI_DEFAULT_FONT_PATH, Constants.IMGUI_DEFAULT_FONT_SIZE);
         codeFont = ImGui.getIO().getFonts().addFontFromFileTTF("src/main/resources/fonts/CONSOLA.ttf", 14.f);
+        japFont = ImGui.getIO().getFonts().addFontFromFileTTF("src/main/resources/fonts/jap.ttf", 15.f);
+
     }
 
     private void initializeImGuiStyle() {

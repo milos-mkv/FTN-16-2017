@@ -24,6 +24,7 @@ public abstract class GUI {
         renderables.add(new ViewportDock());
         renderables.add(new ConsoleDock());
         renderables.add(new ScenePropertiesDock());
+        renderables.add(new SplashModal()   );
     }
 
     public static void render() {

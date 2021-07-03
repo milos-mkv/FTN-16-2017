@@ -1,10 +1,10 @@
 package utils;
 
+import org.joml.Matrix4f;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -22,6 +22,12 @@ public interface Utils {
             Logger.getGlobal().log(Level.WARNING, e.getMessage());
         }
         return stringBuilder != null ? stringBuilder.toString() : null;
+    }
+
+    static float[] matrix4x4ToFloatBuffer(Matrix4f matrix4f) {
+        var buffer = new float[16];
+        matrix4f.get(buffer);
+        return buffer;
     }
 
 }

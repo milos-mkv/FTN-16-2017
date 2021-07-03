@@ -1,0 +1,9 @@
+
+B
+java:S1444",Make this "public static shader" field final(Α¥γκ
+h
+java:S1104"RMake shader a static final constant or non-public and provide accessors if needed.(Α¥γκ
+P
+java:S1118	":Add a private constructor to hide the implicit public one.(Ό‚ƒ¶
+J
+java:S6212 "/Declare this local variable with "var" instead.(‹έπόÿÿÿÿ

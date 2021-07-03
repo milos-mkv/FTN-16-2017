@@ -33,6 +33,7 @@ public abstract class Grid {
     }
 
     public static void render() {
+
         glUseProgram(shader.getId());
         shader.setUniformMat4("view", Scene.getFPSCamera().getViewMatrix());
         shader.setUniformMat4("proj", Scene.getFPSCamera().getProjectionMatrix());

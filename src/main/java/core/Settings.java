@@ -1,12 +1,15 @@
 package core;
 
+import imgui.extension.imguizmo.flag.Operation;
 import imgui.type.ImBoolean;
 
-public interface Settings {
+public abstract class Settings {
 
-    ImBoolean ShowScenePropertiesDock = new ImBoolean(true);
-    ImBoolean ShowModelPropertiesDock = new ImBoolean(true);
-    ImBoolean ShowConsoleDock         = new ImBoolean(true);
+    public static ImBoolean ShowScenePropertiesDock = new ImBoolean(true);
+    public static ImBoolean ShowModelPropertiesDock = new ImBoolean(true);
+    public static ImBoolean ShowConsoleDock         = new ImBoolean(true);
+    public static ImBoolean ShowSplashModal         = new ImBoolean(false);
 
+    public static int CurrentGizmoMode = Operation.TRANSLATE;
 
 }

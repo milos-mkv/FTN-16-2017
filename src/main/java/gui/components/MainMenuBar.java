@@ -37,6 +37,9 @@ public class MainMenuBar implements Renderable {
                 openImportModelFailedDialog();
             }
             ImGui.separator();
+            if (ImGui.menuItem("Splash")) {
+                Settings.ShowSplashModal.set(true);
+            }
             if (ImGui.menuItem("Exit", "Ctrl+Q")) {
                 GLFW.glfwSetWindowShouldClose(Window.getHandle(), true);
             }
