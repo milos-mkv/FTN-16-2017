@@ -7,6 +7,8 @@ import org.joml.Vector3f;
 @Data
 public class Material {
 
+    private String name;
+
     private Vector3f ambientColor;
     private Vector3f diffuseColor;
     private Vector3f specularColor;

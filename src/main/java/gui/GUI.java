@@ -24,9 +24,10 @@ public abstract class GUI {
         renderables.add(new ViewportDock());
         renderables.add(new ConsoleDock());
         renderables.add(new ScenePropertiesDock());
-        renderables.add(new SplashModal()   );
-    }
+        renderables.add(new SplashModal());
+        renderables.add(new TexturePreviewDock());
 
+    }
     public static void render() {
         renderables.forEach(Renderable::render);
     }

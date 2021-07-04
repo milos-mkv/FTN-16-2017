@@ -1,5 +1,7 @@
 package gui;
 
+import core.Settings;
+import gfx.Texture;
 import imgui.ImGui;
 import imgui.flag.ImGuiCol;
 import imgui.flag.ImGuiStyleVar;
@@ -10,6 +12,7 @@ import managers.TextureManager;
 import org.joml.Vector3f;
 
 import java.util.Arrays;
+import java.util.Objects;
 
 public interface GUIComponents {
 
@@ -48,6 +51,7 @@ public interface GUIComponents {
     static void float3ControlXYZ(String label, Vector3f vec3, float min, float max) {
         float3ControlRGB(label, vec3, min, max, false);
     }
+
     static void float3ControlRGB(String label, Vector3f vec3, float min, float max) {
         float3ControlRGB(label, vec3, min, max, true);
     }
@@ -60,7 +64,6 @@ public interface GUIComponents {
         ImGui.pushID(label);
         ImGui.text(label);
         ImGui.pushStyleVar(ImGuiStyleVar.ItemSpacing, 0, 0);
-
         ImGui.pushStyleColor(ImGuiCol.Button, 0.8f, 0.1f, 0.15f, 1.0f);
         ImGui.pushStyleColor(ImGuiCol.ButtonHovered, 0.9f, 0.2f, 0.2f, 1.0f);
         ImGui.pushStyleColor(ImGuiCol.ButtonActive, 0.8f, 0.1f, 0.15f, 1.0f);
@@ -102,10 +105,40 @@ public interface GUIComponents {
     }
 
     static void float3ControlRGB(String label, Vector3f vec3, float min, float max, boolean rgb) {
-        var buffer = new float[] { vec3.x, vec3.y, vec3.z };
+        var buffer = new float[]{vec3.x, vec3.y, vec3.z};
         ImGui.text(label);
-        ImGui.colorEdit3("##"+label, buffer);
+        ImGui.setNextItemWidth(ImGui.getWindowWidth() - 50);
+        ImGui.colorEdit3("##" + label, buffer);
         vec3.set(buffer);
+    }
+
+    static float floatControl(String label, float value) {
+        var buffer = new float[]{value};
+        ImGui.text(label);
+        ImGui.setNextItemWidth(ImGui.getWindowWidth() - 50);
+        ImGui.dragFloat("##" + label, buffer);
+        return buffer[0];
+    }
+
+    static void displayTexture(String label, Texture texture) {
+        ImGui.image(Objects.requireNonNull(TextureManager.getTexture("src/main/resources/images/image.png")).getId(), 20, 20);
+        ImGui.sameLine();
+        if (ImGui.treeNode(label)) {
+            if (texture != null) {
+                if (ImGui.button("Change")) {
+
+                }
+                ImGui.sameLine();
+                if (ImGui.button("Flip")) {
+
+                }
+                ImGui.image(texture.getId(), ImGui.getWindowWidth() - 150, ImGui.getWindowWidth() - 150);
+            } else {
+                ImGui.button("Add texture");
+            }
+            ImGui.treePop();
+        }
+
     }
 
 

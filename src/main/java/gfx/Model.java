@@ -51,6 +51,7 @@ public class Model extends TransformComponent {
     private Texture getMaterialTexture(AIMaterial material, String texturesDir, int type) {
         var buffer = AIString.calloc();
         Assimp.aiGetMaterialTexture(material, type, 0, buffer, (IntBuffer) null, null, null, null, null, null);
+        System.out.println(buffer.dataString());
         if (!buffer.dataString().equals("")) {
             return TextureManager.getTexture(texturesDir + "/" + buffer.dataString());
         }
@@ -71,10 +72,14 @@ public class Model extends TransformComponent {
         material.setAmbientColor(getMaterialColor(aiMaterial, Assimp.AI_MATKEY_COLOR_AMBIENT));
         material.setDiffuseColor(getMaterialColor(aiMaterial, Assimp.AI_MATKEY_COLOR_DIFFUSE));
         material.setSpecularColor(getMaterialColor(aiMaterial, Assimp.AI_MATKEY_COLOR_SPECULAR));
+
         material.setShininess(1.0f);
         material.setDiffuseTexture(getMaterialTexture(aiMaterial, texturesDir, Assimp.aiTextureType_DIFFUSE));
         material.setSpecularTexture(getMaterialTexture(aiMaterial, texturesDir, Assimp.aiTextureType_SPECULAR));
-        material.setNormalTexture(getMaterialTexture(aiMaterial, texturesDir, Assimp.aiTextureType_NORMALS));
+        material.setNormalTexture(getMaterialTexture(aiMaterial, texturesDir, Assimp.aiTextureType_HEIGHT));
+        var buffer = AIString.calloc();
+        Assimp.aiGetMaterialString(aiMaterial, Assimp.AI_MATKEY_NAME, 0, 0, buffer);
+        material.setName(buffer.dataString());
         materials.add(material);
     }
 
@@ -90,7 +95,7 @@ public class Model extends TransformComponent {
 
     private Mesh processMesh(AIMesh mesh) {
         var vertices = new ArrayList<Vertex>();
-        var indices  = new ArrayList<Integer>();
+        var indices = new ArrayList<Integer>();
 
         for (var i = 0; i < mesh.mNumVertices(); i++) {
             var vertex = new Vertex();

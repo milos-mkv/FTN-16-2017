@@ -108,8 +108,8 @@ public class Main extends Application {
         Scene.getDirectionalLight().apply(Scene.getSceneShader());
         Scene.getSceneShader().setUniformMat4("view", Scene.getFPSCamera().getViewMatrix());
         Scene.getSceneShader().setUniformMat4("proj", Scene.getFPSCamera().getProjectionMatrix());
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, ShadowMapper.getDepthMap());
+//        glActiveTexture(GL_TEXTURE0);
+//        glBindTexture(GL_TEXTURE_2D, ShadowMapper.getDepthMap());
         Scene.getModels().forEach((key, value) -> value.draw(Scene.getSceneShader()));
 //
         glBindFramebuffer(GL_FRAMEBUFFER, 0);

@@ -17,7 +17,17 @@ public class Texture implements Disposable {
     @Getter
     private final int id;
 
+    @Getter
+    private final String path;
+
+    @Getter
+    private final int width;
+
+    @Getter
+    private final int height;
+
     public Texture(final String filePath) throws InvalidDocumentException {
+        path = filePath;
         try (var stack = MemoryStack.stackPush()) {
             IntBuffer width  = stack.mallocInt(1);
             IntBuffer height = stack.mallocInt(1);
@@ -28,6 +38,9 @@ public class Texture implements Disposable {
             if (data == null) {
                 throw new InvalidDocumentException("Failed to load image: " + filePath);
             }
+
+            this.width  = width.get();
+            this.height = height.get();
 
             int format;
             switch (noc.get(0)) {
