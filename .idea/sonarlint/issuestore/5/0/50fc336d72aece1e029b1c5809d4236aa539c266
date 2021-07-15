@@ -1,18 +1,11 @@
 
-H
-java:S1128"-Remove this unused import 'java.util.Arrays'.(î–˜Éüÿÿÿÿ
-G
-java:S1128
-",Remove this unused import 'managers.Logger'.(üÄÉÉûÿÿÿÿ
-@
-java:S1128"*Remove this unused import 'core.Settings'.(”øĞŠ
 J
-java:S6212<"/Declare this local variable with "var" instead.(‘½‰„ùÿÿÿÿ
+java:S6212:"/Declare this local variable with "var" instead.(‘½‰„ùÿÿÿÿ
 J
-java:S6212="/Declare this local variable with "var" instead.(†ĞÖ¨üÿÿÿÿ
+java:S6212;"/Declare this local variable with "var" instead.(†ĞÖ¨üÿÿÿÿ
 E
-java:S6212>"/Declare this local variable with "var" instead.(§šš
+java:S6212<"/Declare this local variable with "var" instead.(§šš
 A
-java:S1172k"&Remove these unused method parameters.(£‰’‹øÿÿÿÿ
-?	java:S108€")Either remove or fill this block of code.(˜Œöã
->	java:S108„")Either remove or fill this block of code.(òØı
+java:S1172i"&Remove these unused method parameters.(£‰’‹øÿÿÿÿ
+>	java:S108~")Either remove or fill this block of code.(˜Œöã
+>	java:S108‚")Either remove or fill this block of code.(òØı

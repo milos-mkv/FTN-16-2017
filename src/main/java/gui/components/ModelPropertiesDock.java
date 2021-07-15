@@ -21,9 +21,9 @@ public class ModelPropertiesDock implements Dock {
         var model = Scene.getModels().get(Scene.SelectedModel);
 
         if (ImGui.collapsingHeader("Transform Component")) {
-            float3Control("Position", model.getPosition(), 0, 0);
-            float3Control("Rotation", model.getRotation(), 0, 0);
-            float3Control("Scale", model.getScale(), 0, 0);
+            renderDragFloat3("Position", model.getPosition(), 0, 0);
+            renderDragFloat3("Rotation", model.getRotation(), -1, 1);
+            renderDragFloat3("Scale",    model.getScale(),    0, 0);
         }
 
         if(ImGui.collapsingHeader("Materials")) {

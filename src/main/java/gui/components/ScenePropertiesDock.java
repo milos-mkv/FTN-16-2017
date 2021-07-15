@@ -37,7 +37,7 @@ public class ScenePropertiesDock implements Dock {
             ImGui.colorPicker4("##ClearColor", Scene.ClearColor);
         }
         if (ImGui.collapsingHeader("Directional Light")) {
-            float3Control("Direction", Scene.getDirectionalLight().getDirection(), -1, 1);
+            renderDragFloat3("Direction", Scene.getDirectionalLight().getDirection(), -1, 1);
             float3ControlRGB("Ambient", Scene.getDirectionalLight().getAmbient(),0, 1);
             float3ControlRGB("Diffuse", Scene.getDirectionalLight().getDiffuse(), 0, 1);
             float3ControlRGB("Specular", Scene.getDirectionalLight().getSpecular(), 0, 1);

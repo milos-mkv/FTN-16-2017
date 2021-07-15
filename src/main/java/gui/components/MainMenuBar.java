@@ -77,7 +77,10 @@ public class MainMenuBar implements Renderable {
             NativeFileDialog.NFD_OpenDialog((CharSequence) null, null, pointerBuffer);
 
             var model = new Model(pointerBuffer.getStringASCII().replace("\\", "/"));
-            Scene.getModels().put("Model " + Scene.getModels().size(), model);
+            String key = "Model " + Scene.getModels().size();
+            Scene.getModels().put(key, model);
+            Scene.SelectedModel = key;
+
             Logger.log(Logger.Level.INFO, "Model successfully loaded: " + model.getPath());
         } catch (InvalidDocumentException e) {
             Logger.log(Logger.Level.ERROR, e.getMessage());

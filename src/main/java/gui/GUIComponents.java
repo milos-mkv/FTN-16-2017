@@ -1,17 +1,14 @@
 package gui;
 
-import core.Settings;
 import gfx.Texture;
 import imgui.ImGui;
 import imgui.flag.ImGuiCol;
 import imgui.flag.ImGuiStyleVar;
 import imgui.flag.ImGuiWindowFlags;
 import imgui.type.ImBoolean;
-import managers.Logger;
 import managers.TextureManager;
 import org.joml.Vector3f;
 
-import java.util.Arrays;
 import java.util.Objects;
 
 public interface GUIComponents {
@@ -26,6 +23,7 @@ public interface GUIComponents {
     static void renderDragFloat3(String text, Vector3f vec, float min, float max) {
         var buffer = new float[]{vec.x, vec.y, vec.z};
         ImGui.text(text);
+        ImGui.setNextItemWidth(ImGui.getColumnWidth());
         ImGui.dragFloat3("##" + text, buffer, 0.01f, min, max);
         vec.set(buffer);
     }
@@ -64,9 +62,9 @@ public interface GUIComponents {
         ImGui.pushID(label);
         ImGui.text(label);
         ImGui.pushStyleVar(ImGuiStyleVar.ItemSpacing, 0, 0);
-        ImGui.pushStyleColor(ImGuiCol.Button, 0.8f, 0.1f, 0.15f, 1.0f);
-        ImGui.pushStyleColor(ImGuiCol.ButtonHovered, 0.9f, 0.2f, 0.2f, 1.0f);
-        ImGui.pushStyleColor(ImGuiCol.ButtonActive, 0.8f, 0.1f, 0.15f, 1.0f);
+        ImGui.pushStyleColor(ImGuiCol.Button,        0.8f, 0.1f, 0.15f, 1.0f);
+        ImGui.pushStyleColor(ImGuiCol.ButtonHovered, 0.9f, 0.2f, 0.2f,  1.0f);
+        ImGui.pushStyleColor(ImGuiCol.ButtonActive,  0.8f, 0.1f, 0.15f, 1.0f);
 
         ImGui.button(" X ");
         ImGui.popStyleColor(3);
@@ -75,9 +73,9 @@ public interface GUIComponents {
         ImGui.pushItemWidth(ImGui.calcItemWidth() / 3);
         ImGui.dragFloat("##X", x, 0.01F, min, max);
 
-        ImGui.pushStyleColor(ImGuiCol.Button, 0.1f, 0.25f, 0.8f, 1.0f);
+        ImGui.pushStyleColor(ImGuiCol.Button,        0.1f, 0.25f, 0.8f, 1.0f);
         ImGui.pushStyleColor(ImGuiCol.ButtonHovered, 0.2f, 0.35f, 0.9f, 1.0f);
-        ImGui.pushStyleColor(ImGuiCol.ButtonActive, 0.1f, 0.25f, 0.8f, 1.0f);
+        ImGui.pushStyleColor(ImGuiCol.ButtonActive,  0.1f, 0.25f, 0.8f, 1.0f);
 
         ImGui.sameLine();
         ImGui.button(" Y ");
@@ -87,9 +85,9 @@ public interface GUIComponents {
         ImGui.dragFloat("##Y", y, 0.01F, min, max);
         ImGui.sameLine();
 
-        ImGui.pushStyleColor(ImGuiCol.Button, 0.2f, 0.7f, 0.2f, 1.0f);
+        ImGui.pushStyleColor(ImGuiCol.Button,        0.2f, 0.7f, 0.2f, 1.0f);
         ImGui.pushStyleColor(ImGuiCol.ButtonHovered, 0.3f, 0.8f, 0.3f, 1.0f);
-        ImGui.pushStyleColor(ImGuiCol.ButtonActive, 0.2f, 0.7f, 0.2f, 1.0f);
+        ImGui.pushStyleColor(ImGuiCol.ButtonActive,  0.2f, 0.7f, 0.2f, 1.0f);
 
         ImGui.button(" Z ");
         ImGui.popStyleColor(3);
@@ -107,7 +105,7 @@ public interface GUIComponents {
     static void float3ControlRGB(String label, Vector3f vec3, float min, float max, boolean rgb) {
         var buffer = new float[]{vec3.x, vec3.y, vec3.z};
         ImGui.text(label);
-        ImGui.setNextItemWidth(ImGui.getWindowWidth() - 50);
+        ImGui.setNextItemWidth(ImGui.getColumnWidth());
         ImGui.colorEdit3("##" + label, buffer);
         vec3.set(buffer);
     }
@@ -115,7 +113,7 @@ public interface GUIComponents {
     static float floatControl(String label, float value) {
         var buffer = new float[]{value};
         ImGui.text(label);
-        ImGui.setNextItemWidth(ImGui.getWindowWidth() - 50);
+        ImGui.setNextItemWidth(ImGui.getColumnWidth());
         ImGui.dragFloat("##" + label, buffer);
         return buffer[0];
     }

@@ -1,23 +1,24 @@
 
-j
-java:S20954"OUse try-with-resources or close this "GLFWErrorCallback" in a "finally" clause.(àâç”ûÿÿÿÿ
-C
-java:S1444".Make this "public static codeFont" field final(ÿþÖK
-H
-java:S1444"-Make this "public static japFont" field final(ï¡„úýÿÿÿÿ
-`	java:S1127"FDefine and throw a dedicated exception instead of using a generic one.(âÒË‘ýÿÿÿÿ
-`	java:S112G"FDefine and throw a dedicated exception instead of using a generic one.(Ë·ïÝÿÿÿÿÿ
-i
-java:S1104"TMake codeFont a static final constant or non-public and provide accessors if needed.(ÿþÖK
-n
-java:S1104"SMake japFont a static final constant or non-public and provide accessors if needed.(ï¡„úýÿÿÿÿ
-N
-java:S1128"8Remove this unused import 'imgui.flag.ImGuiMouseCursor'.(–‘ŒÞ
-S	java:S1064"9Replace this use of System.out or System.err by a logger.(àâç”ûÿÿÿÿ
-Q
-java:S2696D"6Make the enclosing method "static" or remove this set.(ßˆÀëþÿÿÿÿ
-Q	java:S125O"<This block of commented-out lines of code should be removed.(¬ÝÂÀ
+h
+java:S2095"OUse try-with-resources or close this "GLFWErrorCallback" in a "finally" clause.(àâç”ûÿÿÿÿ
+A
+java:S1444".Make this "public static codeFont" field final(ÿþÖK
+F
+java:S1444"-Make this "public static japFont" field final(ï¡„úýÿÿÿÿ
+^	java:S112"FDefine and throw a dedicated exception instead of using a generic one.(âÒË‘ýÿÿÿÿ
+^	java:S112"FDefine and throw a dedicated exception instead of using a generic one.(Ë·ïÝÿÿÿÿÿ
+g
+java:S1104"TMake codeFont a static final constant or non-public and provide accessors if needed.(ÿþÖK
+l
+java:S1104"SMake japFont a static final constant or non-public and provide accessors if needed.(ï¡„úýÿÿÿÿ
 L
-java:S2696q"6Make the enclosing method "static" or remove this set.(÷”Î¾
-Q
-java:S2696r"6Make the enclosing method "static" or remove this set.(“¥®Ðøÿÿÿÿ
+java:S1128"8Remove this unused import 'imgui.flag.ImGuiMouseCursor'.(–‘ŒÞ
+Q	java:S106"9Replace this use of System.out or System.err by a logger.(àâç”ûÿÿÿÿ
+O
+java:S2696"6Make the enclosing method "static" or remove this set.(ßˆÀëþÿÿÿÿ
+O	java:S125"<This block of commented-out lines of code should be removed.(¬ÝÂÀ
+J
+java:S2696"6Make the enclosing method "static" or remove this set.(÷”Î¾
+O
+java:S2696"6Make the enclosing method "static" or remove this set.(“¥®Ðøÿÿÿÿ
+O	java:S125"<This block of commented-out lines of code should be removed.(ÄÒ¨é

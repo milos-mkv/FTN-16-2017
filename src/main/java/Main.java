@@ -2,7 +2,6 @@ import core.Application;
 import core.Constants;
 import core.Scene;
 import gfx.Grid;
-import gfx.Shader;
 import gfx.ShadowMapper;
 import gfx.SkyBox;
 import gui.GUI;
@@ -10,7 +9,6 @@ import imgui.ImGui;
 import managers.TextureManager;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
-import org.lwjgl.opengl.GL32;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,10 +20,7 @@ import java.util.logging.SimpleFormatter;
 import static org.lwjgl.opengl.GL11C.*;
 import static org.lwjgl.opengl.GL13C.GL_MULTISAMPLE;
 import static org.lwjgl.opengl.GL20.glUseProgram;
-import static org.lwjgl.opengl.GL30.GL_FRAMEBUFFER_SRGB;
-import static org.lwjgl.opengl.GL30.glGenFramebuffers;
 import static org.lwjgl.opengl.GL30C.*;
-import static org.lwjgl.system.MemoryUtil.NULL;
 
 
 public class Main extends Application {
@@ -34,20 +29,17 @@ public class Main extends Application {
         launch(new Main());
     }
 
-
     @Override
     protected void onStart() {
-
-
-        InputStream stream = Main.class.getClassLoader().getResourceAsStream("logging.properties");
-        try {
-            LogManager.getLogManager().readConfiguration(stream);
-            var handler = new FileHandler("tmp.log");
-            Logger.getGlobal().addHandler(handler);
-            handler.setFormatter(new SimpleFormatter());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        InputStream stream = Main.class.getClassLoader().getResourceAsStream("logging.properties");
+//        try {
+//            LogManager.getLogManager().readConfiguration(stream);
+//            var handler = new FileHandler("tmp.log");
+//            Logger.getGlobal().addHandler(handler);
+////            handler.setFormatter(new SimpleFormatter());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
         Scene.initialize();
         SkyBox.initialize();
@@ -97,7 +89,7 @@ public class Main extends Application {
         glClearColor(Scene.ClearColor[0], Scene.ClearColor[1], Scene.ClearColor[2], Scene.ClearColor[3]);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-//        SkyBox.render();
+        SkyBox.render();
 
         Grid.render();
 

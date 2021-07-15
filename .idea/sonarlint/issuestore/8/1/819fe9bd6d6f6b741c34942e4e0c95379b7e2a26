@@ -1,11 +1,11 @@
 
 R
-java:S1128	"0Remove this unused import 'lombok.SneakyThrows'.(¨³üÖûÿÿÿÿ8Ô—‘ì¦/
-F
-java:S1128"0Remove this unused import 'org.lwjgl.glfw.GLFW'.(…îÂƒ
-œ
-java:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ÆÝ§Ÿúÿÿÿÿ
+java:S1128	"0Remove this unused import 'lombok.SneakyThrows'.(¨³üÖûÿÿÿÿ8Å¼Ìƒ©/
+M
+java:S1128"0Remove this unused import 'org.lwjgl.glfw.GLFW'.(…îÂƒ8Å¼Ìƒ©/
+£
+java:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(ÆÝ§Ÿúÿÿÿÿ8Ç¼Ìƒ©/
 a
-java:S21472"DCombine this catch with the one at line 48, which has the same body.(óûìœ8ª°‘ì¦/
+java:S21472"DCombine this catch with the one at line 48, which has the same body.(óûìœ8ã¼Ìƒ©/
 ^
-java:S1075/"ARefactor your code to get this URI from a customizable parameter.(ìÜÃè8«°‘ì¦/
+java:S1075/"ARefactor your code to get this URI from a customizable parameter.(ìÜÃè8ä¼Ìƒ©/

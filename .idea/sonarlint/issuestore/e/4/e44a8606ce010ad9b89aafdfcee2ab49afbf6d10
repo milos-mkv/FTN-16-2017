@@ -1,18 +1,0 @@
-
-f	java:S117H"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ˆæŒø
-f	java:S117H"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ˆæŒø
-a
-java:S1128"FRemove this unused import 'org.lwjgl.opengl.GL30.GL_FRAMEBUFFER_SRGB'.(·Ê­Øûÿÿÿÿ
-X
-java:S1128"=Remove this unused import 'org.lwjgl.system.MemoryUtil.NULL'.(ÌÐÚ¢øÿÿÿÿ
-H
-java:S1128"2Remove this unused import 'org.lwjgl.opengl.GL32'.(ÏîÇ¢
-=
-java:S1128"'Remove this unused import 'gfx.Shader'.(ºÌÊ³
-=
-java:S1659H"'Declare "far_plane" on a separate line.(ˆæŒø
-E
-java:S6212O"/Declare this local variable with "var" instead.(‚ƒáÖ
-V	java:S125d"<This block of commented-out lines of code should be removed.(Èü‹¾üÿÿÿÿ
-X	java:S125o"<This block of commented-out lines of code should be removed.(ˆ«ÊË8ìÛ³“§/
-X	java:S125z"<This block of commented-out lines of code should be removed.(›°ÇÁ8º²µè¦/

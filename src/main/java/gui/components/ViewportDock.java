@@ -1,5 +1,6 @@
 package gui.components;
 
+import core.Constants;
 import core.Scene;
 import core.Settings;
 import gui.Dock;
@@ -9,19 +10,22 @@ import imgui.extension.imguizmo.flag.Mode;
 import imgui.extension.imguizmo.flag.Operation;
 import imgui.flag.ImGuiStyleVar;
 import imgui.flag.ImGuiWindowFlags;
+import lombok.extern.java.Log;
 import managers.Logger;
 import managers.TextureManager;
 import org.joml.AxisAngle4f;
 import org.joml.Matrix4f;
+import org.joml.Vector3f;
 
 import java.util.Objects;
 
 import static utils.Utils.matrix4x4ToFloatBuffer;
 
+@Log
 public class ViewportDock implements Dock {
 
     @Override
-    public void render() {
+    public synchronized void render() {
         ImGui.pushStyleVar(ImGuiStyleVar.WindowPadding, 0, 0);
         ImGui.begin("Viewport", ImGuiWindowFlags.NoScrollbar);
 
@@ -30,21 +34,25 @@ public class ViewportDock implements Dock {
 
         manipulate();
 
+        var size = 20;
+
         ImGui.setCursorPos(10, 40);
-        if(ImGui.imageButton(Objects.requireNonNull(TextureManager.getTexture("src/main/resources/images/move.png")).getId(),
-                20, 20)) {
+        if (ImGui.imageButton(Objects.requireNonNull(TextureManager.getTexture(Constants.ICON_TRANSLATE)).getId(),
+                size, size)) {
             Settings.CurrentGizmoMode = Operation.TRANSLATE;
             Logger.log(Logger.Level.INFO, "Selected Translate Mode");
         }
+
         ImGui.setCursorPos(10, 70);
-        if(ImGui.imageButton(Objects.requireNonNull(TextureManager.getTexture("src/main/resources/images/scale.png")).getId(),
-                20, 20)) {
+        if (ImGui.imageButton(Objects.requireNonNull(TextureManager.getTexture(Constants.ICON_SCALE)).getId(),
+                size, size)) {
             Settings.CurrentGizmoMode = Operation.SCALE;
             Logger.log(Logger.Level.INFO, "Selected Scale Mode");
         }
+
         ImGui.setCursorPos(10, 100);
-        if(ImGui.imageButton(Objects.requireNonNull(TextureManager.getTexture("src/main/resources/images/rotation.png")).getId(),
-                20, 20)) {
+        if (ImGui.imageButton(Objects.requireNonNull(TextureManager.getTexture(Constants.ICON_ROTATE)).getId(),
+                size, size)) {
             Settings.CurrentGizmoMode = Operation.ROTATE;
             Logger.log(Logger.Level.INFO, "Selected Rotate Mode");
         }
@@ -55,26 +63,40 @@ public class ViewportDock implements Dock {
 
 
     private void manipulate() {
-        if (Scene.SelectedModel != null) {
-            ImGuizmo.setOrthographic(false);
-            ImGuizmo.setEnabled(true);
-            ImGuizmo.setDrawList();
+        if (Scene.SelectedModel == null) {
+            return;
+        }
 
-            ImGuizmo.setRect(ImGui.getWindowPos().x, ImGui.getWindowPos().y, ImGui.getWindowWidth(), ImGui.getWindowHeight());
+        ImGuizmo.setOrthographic(false);
+        ImGuizmo.setEnabled(true);
+        ImGuizmo.setDrawList();
+        ImGuizmo.setRect(ImGui.getWindowPosX(), ImGui.getWindowPosY(), ImGui.getWindowWidth(), ImGui.getWindowHeight());
 
-            var view = matrix4x4ToFloatBuffer(Scene.getFPSCamera().getViewMatrix());
-            var proj = matrix4x4ToFloatBuffer(Scene.getFPSCamera().getProjectionMatrix());
-            var transform = matrix4x4ToFloatBuffer(Scene.getModels().get(Scene.SelectedModel).getTransform());
+        var model       = Scene.getModels().get(Scene.SelectedModel);
+        var view        = matrix4x4ToFloatBuffer(Scene.getFPSCamera().getViewMatrix());
+        var proj        = matrix4x4ToFloatBuffer(Scene.getFPSCamera().getProjectionMatrix());
+        var transform   = matrix4x4ToFloatBuffer(model.getTransform());
 
-            ImGuizmo.manipulate(view, proj, transform, Settings.CurrentGizmoMode, Mode.WORLD);
+        ImGuizmo.manipulate(view, proj, transform, Settings.CurrentGizmoMode, Mode.WORLD);
 
-            if (ImGuizmo.isUsing()) {
-                Matrix4f calculatedMatrix = new Matrix4f().set(transform);
-                var rot = new AxisAngle4f();
-                calculatedMatrix.getRotation(rot);
-                calculatedMatrix.getTranslation(Scene.getModels().get(Scene.SelectedModel).getPosition());
-                calculatedMatrix.getScale(Scene.getModels().get(Scene.SelectedModel).getScale());
+        if (ImGuizmo.isUsing()) {
+            Matrix4f calculatedMatrix = new Matrix4f().set(transform);
+            switch (Settings.CurrentGizmoMode) {
+                case Operation.TRANSLATE:
+                    calculatedMatrix.getTranslation(model.getPosition());
+                    break;
+                case Operation.ROTATE:
+                    var rot = new AxisAngle4f();
+                    calculatedMatrix.getRotation(rot);
+                    model.setRotation(new Vector3f(rot.x, rot.y, rot.z));
+                    model.setRotationAngle(rot.angle);
+                    break;
+                case Operation.SCALE:
+                    calculatedMatrix.getScale(model.getScale());
+                    break;
+                default:
             }
+
         }
 
     }
