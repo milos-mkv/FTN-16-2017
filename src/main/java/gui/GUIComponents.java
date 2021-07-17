@@ -13,14 +13,14 @@ import java.util.Objects;
 
 public interface GUIComponents {
 
-    static void renderDragFloat3(String text, Vector3f vec) {
+    static void controlDragFloat3(String text, Vector3f vec) {
         var buffer = new float[]{vec.x, vec.y, vec.z};
         ImGui.text(text);
         ImGui.dragFloat3("##" + text, buffer, 0.01f);
         vec.set(buffer);
     }
 
-    static void renderDragFloat3(String text, Vector3f vec, float min, float max) {
+    static void controlDragFloat3(String text, Vector3f vec, float min, float max) {
         var buffer = new float[]{vec.x, vec.y, vec.z};
         ImGui.text(text);
         ImGui.setNextItemWidth(ImGui.getColumnWidth());
@@ -44,14 +44,6 @@ public interface GUIComponents {
             ImGui.popStyleColor();
             ImGui.endPopup();
         }
-    }
-
-    static void float3ControlXYZ(String label, Vector3f vec3, float min, float max) {
-        float3ControlRGB(label, vec3, min, max, false);
-    }
-
-    static void float3ControlRGB(String label, Vector3f vec3, float min, float max) {
-        float3ControlRGB(label, vec3, min, max, true);
     }
 
     static void float3Control(String label, Vector3f vec3, float min, float max) {
@@ -102,7 +94,7 @@ public interface GUIComponents {
 
     }
 
-    static void float3ControlRGB(String label, Vector3f vec3, float min, float max, boolean rgb) {
+    static void controlRGB(String label, Vector3f vec3) {
         var buffer = new float[]{vec3.x, vec3.y, vec3.z};
         ImGui.text(label);
         ImGui.setNextItemWidth(ImGui.getColumnWidth());
@@ -110,7 +102,7 @@ public interface GUIComponents {
         vec3.set(buffer);
     }
 
-    static float floatControl(String label, float value) {
+    static float controlDragFloat(String label, float value) {
         var buffer = new float[]{value};
         ImGui.text(label);
         ImGui.setNextItemWidth(ImGui.getColumnWidth());

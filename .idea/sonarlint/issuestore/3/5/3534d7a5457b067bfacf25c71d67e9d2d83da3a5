@@ -1,45 +1,48 @@
 
-Q
-java:S1444"=Make this "public static ShowScenePropertiesDock" field final(Ô…úª
-Q
-java:S1444"=Make this "public static ShowModelPropertiesDock" field final(ðúñ¸
-I
-java:S1444"5Make this "public static ShowConsoleDock" field final(œÈªÆ
-O
-java:S1444"5Make this "public static ShowSplashModal" field final(Žàæ,8ÿÛ‹ë¦/
-W
-java:S1444"<Make this "public static ShowTexturePreviewDock" field final(‚û·¦8üŽ”§/
-Q
-java:S1444"6Make this "public static TextureInPreview" field final(„ôÊ»8±•””§/
-J
-java:S1444"6Make this "public static CurrentGizmoMode" field final(”Ó÷º
-w
-java:S1104"cMake ShowScenePropertiesDock a static final constant or non-public and provide accessors if needed.(Ô…úª
-w
-java:S1104"cMake ShowModelPropertiesDock a static final constant or non-public and provide accessors if needed.(ðúñ¸
-o
-java:S1104"[Make ShowConsoleDock a static final constant or non-public and provide accessors if needed.(œÈªÆ
-u
-java:S1104"[Make ShowSplashModal a static final constant or non-public and provide accessors if needed.(Žàæ,8‚Ü‹ë¦/
-}
-java:S1104"bMake ShowTexturePreviewDock a static final constant or non-public and provide accessors if needed.(‚û·¦8€Ž”§/
-w
-java:S1104"\Make TextureInPreview a static final constant or non-public and provide accessors if needed.(„ôÊ»8µ•””§/
-p
-java:S1104"\Make CurrentGizmoMode a static final constant or non-public and provide accessors if needed.(”Ó÷º
-v
-java:S3008"bRename this field "ShowScenePropertiesDock" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ô…úª
-v
-java:S3008"bRename this field "ShowModelPropertiesDock" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ðúñ¸
-n
-java:S3008"ZRename this field "ShowConsoleDock" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(œÈªÆ
-t
-java:S3008"ZRename this field "ShowSplashModal" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Žàæ,8†Ü‹ë¦/
-|
-java:S3008"aRename this field "ShowTexturePreviewDock" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‚û·¦8‚Ž”§/
-v
-java:S3008"[Rename this field "TextureInPreview" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(„ôÊ»8·•””§/
-o
-java:S3008"[Rename this field "CurrentGizmoMode" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(”Ó÷º
 S
-java:S1118":Add a private constructor to hide the implicit public one.(î‘£Ÿüÿÿÿÿ
+java:S1444	"=Make this "public static ShowScenePropertiesDock" field final(Ô…úª
+S
+java:S1444
+"=Make this "public static ShowModelPropertiesDock" field final(ðúñ¸
+K
+java:S1444"5Make this "public static ShowConsoleDock" field final(œÈªÆ
+W
+java:S1444"5Make this "public static ShowSplashModal" field final(ìˆÕ‚þÿÿÿÿ8ÿÛ‹ë¦/
+Y
+java:S1444"<Make this "public static ShowTexturePreviewDock" field final(‚û·¦8üŽ”§/
+S
+java:S1444"6Make this "public static TextureInPreview" field final(„ôÊ»8±•””§/
+L
+java:S1444"6Make this "public static CurrentGizmoMode" field final(”Ó÷º
+y
+java:S1104	"cMake ShowScenePropertiesDock a static final constant or non-public and provide accessors if needed.(Ô…úª
+y
+java:S1104
+"cMake ShowModelPropertiesDock a static final constant or non-public and provide accessors if needed.(ðúñ¸
+q
+java:S1104"[Make ShowConsoleDock a static final constant or non-public and provide accessors if needed.(œÈªÆ
+}
+java:S1104"[Make ShowSplashModal a static final constant or non-public and provide accessors if needed.(ìˆÕ‚þÿÿÿÿ8‚Ü‹ë¦/
+
+java:S1104"bMake ShowTexturePreviewDock a static final constant or non-public and provide accessors if needed.(‚û·¦8€Ž”§/
+y
+java:S1104"\Make TextureInPreview a static final constant or non-public and provide accessors if needed.(„ôÊ»8µ•””§/
+r
+java:S1104"\Make CurrentGizmoMode a static final constant or non-public and provide accessors if needed.(”Ó÷º
+x
+java:S3008	"bRename this field "ShowScenePropertiesDock" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ô…úª
+x
+java:S3008
+"bRename this field "ShowModelPropertiesDock" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ðúñ¸
+p
+java:S3008"ZRename this field "ShowConsoleDock" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(œÈªÆ
+|
+java:S3008"ZRename this field "ShowSplashModal" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ìˆÕ‚þÿÿÿÿ8†Ü‹ë¦/
+~
+java:S3008"aRename this field "ShowTexturePreviewDock" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‚û·¦8‚Ž”§/
+x
+java:S3008"[Rename this field "TextureInPreview" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(„ôÊ»8·•””§/
+q
+java:S3008"[Rename this field "CurrentGizmoMode" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(”Ó÷º
+U
+java:S1118":Add a private constructor to hide the implicit public one.(î‘£Ÿüÿÿÿÿ

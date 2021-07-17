@@ -1,0 +1,11 @@
+
+f	java:S117@"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ˆæŒø
+f	java:S117@"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ˆæŒø
+Q	java:S125""<This block of commented-out lines of code should be removed.(ÑÃ½¨
+=
+java:S1659@"'Declare "far_plane" on a separate line.(ˆæŒø
+E
+java:S6212G"/Declare this local variable with "var" instead.(‚ƒáÖ
+]	java:S125\"<This block of commented-out lines of code should be removed.(Èü‹¾üÿÿÿÿ8Ø¹¾¤«/
+Q	java:S125g"<This block of commented-out lines of code should be removed.(ˆ«ÊË
+Q	java:S125r"<This block of commented-out lines of code should be removed.(›°ÇÁ

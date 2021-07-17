@@ -1,17 +1,17 @@
 
 I
-java:S1444"3Make this "public static SelectedModel" field final(ç’µÉ
+java:S1444"3Make this "public static SelectedModel" field final(ç’µÉ
 K
-java:S1444 "0Make this "public static ClearColor" field final(ô˜ûÿÿÿÿ
+java:S1444"0Make this "public static ClearColor" field final(ô˜ûÿÿÿÿ
 o
-java:S1104"YMake SelectedModel a static final constant or non-public and provide accessors if needed.(ç’µÉ
+java:S1104"YMake SelectedModel a static final constant or non-public and provide accessors if needed.(ç’µÉ
 q
-java:S1104 "VMake ClearColor a static final constant or non-public and provide accessors if needed.(ô˜ûÿÿÿÿ
+java:S1104"VMake ClearColor a static final constant or non-public and provide accessors if needed.(ô˜ûÿÿÿÿ
 j
-java:S3008"TRename this field "FPSCamera" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÕÆ»Ï
+java:S3008"TRename this field "FPSCamera" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ÕÆ»Ï
 n
-java:S3008"XRename this field "SelectedModel" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ç’µÉ
+java:S3008"XRename this field "SelectedModel" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ç’µÉ
 p
-java:S3008 "URename this field "ClearColor" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ô˜ûÿÿÿÿ
+java:S3008"URename this field "ClearColor" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ô˜ûÿÿÿÿ
 8
-java:S2386 "Make this member "protected".(ô˜ûÿÿÿÿ
+java:S2386"Make this member "protected".(ô˜ûÿÿÿÿ

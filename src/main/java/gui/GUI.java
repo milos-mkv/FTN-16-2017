@@ -1,13 +1,7 @@
 package gui;
 
-import imgui.ImGui;
-import imgui.ImGuiViewport;
-import imgui.ImVec2;
-import imgui.flag.ImGuiStyleVar;
-import imgui.flag.ImGuiWindowFlags;
-import imgui.type.ImBoolean;
-import utils.Renderable;
 import gui.components.*;
+import utils.Renderable;
 
 import java.util.ArrayList;
 import java.util.List;

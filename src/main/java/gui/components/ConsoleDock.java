@@ -1,5 +1,6 @@
 package gui.components;
 
+import core.Assets;
 import core.Settings;
 import core.Window;
 import gui.Dock;
@@ -16,7 +17,7 @@ public class ConsoleDock implements Dock {
         }
 
         ImGui.begin("Console", Settings.ShowConsoleDock, ImGuiWindowFlags.HorizontalScrollbar);
-        ImGui.pushFont(Window.codeFont);
+        ImGui.pushFont(Assets.Fonts.get("CODE_FONT"));
         Logger.getLogs().forEach(ImGui::text);
         ImGui.popFont();
         ImGui.end();

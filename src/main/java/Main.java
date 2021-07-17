@@ -89,7 +89,7 @@ public class Main extends Application {
         glClearColor(Scene.ClearColor[0], Scene.ClearColor[1], Scene.ClearColor[2], Scene.ClearColor[3]);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-        SkyBox.render();
+//        SkyBox.render();
 
         Grid.render();
 

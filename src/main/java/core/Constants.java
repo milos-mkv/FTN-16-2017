@@ -9,9 +9,16 @@ public abstract class Constants {
 
     private Constants() {}
 
-    public static final String IMGUI_DEFAULT_FONT_PATH = "src/main/resources/fonts/font.ttf";
-    public static final float IMGUI_DEFAULT_FONT_SIZE = 21.0F;
-    public static final int WINDOW_DEFAULT_WIDTH = 1280;
+    public static final String GITHUB_URL = "https://github.com/milos-mkv/FTN-16-2017";
+    public static final String SPLASH_IMAGE_PATH = "src/main/resources/images/test1.jpg";
+    public static final String DEFAULT_FONT_PATH = "src/main/resources/fonts/font.ttf";
+    public static final float DEFAULT_FONT_SIZE = 21.0F;
+    public static final String CODE_FONT_PATH = "src/main/resources/fonts/CONSOLA.ttf";
+    public static final float CODE_FONT_SIZE = 14.0F;
+    public static final String JAPANESE_FONT_PATH = "src/main/resources/fonts/CONSOLA.ttf";
+    public static final float JAPANESE_FONT_SIZE = 19.0F;
+
+    public static final int WINDOW_DEFAULT_WIDTH = 1480;
     public static final int WINDOW_DEFAULT_HEIGHT = 768;
     public static final String DEFAULT_SCENE_VERTEX_SHADER_PATH = "src/main/resources/shaders/shader.vert";
     public static final String DEFAULT_SCENE_FRAGMENT_SHADER_PATH = "src/main/resources/shaders/shader.frag";
