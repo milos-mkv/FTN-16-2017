@@ -1,5 +1,6 @@
 package gfx;
 
+import core.Scene;
 import utils.Disposable;
 import lombok.Data;
 import org.lwjgl.system.MemoryUtil;
@@ -11,6 +12,7 @@ import java.util.List;
 import static org.lwjgl.opengl.GL15.glGenBuffers;
 import static org.lwjgl.opengl.GL15C.glDeleteBuffers;
 import static org.lwjgl.opengl.GL30C.*;
+import static org.lwjgl.opengl.GL41.glProgramUniform1i;
 
 @Data
 public class Mesh implements Disposable {
@@ -84,7 +86,7 @@ public class Mesh implements Disposable {
         shader.setUniformFloat("material.shniness", material.getShininess());
 
         if(material.getDiffuseTexture() != null) {
-            glActiveTexture(GL_TEXTURE0);
+            glActiveTexture(GL_TEXTURE1);
             glBindTexture(GL_TEXTURE_2D, material.getDiffuseTexture().getId());
             shader.setUniformBoolean("isDiffuseTextureSet", 1);
         } else {

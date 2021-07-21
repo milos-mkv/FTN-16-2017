@@ -41,8 +41,6 @@ e
 5src/main/java/gui/components/ModelPropertiesDock.java,d\7\d7d4ecd9c04c959f5c981be135e3236ced0452b7
 T
 $src/main/java/utils/TextureType.java,4\4\4469feeec47fa42c0f8731ae29309ff6cf620ecf
-N
-src/main/java/gfx/Texture.java,1\5\15ff9e8b094ac8bcb53dd6ad978d7c7e74154f7d
 ]
 -src/main/java/gui/components/MainMenuBar.java,9\5\953886c6f484c5eac2da3d44fc26245eba80bf1d
 T
@@ -58,5 +56,3 @@ X
 :
 
 .gitignore,a\5\a5cc2925ca8258af241be7e5b0381edf30266302
-M
-src/main/java/core/Scene.java,6\b\6bba91d13d25b3527ce6890c61328381b6daa980

@@ -14,6 +14,7 @@ import static org.lwjgl.opengl.GL11C.*;
 import static org.lwjgl.opengl.GL13C.GL_MULTISAMPLE;
 import static org.lwjgl.opengl.GL20.glUseProgram;
 import static org.lwjgl.opengl.GL30C.*;
+import static org.lwjgl.opengl.GL41.glProgramUniform1i;
 
 
 public class Main extends Application {
@@ -75,12 +76,21 @@ public class Main extends Application {
         glUseProgram(Scene.getSceneShader().getId());
         Scene.getSceneShader().setUniformMat4("lightSpaceMatrix", lightSpaceMatrix);
 
-        Scene.getSceneShader().setUniformVec3("lightPos", new Vector3f(-1.f, 4.f, -2.f));
+
+
+        Scene.getSceneShader().setUniformVec3("lightPos", new Vector3f().set(Scene.getDirectionalLight().getDirection()).mul(-1));
         Scene.getSceneShader().setUniformVec3("viewPos", Scene.getFPSCamera().getPosition());
         Scene.getDirectionalLight().apply(Scene.getSceneShader());
         Scene.getSceneShader().setUniformMat4("view", Scene.getFPSCamera().getViewMatrix());
         Scene.getSceneShader().setUniformMat4("proj", Scene.getFPSCamera().getProjectionMatrix());
-        glActiveTexture(GL_TEXTURE1);
+
+//        int th1 = glGetUniformLocation( Scene.getSceneShader().getId(), "shadowMap");
+//        int th2 = glGetUniformLocation( Scene.getSceneShader().getId(), "diffuseTexture");
+//        glUniform1i(th1, 0);
+//        glUniform1i(th2, 1);
+        Scene.getSceneShader().setUniformInt("shadowMap", 0);
+        Scene.getSceneShader().setUniformInt("diffuseTexture", 1);
+        glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, ShadowMap.getDepthMap());
         Scene.getModels().forEach((key, value) -> value.draw(Scene.getSceneShader()));
 
