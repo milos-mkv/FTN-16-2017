@@ -8,7 +8,7 @@ import core.Window;
 import exceptions.InvalidDocumentException;
 import gfx.Model;
 import imgui.ImGui;
-import managers.Logger;
+import managers.Console;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.PointerBuffer;
 import org.lwjgl.glfw.GLFW;
@@ -81,9 +81,9 @@ public class MainMenuBar implements Renderable {
             Scene.getModels().put(key, model);
             Scene.SelectedModel = key;
 
-            Logger.log(Logger.Level.INFO, "Model successfully loaded: " + model.getPath());
+            Console.log(Console.Level.INFO, "Model successfully loaded: " + model.getPath());
         } catch (InvalidDocumentException e) {
-            Logger.log(Logger.Level.ERROR, e.getMessage());
+            Console.log(Console.Level.ERROR, e.getMessage());
         } catch (Exception e) { }
     }
 

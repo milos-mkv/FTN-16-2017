@@ -11,7 +11,7 @@ import imgui.extension.imguizmo.flag.Operation;
 import imgui.flag.ImGuiStyleVar;
 import imgui.flag.ImGuiWindowFlags;
 import lombok.extern.java.Log;
-import managers.Logger;
+import managers.Console;
 import managers.TextureManager;
 import org.joml.AxisAngle4f;
 import org.joml.Matrix4f;
@@ -40,21 +40,21 @@ public class ViewportDock implements Dock {
         if (ImGui.imageButton(Objects.requireNonNull(TextureManager.getTexture(Constants.ICON_TRANSLATE)).getId(),
                 size, size)) {
             Settings.CurrentGizmoMode = Operation.TRANSLATE;
-            Logger.log(Logger.Level.INFO, "Selected Translate Mode");
+            Console.log(Console.Level.INFO, "Selected Translate Mode");
         }
 
         ImGui.setCursorPos(10, 70);
         if (ImGui.imageButton(Objects.requireNonNull(TextureManager.getTexture(Constants.ICON_SCALE)).getId(),
                 size, size)) {
             Settings.CurrentGizmoMode = Operation.SCALE;
-            Logger.log(Logger.Level.INFO, "Selected Scale Mode");
+            Console.log(Console.Level.INFO, "Selected Scale Mode");
         }
 
         ImGui.setCursorPos(10, 100);
         if (ImGui.imageButton(Objects.requireNonNull(TextureManager.getTexture(Constants.ICON_ROTATE)).getId(),
                 size, size)) {
             Settings.CurrentGizmoMode = Operation.ROTATE;
-            Logger.log(Logger.Level.INFO, "Selected Rotate Mode");
+            Console.log(Console.Level.INFO, "Selected Rotate Mode");
         }
 
         ImGui.end();

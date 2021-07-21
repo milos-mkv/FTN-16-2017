@@ -7,14 +7,14 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Logger {
+public abstract class Console {
 
     public enum Level { INFO, ERROR, WARNING }
 
     @Getter
     private static final List<String> logs = new ArrayList<>();
 
-    private Logger() { }
+    private Console() { }
 
     public static void log(Level level, String message) {
         var stringBuilder = new StringBuilder().append(getTime());

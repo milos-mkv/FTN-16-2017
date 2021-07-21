@@ -1,6 +1,7 @@
 package gui.components;
 
 import core.Settings;
+import gfx.ShadowMap;
 import gui.Dock;
 import imgui.ImGui;
 import imgui.flag.ImGuiWindowFlags;
@@ -15,10 +16,8 @@ public class TexturePreviewDock implements Dock {
             return;
         }
 
-        ImGui.begin("Texture preview", Settings.ShowTexturePreviewDock, ImGuiWindowFlags.NoDocking | ImGuiWindowFlags.NoCollapse);
-        if(Settings.TextureInPreview != null) {
-            ImGui.image(Settings.TextureInPreview.getId(), Settings.TextureInPreview.getWidth(), Settings.TextureInPreview.getHeight());
-        }
+        ImGui.begin("Texture preview", Settings.ShowTexturePreviewDock);
+            ImGui.image(ShadowMap.getDepthMap(), 300, 300, 0, 1, 1, 0);
         ImGui.end();
     }
 

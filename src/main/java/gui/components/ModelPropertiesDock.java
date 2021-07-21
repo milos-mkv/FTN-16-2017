@@ -7,6 +7,8 @@ import gfx.Texture;
 import gui.Dock;
 import imgui.ImGui;
 import imgui.flag.ImGuiStyleVar;
+import managers.TextureManager;
+import utils.TextureType;
 
 import static gui.GUIComponents.*;
 
@@ -14,7 +16,7 @@ public class ModelPropertiesDock implements Dock {
 
     @Override
     public void render() {
-        if(!Settings.ShowModelPropertiesDock.get()) {
+        if (!Settings.ShowModelPropertiesDock.get()) {
             return;
         }
 
@@ -22,12 +24,12 @@ public class ModelPropertiesDock implements Dock {
         var model = Scene.getSelectedModel();
 
         if (model != null && ImGui.collapsingHeader("Transform Component")) {
-            controlDragFloat3("Position", model.getPosition(),  0, 0);
-            controlDragFloat3("Rotation", model.getRotation(),  0, 0);
-            controlDragFloat3("Scale",    model.getScale(),     0, 0);
+            controlDragFloat3("Position", model.getPosition(), 0, 0);
+            controlDragFloat3("Rotation", model.getRotation(), 0, 0);
+            controlDragFloat3("Scale", model.getScale(), 0, 0);
         }
 
-        if(model != null && ImGui.collapsingHeader("Materials")) {
+        if (model != null && ImGui.collapsingHeader("Materials")) {
             model.getMaterials().forEach(this::renderMaterial);
         }
 
@@ -35,7 +37,7 @@ public class ModelPropertiesDock implements Dock {
     }
 
     private void renderMaterial(Material material) {
-        if(ImGui.treeNode(material.getName())) {
+        if (ImGui.treeNode(material.getName())) {
 
             controlRGB("Ambient Color", material.getAmbientColor());
             controlRGB("Diffuse Color", material.getDiffuseColor());
@@ -44,26 +46,41 @@ public class ModelPropertiesDock implements Dock {
             material.setShininess(controlDragFloat("Shininess", material.getShininess()));
             material.setReflectance(controlDragFloat("Reflectance", material.getReflectance()));
 
-            renderTextureComponent("Diffuse Texture", material.getDiffuseTexture());
-            renderTextureComponent("Specular Texture", material.getSpecularTexture());
-            renderTextureComponent("Normal Texture", material.getNormalTexture());
+            ImGui.text("Textures");
+
+            renderTextureComponent("Diffuse Texture", material, TextureType.DIFFUSE);
+            renderTextureComponent("Specular Texture", material, TextureType.SPECULAR);
+            renderTextureComponent("Normal Texture", material, TextureType.NORMAL);
 
             ImGui.treePop();
         }
     }
 
-    private void renderTextureComponent(String label, Texture texture) {
+    private void renderTextureComponent(String label, Material material, TextureType textureType) {
         ImGui.pushStyleVar(ImGuiStyleVar.IndentSpacing, 0.0f);
-        if(texture == null) {
-            if(ImGui.button("Load " + label, ImGui.getColumnWidth(), 26)) {
-                // TODO
-            }
+        Texture texture = null;
+        switch (textureType) {
+            case DIFFUSE:
+                texture = material.getDiffuseTexture();
+                break;
+            case SPECULAR:
+                texture = material.getSpecularTexture();
+                break;
+            case NORMAL:
+                texture = material.getNormalTexture();
+                break;
+            default:
+                break;
         }
-        else if(ImGui.treeNode(label)) {
+        if (texture == null) {
+            if (ImGui.button("Load " + label, ImGui.getColumnWidth(), 26)) {
+                loadTextureForModel(material, textureType);
+            }
+        } else if (ImGui.treeNode(label)) {
             ImGui.textDisabled(texture.getPath());
             ImGui.image(texture.getId(), 300, 300);
-            if(ImGui.button("Change " + label, 300, 26)) {
-                // TODO
+            if (ImGui.button("Change " + label, 300, 26)) {
+                loadTextureForModel(material, textureType);
             }
             ImGui.treePop();
         }
@@ -71,4 +88,27 @@ public class ModelPropertiesDock implements Dock {
 
     }
 
+    private void loadTextureForModel(Material material, TextureType textureType) {
+        String path = controlOpenFileDialog();
+        if (path == null) {
+            return;
+        }
+        var texture = TextureManager.getTexture(path);
+        if(texture == null) {
+            return;
+        }
+        switch (textureType) {
+            case DIFFUSE:
+                material.setDiffuseTexture(texture);
+                break;
+            case SPECULAR:
+                material.setSpecularTexture(texture);
+                break;
+            case NORMAL:
+                material.setNormalTexture(texture);
+                break;
+            default:
+                break;
+        }
+    }
 }

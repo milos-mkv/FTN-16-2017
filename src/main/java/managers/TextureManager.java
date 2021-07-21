@@ -16,7 +16,7 @@ public abstract class TextureManager {
 
     public static Texture getTexture(String path) {
         for (var entry : textures.entrySet()) {
-            if(entry.getKey().equals(path)) {
+            if (entry.getKey().equals(path)) {
                 return textures.get(entry.getKey());
             }
         }
@@ -31,11 +31,7 @@ public abstract class TextureManager {
     }
 
     public static void dispose() {
-        for(var entry : textures.entrySet()) {
-            if(textures.get(entry.getKey()) != null) {
-                textures.get(entry.getKey()).dispose();
-            }
-        }
+        textures.forEach((key, value) -> { if(value != null) { value.dispose(); } });
     }
 
 }

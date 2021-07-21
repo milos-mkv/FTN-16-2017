@@ -13,8 +13,8 @@ public abstract class Constants {
     public static final String SPLASH_IMAGE_PATH = "src/main/resources/images/test1.jpg";
     public static final String DEFAULT_FONT_PATH = "src/main/resources/fonts/font.ttf";
     public static final float DEFAULT_FONT_SIZE = 21.0F;
-    public static final String CODE_FONT_PATH = "src/main/resources/fonts/CONSOLA.ttf";
-    public static final float CODE_FONT_SIZE = 14.0F;
+    public static final String CONSOLE_FONT_PATH = "src/main/resources/fonts/CONSOLA.ttf";
+    public static final float CONSOLE_FONT_SIZE = 14.0F;
     public static final String JAPANESE_FONT_PATH = "src/main/resources/fonts/CONSOLA.ttf";
     public static final float JAPANESE_FONT_SIZE = 19.0F;
 

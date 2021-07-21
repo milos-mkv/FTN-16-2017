@@ -44,7 +44,7 @@ public abstract class Scene {
 
         frameBuffer = new FrameBuffer(Constants.WINDOW_DEFAULT_WIDTH, Constants.WINDOW_DEFAULT_HEIGHT);
         FPSCamera = new FirstPersonCameraController(Constants.FPS_CAMERA_DEFAULT_FOV, Constants.FPS_CAMERA_DEFAULT_ASPECT, Constants.FPS_CAMERA_DEFAULT_NEAR, Constants.FPS_CAMERA_DEFAULT_FAR);
-        directionalLight = new DirectionalLight(new Vector3f(1.f, -4.f, 2.f), new Vector3f(0.1f, 0.1f, 0.1f), new Vector3f(1.0f, 1.0f, 1.0f), new Vector3f(0.4f, 0.4f, 0.4f));
+        directionalLight = new DirectionalLight(new Vector3f(-1.f, -1.f, -1.f), new Vector3f(0.1f, 0.1f, 0.1f), new Vector3f(1.0f, 1.0f, 1.0f), new Vector3f(0.4f, 0.4f, 0.4f));
         models = new LinkedHashMap<>();
         FPSCamera.getPosition().set(0, 1, 4);
         FPSCamera.updateCamera();

@@ -2,20 +2,13 @@ import core.Application;
 import core.Constants;
 import core.Scene;
 import gfx.Grid;
-import gfx.ShadowMapper;
+import gfx.ShadowMap;
 import gfx.SkyBox;
 import gui.GUI;
 import imgui.ImGui;
 import managers.TextureManager;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.logging.FileHandler;
-import java.util.logging.LogManager;
-import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
 
 import static org.lwjgl.opengl.GL11C.*;
 import static org.lwjgl.opengl.GL13C.GL_MULTISAMPLE;
@@ -31,16 +24,6 @@ public class Main extends Application {
 
     @Override
     protected void onStart() {
-//        InputStream stream = Main.class.getClassLoader().getResourceAsStream("logging.properties");
-//        try {
-//            LogManager.getLogManager().readConfiguration(stream);
-//            var handler = new FileHandler("tmp.log");
-//            Logger.getGlobal().addHandler(handler);
-////            handler.setFormatter(new SimpleFormatter());
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-
         Scene.initialize();
         SkyBox.initialize();
         Grid.initialize();
@@ -49,9 +32,7 @@ public class Main extends Application {
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         GUI.initialize();
-
-        ShadowMapper.initialize();
-
+        ShadowMap.initialize();
     }
 
     @Override
@@ -59,29 +40,27 @@ public class Main extends Application {
         if (ImGui.isMouseDown(1)) {
             Scene.getFPSCamera().updateController(delta);
         }
-        glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-        float near_plane = 1.0f, far_plane = 7.5f;
-        var lightProjection = new Matrix4f().ortho(-20.0f, 20.f, -20.0f, 20.0f, near_plane, far_plane);
-        var lightView = new Matrix4f().lookAt(
-                new Vector3f(-1.f, 4.f, -2.f),
-                new Vector3f(0.0f, 0.0f, 0.0f),
-                new Vector3f(0.0f, 1.0f, 0.0f));
 
-        Matrix4f lightSpaceMatrix = new Matrix4f();
-        lightSpaceMatrix.set(lightProjection).mul(lightView);
+        glBindFramebuffer(GL_FRAMEBUFFER, ShadowMap.getDepthMapFBO());
+        glViewport(0, 0, ShadowMap.SHADOW_WIDTH, ShadowMap.SHADOW_HEIGHT);
 
-
-        glUseProgram(ShadowMapper.shader.getId());
-        ShadowMapper.shader.setUniformMat4("lightSpaceMatrix", lightSpaceMatrix);
-
-
-        glViewport(0, 0, ShadowMapper.SHADOW_WIDTH, ShadowMapper.SHADOW_HEIGHT);
-        glBindFramebuffer(GL_FRAMEBUFFER, ShadowMapper.getDepthMapFBO());
         glClear(GL_DEPTH_BUFFER_BIT);
-        glCullFace(GL_FRONT);
-        Scene.getModels().forEach((key, value) -> value.draw(ShadowMapper.shader));
-        glCullFace(GL_BACK);
+        glUseProgram(ShadowMap.shader.getId());
+
+        float lightAngleX = (float) Math.toDegrees(Math.acos(Scene.getDirectionalLight().getDirection().z));
+        float lightAngleY = (float) Math.toDegrees(Math.asin(Scene.getDirectionalLight().getDirection().x));
+        float lightAngleZ = 0; // new Vector3f(lightAngleX, lightAngleY, lightAngleZ)
+        Matrix4f lightViewMatrix = new Matrix4f().lookAt(
+            new Vector3f().set(Scene.getDirectionalLight().getDirection()).mul(-1), new Vector3f(0, 0, 0), new Vector3f(0, 1, 0)
+        );
+        var projection = new Matrix4f().ortho(-20.0f, 20.f, -20.0f, 20.0f, -20.f, 20.f);
+
+        var lightSpaceMatrix = new Matrix4f().set(projection).mul(lightViewMatrix);
+
+        ShadowMap.shader.setUniformMat4("orthoProjectionMatrix", lightSpaceMatrix);
+
+        Scene.getModels().forEach((key, value) -> value.draw(ShadowMap.shader));
+
 
         glViewport(0, 0, Constants.WINDOW_DEFAULT_WIDTH, Constants.WINDOW_DEFAULT_HEIGHT);
 
@@ -95,15 +74,16 @@ public class Main extends Application {
 
         glUseProgram(Scene.getSceneShader().getId());
         Scene.getSceneShader().setUniformMat4("lightSpaceMatrix", lightSpaceMatrix);
+
         Scene.getSceneShader().setUniformVec3("lightPos", new Vector3f(-1.f, 4.f, -2.f));
         Scene.getSceneShader().setUniformVec3("viewPos", Scene.getFPSCamera().getPosition());
         Scene.getDirectionalLight().apply(Scene.getSceneShader());
         Scene.getSceneShader().setUniformMat4("view", Scene.getFPSCamera().getViewMatrix());
         Scene.getSceneShader().setUniformMat4("proj", Scene.getFPSCamera().getProjectionMatrix());
-//        glActiveTexture(GL_TEXTURE0);
-//        glBindTexture(GL_TEXTURE_2D, ShadowMapper.getDepthMap());
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, ShadowMap.getDepthMap());
         Scene.getModels().forEach((key, value) -> value.draw(Scene.getSceneShader()));
-//
+
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
     }
 

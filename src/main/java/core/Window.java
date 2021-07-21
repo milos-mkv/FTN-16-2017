@@ -8,7 +8,6 @@ import imgui.flag.ImGuiCol;
 import imgui.flag.ImGuiConfigFlags;
 import imgui.gl3.ImGuiImplGl3;
 import imgui.glfw.ImGuiImplGlfw;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.joml.Vector4f;
 import org.lwjgl.glfw.Callbacks;
@@ -94,8 +93,8 @@ public abstract class Window {
             "DEFAULT_FONT",
             ImGui.getIO().getFonts().addFontFromFileTTF(Constants.DEFAULT_FONT_PATH, Constants.DEFAULT_FONT_SIZE));
         Assets.Fonts.put(
-            "CODE_FONT",
-            ImGui.getIO().getFonts().addFontFromFileTTF(Constants.CODE_FONT_PATH, Constants.CODE_FONT_SIZE));
+            "CONSOLE_FONT",
+            ImGui.getIO().getFonts().addFontFromFileTTF(Constants.CONSOLE_FONT_PATH, Constants.CONSOLE_FONT_SIZE));
         Assets.Fonts.put(
             "SPLASH_FONT",
             ImGui.getIO().getFonts().addFontFromFileTTF(Constants.JAPANESE_FONT_PATH, Constants.JAPANESE_FONT_SIZE));
