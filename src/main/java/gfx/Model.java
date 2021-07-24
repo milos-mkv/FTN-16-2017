@@ -51,7 +51,6 @@ public class Model extends TransformComponent {
     private Texture getMaterialTexture(AIMaterial material, String texturesDir, int type) {
         var buffer = AIString.calloc();
         Assimp.aiGetMaterialTexture(material, type, 0, buffer, (IntBuffer) null, null, null, null, null, null);
-        System.out.println(buffer.dataString());
         if (!buffer.dataString().equals("")) {
             return TextureManager.getTexture(texturesDir + "/" + buffer.dataString());
         }

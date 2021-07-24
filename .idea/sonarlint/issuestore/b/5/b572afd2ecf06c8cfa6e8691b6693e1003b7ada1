@@ -4,3 +4,4 @@ java:S20952"OUse try-with-resources or close this "GLFWErrorCallback" in a "fin
 `	java:S1125"FDefine and throw a dedicated exception instead of using a generic one.(âÒË‘ýÿÿÿÿ
 `	java:S112F"FDefine and throw a dedicated exception instead of using a generic one.(Ë·ïÝÿÿÿÿÿ
 S	java:S1062"9Replace this use of System.out or System.err by a logger.(àâç”ûÿÿÿÿ
+X	java:S125N"<This block of commented-out lines of code should be removed.(¬ÝÂÀ8ÇòÕõ¬/

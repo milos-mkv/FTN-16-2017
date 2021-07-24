@@ -1,6 +1,7 @@
 import core.Application;
 import core.Constants;
 import core.Scene;
+import core.Settings;
 import gfx.Grid;
 import gfx.ShadowMap;
 import gfx.SkyBox;
@@ -69,10 +70,12 @@ public class Main extends Application {
         glClearColor(Scene.ClearColor[0], Scene.ClearColor[1], Scene.ClearColor[2], Scene.ClearColor[3]);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-//        SkyBox.render();
-
-        Grid.render();
-
+        if(Settings.ToggleSkyBox) {
+            SkyBox.render();
+        }
+        if(Settings.ToggleGrid) {
+            Grid.render();
+        }
         glUseProgram(Scene.getSceneShader().getId());
         Scene.getSceneShader().setUniformMat4("lightSpaceMatrix", lightSpaceMatrix);
 

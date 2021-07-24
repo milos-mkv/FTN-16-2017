@@ -1,6 +1,4 @@
 
-h
-8src/main/java/exceptions/OpenGLFramebufferException.java,0\f\0fbc328afe761a9e122002c981d854ae5e353a99
 R
 "src/main/java/gfx/FrameBuffer.java,8\5\85a115caf3dabab82da5bec2360e3b9c07313e63
 L
@@ -33,16 +31,12 @@ J
 src/main/java/gui/GUI.java,7\9\792c28e7d81805c4cfeb10ee4256caafb9f71a0e
 c
 3src/main/java/core/callbacks/CursorPosCallback.java,1\a\1aa44877f6ad89af932e71ab2905294d5635a6e4
-N
-src/main/java/core/Window.java,b\5\b572afd2ecf06c8cfa6e8691b6693e1003b7ada1
 ]
 -src/main/java/gui/components/ConsoleDock.java,1\f\1f755d4c333888f6455fd07392249c312993a967
 e
 5src/main/java/gui/components/ModelPropertiesDock.java,d\7\d7d4ecd9c04c959f5c981be135e3236ced0452b7
 T
 $src/main/java/utils/TextureType.java,4\4\4469feeec47fa42c0f8731ae29309ff6cf620ecf
-]
--src/main/java/gui/components/MainMenuBar.java,9\5\953886c6f484c5eac2da3d44fc26245eba80bf1d
 T
 $src/main/java/gui/GUIComponents.java,5\0\50fc336d72aece1e029b1c5809d4236aa539c266
 Z
@@ -56,3 +50,35 @@ X
 :
 
 .gitignore,a\5\a5cc2925ca8258af241be7e5b0381edf30266302
+d
+4src/main/java/gui/components/TexturePreviewDock.java,b\0\b0fbb1ac37ac3c97048585fef45d3e4fa7d25888
+^
+.src/main/java/gui/components/ViewportDock.java,8\b\8bdbab70849587cf07925555855e30357b26c233
+e
+5src/main/java/core/callbacks/MouseButtonCallback.java,e\8\e8ecc115a69da1f795f8dfec6a4f48f65837aa66
+Q
+!src/main/java/core/Constants.java,1\a\1acb18931c0e7bfa7fe7928d1905eb65520604e3
+N
+src/main/java/core/Assets.java,1\f\1fce0bba806cf55ce5a812497960579b6341e68b
+S
+#src/main/java/core/Application.java,f\2\f2d179b47b21c2af18f26777cf9a9eb5a1af6584
+P
+ src/main/java/gfx/ShadowMap.java,6\a\6a891099d14e61378fc8191d7c18253e1be13da8
+K
+src/main/java/gfx/Mesh.java,c\b\cbbd8f9c303a20cb4504b85c40286700fbbf80ac
+N
+src/main/java/gfx/Texture.java,1\5\15ff9e8b094ac8bcb53dd6ad978d7c7e74154f7d
+N
+src/main/java/core/Window.java,b\5\b572afd2ecf06c8cfa6e8691b6693e1003b7ada1
+h
+8src/main/java/exceptions/OpenGLFramebufferException.java,0\f\0fbc328afe761a9e122002c981d854ae5e353a99
+L
+src/main/java/gfx/Model.java,9\2\92e03181283c22599efbb370a37685455c4b7f7d
+M
+src/main/java/core/Scene.java,6\b\6bba91d13d25b3527ce6890c61328381b6daa980
+P
+ src/main/java/core/Settings.java,3\5\3534d7a5457b067bfacf25c71d67e9d2d83da3a5
+]
+-src/main/java/gui/components/MainMenuBar.java,9\5\953886c6f484c5eac2da3d44fc26245eba80bf1d
+G
+src/main/java/Main.java,e\4\e44a8606ce010ad9b89aafdfcee2ab49afbf6d10
