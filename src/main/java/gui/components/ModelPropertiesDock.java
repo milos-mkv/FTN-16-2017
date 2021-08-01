@@ -21,7 +21,7 @@ public class ModelPropertiesDock implements Dock {
         }
 
         ImGui.begin("Model Properties", Settings.ShowModelPropertiesDock);
-        var model = Scene.getSelectedModel();
+        var model = Scene.getInstance().getSelectedModel();
 
         if (model != null && ImGui.collapsingHeader("Transform Component")) {
             controlDragFloat3("Position", model.getPosition(), 0, 0);
@@ -93,7 +93,7 @@ public class ModelPropertiesDock implements Dock {
         if (path == null) {
             return;
         }
-        var texture = TextureManager.getTexture(path);
+        var texture = TextureManager.getInstance().getTexture(path);
         if(texture == null) {
             return;
         }

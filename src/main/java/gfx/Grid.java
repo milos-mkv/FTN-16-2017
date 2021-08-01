@@ -1,22 +1,26 @@
 package gfx;
 
 import core.Scene;
+import managers.ShaderProgramManager;
+import utils.Disposable;
+import utils.Renderable;
 
 import static org.lwjgl.opengl.GL15.*;
 import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL30.*;
 
-public abstract class Grid {
+public class Grid implements Disposable, Renderable {
 
-    private Grid() { }
+    private static Grid grid;
 
-    private static Shader shader;
-    private static int vao;
-    private static int vbo;
+    public static Grid getInstance() {
+         return grid == null ? grid = new Grid() : grid;
+    }
 
-    public static void initialize() {
-        shader = new Shader("src/main/resources/shaders/newgrid.vert", "src/main/resources/shaders/newgrid.frag");
+    private final int vao;
+    private final int vbo;
 
+    private Grid() {
         vao = glGenVertexArrays();
         vbo = glGenBuffers();
 
@@ -32,11 +36,12 @@ public abstract class Grid {
         glBindVertexArray(0);
     }
 
-    public static void render() {
-
-        glUseProgram(shader.getId());
-        shader.setUniformMat4("view", Scene.getFPSCamera().getViewMatrix());
-        shader.setUniformMat4("proj", Scene.getFPSCamera().getProjectionMatrix());
+    @Override
+    public void render() {
+        ShaderProgram program = ShaderProgramManager.getInstance().get("GRID SHADER");
+        glUseProgram(program.getId());
+        program.setUniformMat4("view", Scene.getInstance().getCamera().getViewMatrix());
+        program.setUniformMat4("proj", Scene.getInstance().getCamera().getProjectionMatrix());
 
         glBindVertexArray(vao);
         glDrawArrays(GL_TRIANGLES, 0, 6);
@@ -45,10 +50,10 @@ public abstract class Grid {
         glClear(GL_DEPTH_BUFFER_BIT);
     }
 
-    public static void dispose() {
+    @Override
+    public void dispose() {
         glDeleteBuffers(vbo);
         glDeleteVertexArrays(vao);
-        shader.dispose();
     }
 
 }

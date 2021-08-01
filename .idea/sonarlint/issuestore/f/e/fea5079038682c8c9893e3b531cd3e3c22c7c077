@@ -1,5 +1,3 @@
 
-]
-java:S2094"BRemove this empty class, write its code or make it an "interface".(è¦ÐÝÿÿÿÿÿ
-W
-java:S1610"<Convert the abstract class "ModelManager" into an interface.(è¦ÐÝÿÿÿÿÿ
+D
+java:S1121".Extract the assignment out of this expression.(ßØðŸ

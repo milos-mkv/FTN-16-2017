@@ -8,22 +8,29 @@ import org.joml.Vector2f;
 import org.joml.Vector3f;
 import org.lwjgl.PointerBuffer;
 import org.lwjgl.assimp.*;
+import utils.Disposable;
 
 import java.nio.IntBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class Model extends TransformComponent {
+public class Model extends TransformComponent implements Disposable {
 
     @Getter
-    private final ArrayList<Mesh> meshes = new ArrayList<>();
+    private ArrayList<Mesh> meshes = new ArrayList<>();
 
     @Getter
-    private final ArrayList<Material> materials = new ArrayList<>();
+    private ArrayList<Material> materials = new ArrayList<>();
 
     @Getter
     private String path;
+
+    public Model(ArrayList<Mesh> meshes, ArrayList<Material> materials) {
+        super();
+        this.meshes = meshes;
+        this.materials = materials;
+    }
 
     public Model(String resourcePath) throws InvalidDocumentException {
         super();
@@ -43,16 +50,16 @@ public class Model extends TransformComponent {
         processNode(Objects.requireNonNull(scene.mRootNode()), scene);
     }
 
-    public void draw(Shader shader) {
-        shader.setUniformMat4("model", getTransform());
-        meshes.forEach(mesh -> mesh.draw(shader));
+    public void draw(ShaderProgram shaderProgram) {
+        shaderProgram.setUniformMat4("model", getTransform());
+        meshes.forEach(mesh -> mesh.draw(shaderProgram));
     }
 
     private Texture getMaterialTexture(AIMaterial material, String texturesDir, int type) {
         var buffer = AIString.calloc();
         Assimp.aiGetMaterialTexture(material, type, 0, buffer, (IntBuffer) null, null, null, null, null, null);
         if (!buffer.dataString().equals("")) {
-            return TextureManager.getTexture(texturesDir + "/" + buffer.dataString());
+            return TextureManager.getInstance().getTexture(texturesDir + "/" + buffer.dataString());
         }
         return null;
     }
@@ -60,10 +67,9 @@ public class Model extends TransformComponent {
     private Vector3f getMaterialColor(AIMaterial material, String type) {
         var color = AIColor4D.create();
         int result = Assimp.aiGetMaterialColor(material, type, Assimp.aiTextureType_NONE, 0, color);
-        if (result == 0) {
-            return new Vector3f(color.r(), color.g(), color.b());
-        }
-        return Constants.DEFAULT_COLOR;
+        return result == 0
+                ? new Vector3f(color.r(), color.g(), color.b())
+                : new Vector3f(1, 1 ,1);
     }
 
     private void processMaterial(AIMaterial aiMaterial, String texturesDir) {
@@ -125,4 +131,8 @@ public class Model extends TransformComponent {
         return new Mesh(StandardCharsets.UTF_8.decode(mesh.mName().data()).toString(), vertices, indices, material);
     }
 
+    @Override
+    public void dispose() {
+        meshes.forEach(Mesh::dispose);
+    }
 }

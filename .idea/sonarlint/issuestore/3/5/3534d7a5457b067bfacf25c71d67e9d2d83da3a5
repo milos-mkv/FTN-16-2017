@@ -1,60 +1,60 @@
 
-S
-java:S1444	"=Make this "public static ShowScenePropertiesDock" field final(Ô…úª
-S
-java:S1444
-"=Make this "public static ShowModelPropertiesDock" field final(ğúñ¸
-K
-java:S1444"5Make this "public static ShowConsoleDock" field final(œÈªÆ
-Q
-java:S1444"5Make this "public static ShowSplashModal" field final(àæ,8ÿÛ‹ë¦/
-^
-java:S1444"<Make this "public static ShowTexturePreviewDock" field final(‡²ò´ûÿÿÿÿ8ü”§/
-T
-java:S1444"2Make this "public static ToggleSkyBox" field final(ãúÌüÿÿÿÿ8…èÀ­/
-R
-java:S1444"0Make this "public static ToggleGrid" field final(ü˜€íøÿÿÿÿ8ÔÓïÀ­/
-S
-java:S1444"6Make this "public static TextureInPreview" field final(„ôÊ»8±•””§/
-L
-java:S1444"6Make this "public static CurrentGizmoMode" field final(”Ó÷º
-y
-java:S1104	"cMake ShowScenePropertiesDock a static final constant or non-public and provide accessors if needed.(Ô…úª
-y
-java:S1104
-"cMake ShowModelPropertiesDock a static final constant or non-public and provide accessors if needed.(ğúñ¸
-q
-java:S1104"[Make ShowConsoleDock a static final constant or non-public and provide accessors if needed.(œÈªÆ
-w
-java:S1104"[Make ShowSplashModal a static final constant or non-public and provide accessors if needed.(àæ,8‚Ü‹ë¦/
-„
-java:S1104"bMake ShowTexturePreviewDock a static final constant or non-public and provide accessors if needed.(‡²ò´ûÿÿÿÿ8€”§/
-z
-java:S1104"XMake ToggleSkyBox a static final constant or non-public and provide accessors if needed.(ãúÌüÿÿÿÿ8¿…èÀ­/
 x
-java:S1104"VMake ToggleGrid a static final constant or non-public and provide accessors if needed.(ü˜€íøÿÿÿÿ8…ÔïÀ­/
-y
-java:S1104"\Make TextureInPreview a static final constant or non-public and provide accessors if needed.(„ôÊ»8µ•””§/
-r
-java:S1104"\Make CurrentGizmoMode a static final constant or non-public and provide accessors if needed.(”Ó÷º
+java:S3008"bRename this field "ShowScenePropertiesDock" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ô…úª
 x
-java:S3008	"bRename this field "ShowScenePropertiesDock" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Ô…úª
+java:S3008	"bRename this field "ShowModelPropertiesDock" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ğúñ¸
 x
 java:S3008
-"bRename this field "ShowModelPropertiesDock" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ğúñ¸
+"cRename this field "ShowShadowPropertiesDock" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Í Æu
 p
 java:S3008"ZRename this field "ShowConsoleDock" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(œÈªÆ
-v
-java:S3008"ZRename this field "ShowSplashModal" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(àæ,8†Ü‹ë¦/
-ƒ
-java:S3008"aRename this field "ShowTexturePreviewDock" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(‡²ò´ûÿÿÿÿ8‚”§/
-y
-java:S3008"WRename this field "ToggleSkyBox" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ãúÌüÿÿÿÿ8Ñ…èÀ­/
-w
-java:S3008"URename this field "ToggleGrid" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ü˜€íøÿÿÿÿ8‹ÔïÀ­/
-x
-java:S3008"[Rename this field "TextureInPreview" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(„ôÊ»8·•””§/
+o
+java:S3008"ZRename this field "ShowSplashModal" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(àæ,
+s
+java:S3008"XRename this field "ToogleShadows" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Â¨¨»úÿÿÿÿ
+r
+java:S3008"WRename this field "ToggleSkyBox" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ãúÌüÿÿÿÿ
+p
+java:S3008"URename this field "ToggleGrid" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ü˜€íøÿÿÿÿ
 q
-java:S3008"[Rename this field "CurrentGizmoMode" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(”Ó÷º
+java:S3008"[Rename this field "CurrentGizmoMode" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(”Ó÷º
 U
-java:S1118":Add a private constructor to hide the implicit public one.(î‘£Ÿüÿÿÿÿ
+java:S1118":Add a private constructor to hide the implicit public one.(î‘£Ÿüÿÿÿÿ
+y
+java:S1104"cMake ShowScenePropertiesDock a static final constant or non-public and provide accessors if needed.(Ô…úª
+y
+java:S1104	"cMake ShowModelPropertiesDock a static final constant or non-public and provide accessors if needed.(ğúñ¸
+y
+java:S1104
+"dMake ShowShadowPropertiesDock a static final constant or non-public and provide accessors if needed.(Í Æu
+q
+java:S1104"[Make ShowConsoleDock a static final constant or non-public and provide accessors if needed.(œÈªÆ
+p
+java:S1104"[Make ShowSplashModal a static final constant or non-public and provide accessors if needed.(àæ,
+t
+java:S1104"YMake ToogleShadows a static final constant or non-public and provide accessors if needed.(Â¨¨»úÿÿÿÿ
+s
+java:S1104"XMake ToggleSkyBox a static final constant or non-public and provide accessors if needed.(ãúÌüÿÿÿÿ
+q
+java:S1104"VMake ToggleGrid a static final constant or non-public and provide accessors if needed.(ü˜€íøÿÿÿÿ
+r
+java:S1104"\Make CurrentGizmoMode a static final constant or non-public and provide accessors if needed.(”Ó÷º
+S
+java:S1444"=Make this "public static ShowScenePropertiesDock" field final(Ô…úª
+S
+java:S1444	"=Make this "public static ShowModelPropertiesDock" field final(ğúñ¸
+S
+java:S1444
+">Make this "public static ShowShadowPropertiesDock" field final(Í Æu
+K
+java:S1444"5Make this "public static ShowConsoleDock" field final(œÈªÆ
+J
+java:S1444"5Make this "public static ShowSplashModal" field final(àæ,
+N
+java:S1444"3Make this "public static ToogleShadows" field final(Â¨¨»úÿÿÿÿ
+M
+java:S1444"2Make this "public static ToggleSkyBox" field final(ãúÌüÿÿÿÿ
+K
+java:S1444"0Make this "public static ToggleGrid" field final(ü˜€íøÿÿÿÿ
+L
+java:S1444"6Make this "public static CurrentGizmoMode" field final(”Ó÷º

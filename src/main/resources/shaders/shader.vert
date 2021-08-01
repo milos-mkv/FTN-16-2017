@@ -13,7 +13,6 @@ out vec3 fragPos;
 out vec4 FragPosLightSpace;
 
 
-
 void main() {
     gl_Position = proj * view * model * vec4(pos, 1);
     TexCoords = vec2(texCoords.x, -texCoords.y);

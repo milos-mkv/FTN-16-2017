@@ -21,6 +21,12 @@ import static org.lwjgl.opengl.GL30C.glBindFramebuffer;
 
 public class MainMenuBar implements Renderable {
 
+    private final Scene scene;
+
+    public MainMenuBar() {
+        this.scene = Scene.getInstance();
+    }
+
     @Override
     public void render() {
         if (ImGui.beginMainMenuBar()) {
@@ -83,9 +89,9 @@ public class MainMenuBar implements Renderable {
             NativeFileDialog.NFD_OpenDialog((CharSequence) null, null, pointerBuffer);
 
             var model = new Model(pointerBuffer.getStringASCII().replace("\\", "/"));
-            String key = "Model " + Scene.getModels().size();
-            Scene.getModels().put(key, model);
-            Scene.SelectedModel = key;
+            String key = "Model " + scene.getModels().size();
+            scene.getModels().put(key, model);
+            scene.setSelectedModel(key);
 
             Console.log(Console.Level.INFO, "Model successfully loaded: " + model.getPath());
         } catch (InvalidDocumentException e) {
@@ -94,7 +100,7 @@ public class MainMenuBar implements Renderable {
     }
 
     private void executeRenderImage() {
-        glBindFramebuffer(GL_FRAMEBUFFER, Scene.getFrameBuffer().getId());
+        glBindFramebuffer(GL_FRAMEBUFFER, scene.getFrameBuffer().getId());
         glPixelStorei(GL_PACK_ALIGNMENT, 1);
         var data = BufferUtils.createByteBuffer(Constants.WINDOW_DEFAULT_WIDTH * Constants.WINDOW_DEFAULT_HEIGHT * 3);
         glReadPixels(0, 0, Constants.WINDOW_DEFAULT_WIDTH, Constants.WINDOW_DEFAULT_HEIGHT, GL_RGB, GL_UNSIGNED_BYTE, data);

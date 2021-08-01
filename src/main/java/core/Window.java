@@ -64,7 +64,7 @@ public abstract class Window {
         }
 
         handle = GLFW.glfwCreateWindow(Constants.WINDOW_DEFAULT_WIDTH, Constants.WINDOW_DEFAULT_HEIGHT, "Hatsune Miku",
-            MemoryUtil.NULL, MemoryUtil.NULL);
+                MemoryUtil.NULL, MemoryUtil.NULL);
 
         if (handle == MemoryUtil.NULL) {
             throw new RuntimeException("Failed to create the GLFW window");
@@ -72,7 +72,7 @@ public abstract class Window {
 
         final GLFWVidMode vidmode = Objects.requireNonNull(GLFW.glfwGetVideoMode(GLFW.glfwGetPrimaryMonitor()));
         GLFW.glfwSetWindowPos(handle,
-            (vidmode.width() - Constants.WINDOW_DEFAULT_WIDTH) / 2, (vidmode.height() - Constants.WINDOW_DEFAULT_HEIGHT) / 2);
+                (vidmode.width() - Constants.WINDOW_DEFAULT_WIDTH) / 2, (vidmode.height() - Constants.WINDOW_DEFAULT_HEIGHT) / 2);
 
         GLFW.glfwMakeContextCurrent(handle);
 //        GLFW.glfwSwapInterval(GLFW.GLFW_TRUE);
@@ -90,14 +90,17 @@ public abstract class Window {
         ImGui.getIO().addConfigFlags(ImGuiConfigFlags.DockingEnable | ImGuiConfigFlags.ViewportsEnable);
 
         Assets.Fonts.put(
-            "DEFAULT_FONT",
-            ImGui.getIO().getFonts().addFontFromFileTTF(Constants.DEFAULT_FONT_PATH, Constants.DEFAULT_FONT_SIZE));
+                "DEFAULT_FONT",
+                ImGui.getIO().getFonts().addFontFromFileTTF(Constants.DEFAULT_FONT_PATH, Constants.DEFAULT_FONT_SIZE));
         Assets.Fonts.put(
-            "CONSOLE_FONT",
-            ImGui.getIO().getFonts().addFontFromFileTTF(Constants.CONSOLE_FONT_PATH, Constants.CONSOLE_FONT_SIZE));
+                "CONSOLE_FONT",
+                ImGui.getIO().getFonts().addFontFromFileTTF(Constants.CONSOLE_FONT_PATH, Constants.CONSOLE_FONT_SIZE));
         Assets.Fonts.put(
-            "SPLASH_FONT",
-            ImGui.getIO().getFonts().addFontFromFileTTF(Constants.JAPANESE_FONT_PATH, Constants.JAPANESE_FONT_SIZE));
+                "CODE_FONT",
+                ImGui.getIO().getFonts().addFontFromFileTTF(Constants.CONSOLE_FONT_PATH, 18.0f));
+        Assets.Fonts.put(
+                "SPLASH_FONT",
+                ImGui.getIO().getFonts().addFontFromFileTTF(Constants.JAPANESE_FONT_PATH, Constants.JAPANESE_FONT_SIZE));
 
         imGuiGlfw.init(handle, true);
         imGuiGl3.init("#version 130");

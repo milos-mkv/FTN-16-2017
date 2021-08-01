@@ -10,6 +10,12 @@ import static gui.GUIComponents.*;
 
 public class ScenePropertiesDock implements Dock {
 
+    private final Scene scene;
+
+    public ScenePropertiesDock() {
+        this.scene = Scene.getInstance();
+    }
+
     @Override
     public void render() {
         if (!Settings.ShowScenePropertiesDock.get()) {
@@ -19,13 +25,13 @@ public class ScenePropertiesDock implements Dock {
         ImGui.begin("Scene Properties", Settings.ShowScenePropertiesDock);
 
         if (ImGui.collapsingHeader("Scene Items")) {
-            Scene.getModels().forEach((key, model) -> {
-                ImGui.image(TextureManager.getTexture("src/main/resources/images/mo.png").getId(), 20, 20);
+            scene.getModels().forEach((key, model) -> {
+                ImGui.image(TextureManager.getInstance().getTexture("src/main/resources/images/mo.png").getId(), 20, 20);
                 ImGui.sameLine();
                 if (ImGui.treeNode(key)) {
-                    Scene.SelectedModel = key;
+                    scene.setSelectedModel(key);
                     model.getMeshes().forEach(mesh -> {
-                        ImGui.image(TextureManager.getTexture("src/main/resources/images/aaa.png").getId(), 20, 20);
+                        ImGui.image(TextureManager.getInstance().getTexture("src/main/resources/images/aaa.png").getId(), 20, 20);
                         ImGui.sameLine();
                         ImGui.selectable(mesh.getName());
                     });
@@ -37,10 +43,10 @@ public class ScenePropertiesDock implements Dock {
             ImGui.colorPicker4("##ClearColor", Scene.ClearColor);
         }
         if (ImGui.collapsingHeader("Directional Light")) {
-            controlDragFloat3("Direction", Scene.getDirectionalLight().getDirection(), -1, 1);
-            controlRGB("Ambient", Scene.getDirectionalLight().getAmbient());
-            controlRGB("Diffuse", Scene.getDirectionalLight().getDiffuse());
-            controlRGB("Specular", Scene.getDirectionalLight().getSpecular());
+            controlDragFloat3("Direction", scene.getDirectionalLight().getDirection(), -1, 1);
+            controlRGB("Ambient", scene.getDirectionalLight().getAmbient());
+            controlRGB("Diffuse", scene.getDirectionalLight().getDiffuse());
+            controlRGB("Specular", scene.getDirectionalLight().getSpecular());
         }
 
         ImGui.end();

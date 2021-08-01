@@ -28,7 +28,7 @@ public class SplashModal implements Renderable {
             ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoDocking | ImGuiWindowFlags.NoCollapse | ImGuiWindowFlags.NoResize);
 
         ImGui.setWindowSize(600, 338);
-        ImGui.image(Objects.requireNonNull(TextureManager.getTexture(Constants.SPLASH_IMAGE_PATH)).getId(),
+        ImGui.image(Objects.requireNonNull(TextureManager.getInstance().getTexture(Constants.SPLASH_IMAGE_PATH)).getId(),
             ImGui.getWindowWidth(), ImGui.getWindowHeight() - 30);
 
         ImGui.setCursorPos(110, 245);

@@ -2,58 +2,58 @@ package core;
 
 import gfx.*;
 import lombok.Getter;
+import lombok.Setter;
 import org.joml.Vector3f;
+import utils.Disposable;
 
 import java.util.*;
 
-public abstract class Scene {
+public class Scene implements Disposable {
+
+    private static Scene scene;
+
+    public static Scene getInstance() {
+        return scene == null ? scene = new Scene() : scene;
+    }
 
     @Getter
-    private static Shader sceneShader;
+    private final FrameBuffer frameBuffer;
 
     @Getter
-    private static Shader gridShader;
+    private final FirstPersonCameraController camera;
 
     @Getter
-    private static FrameBuffer frameBuffer;
+    private final DirectionalLight directionalLight;
 
     @Getter
-    private static FirstPersonCameraController FPSCamera;
+    private final Map<String, Model> models = new LinkedHashMap<>();
 
     @Getter
-    private static DirectionalLight directionalLight;
-
-    @Getter
-    private static Map<String, Model> models;
-
-    public static String SelectedModel;
+    @Setter
+    private String selectedModel;
 
     public static float[] ClearColor = {0.1f, 0.1f, 0.1f, 1.0f};
 
+    public Model getSelectedModel() {
+        return selectedModel == null ? null : models.get(selectedModel);
+    }
 
     private Scene() {
-    }
-
-    public static Model getSelectedModel() {
-        return SelectedModel == null ? null : models.get(SelectedModel);
-    }
-
-    public static void initialize() {
-        sceneShader = new Shader(Constants.DEFAULT_SCENE_VERTEX_SHADER_PATH, Constants.DEFAULT_SCENE_FRAGMENT_SHADER_PATH);
-        gridShader = new Shader(Constants.DEFAULT_GRID_VERTEX_SHADER_PATH, Constants.DEFAULT_GRID_FRAGMENT_SHADER_PATH);
-
         frameBuffer = new FrameBuffer(Constants.WINDOW_DEFAULT_WIDTH, Constants.WINDOW_DEFAULT_HEIGHT);
-        FPSCamera = new FirstPersonCameraController(Constants.FPS_CAMERA_DEFAULT_FOV, Constants.FPS_CAMERA_DEFAULT_ASPECT, Constants.FPS_CAMERA_DEFAULT_NEAR, Constants.FPS_CAMERA_DEFAULT_FAR);
-        directionalLight = new DirectionalLight(new Vector3f(-1.f, -1.f, -1.f), new Vector3f(0.1f, 0.1f, 0.1f), new Vector3f(1.0f, 1.0f, 1.0f), new Vector3f(0.4f, 0.4f, 0.4f));
-        models = new LinkedHashMap<>();
-        FPSCamera.getPosition().set(0, 1, 4);
-        FPSCamera.updateCamera();
-        FPSCamera.updateVectors();
+        directionalLight = new DirectionalLight(
+                new Vector3f(-1.f, -1.f, -1.f),
+                new Vector3f(0.1f, 0.1f, 0.1f),
+                new Vector3f(1.0f, 1.0f, 1.0f),
+                new Vector3f(0.4f, 0.4f, 0.4f));
+        camera = new FirstPersonCameraController(45.0F, 1280.F / 768.F, 0.1F, 100.0F);
+        camera.getPosition().set(0, 1, 4);
+        camera.updateCamera();
+        camera.updateVectors();
     }
 
-    public static void dispose() {
-        sceneShader.dispose();
-        gridShader.dispose();
+
+    @Override
+    public void dispose() {
         frameBuffer.dispose();
     }
 }

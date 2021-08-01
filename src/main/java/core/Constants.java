@@ -25,10 +25,6 @@ public abstract class Constants {
     public static final String DEFAULT_GRID_VERTEX_SHADER_PATH = "src/main/resources/shaders/grid.frag";
     public static final String DEFAULT_GRID_FRAGMENT_SHADER_PATH = "src/main/resources/shaders/grid.frag";
     public static final Vector3f WORLD_UP = new Vector3f(0, 1, 0);
-    public static final float FPS_CAMERA_DEFAULT_FOV = 45.0F;
-    public static final float FPS_CAMERA_DEFAULT_ASPECT = 1280.F / 768.F;
-    public static final float FPS_CAMERA_DEFAULT_NEAR = 0.1F;
-    public static final float FPS_CAMERA_DEFAULT_FAR = 100.0F;
 
     public static final Vector3f DEFAULT_COLOR = new Vector3f(1, 1, 1);
     public static final String DEFAULT_SKYBOX_VERTEX_SHADER_PATH = "src/main/resources/shaders/skybox.vert";

@@ -3,20 +3,20 @@ import core.Constants;
 import core.Scene;
 import core.Settings;
 import gfx.Grid;
+import gfx.ShaderProgram;
 import gfx.ShadowMap;
 import gfx.SkyBox;
 import gui.GUI;
 import imgui.ImGui;
+import managers.ModelManager;
+import managers.ShaderProgramManager;
 import managers.TextureManager;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
 import static org.lwjgl.opengl.GL11C.*;
-import static org.lwjgl.opengl.GL13C.GL_MULTISAMPLE;
 import static org.lwjgl.opengl.GL20.glUseProgram;
 import static org.lwjgl.opengl.GL30C.*;
-import static org.lwjgl.opengl.GL41.glProgramUniform1i;
-
 
 public class Main extends Application {
 
@@ -26,76 +26,70 @@ public class Main extends Application {
 
     @Override
     protected void onStart() {
-        Scene.initialize();
-        SkyBox.initialize();
-        Grid.initialize();
-        glEnable(GL_MULTISAMPLE);
+        ShaderProgramManager.getInstance();
         glEnable(GL_DEPTH_TEST);
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         GUI.initialize();
         ShadowMap.initialize();
+        ModelManager.getInstance();
     }
 
     @Override
     protected void render(float delta) {
+        Scene scene = Scene.getInstance();
+
         if (ImGui.isMouseDown(1)) {
-            Scene.getFPSCamera().updateController(delta);
+            scene.getCamera().updateController(delta);
         }
 
         glBindFramebuffer(GL_FRAMEBUFFER, ShadowMap.getDepthMapFBO());
         glViewport(0, 0, ShadowMap.SHADOW_WIDTH, ShadowMap.SHADOW_HEIGHT);
 
         glClear(GL_DEPTH_BUFFER_BIT);
-        glUseProgram(ShadowMap.shader.getId());
+        glUseProgram(ShadowMap.shaderProgram.getId());
 
-        float lightAngleX = (float) Math.toDegrees(Math.acos(Scene.getDirectionalLight().getDirection().z));
-        float lightAngleY = (float) Math.toDegrees(Math.asin(Scene.getDirectionalLight().getDirection().x));
-        float lightAngleZ = 0; // new Vector3f(lightAngleX, lightAngleY, lightAngleZ)
         Matrix4f lightViewMatrix = new Matrix4f().lookAt(
-            new Vector3f().set(Scene.getDirectionalLight().getDirection()).mul(-1), new Vector3f(0, 0, 0), new Vector3f(0, 1, 0)
+            new Vector3f().set(scene.getDirectionalLight().getDirection()).mul(-1), new Vector3f(0, 0, 0), new Vector3f(0, 1, 0)
         );
         var projection = new Matrix4f().ortho(-20.0f, 20.f, -20.0f, 20.0f, -20.f, 20.f);
 
         var lightSpaceMatrix = new Matrix4f().set(projection).mul(lightViewMatrix);
 
-        ShadowMap.shader.setUniformMat4("orthoProjectionMatrix", lightSpaceMatrix);
+        ShadowMap.shaderProgram.setUniformMat4("orthoProjectionMatrix", lightSpaceMatrix);
 
-        Scene.getModels().forEach((key, value) -> value.draw(ShadowMap.shader));
+        scene.getModels().forEach((key, value) -> value.draw(ShadowMap.shaderProgram));
 
 
         glViewport(0, 0, Constants.WINDOW_DEFAULT_WIDTH, Constants.WINDOW_DEFAULT_HEIGHT);
-
-        glBindFramebuffer(GL_FRAMEBUFFER, Scene.getFrameBuffer().getId());
+        glBindFramebuffer(GL_FRAMEBUFFER, scene.getFrameBuffer().getId());
         glClearColor(Scene.ClearColor[0], Scene.ClearColor[1], Scene.ClearColor[2], Scene.ClearColor[3]);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
         if(Settings.ToggleSkyBox) {
-            SkyBox.render();
+            SkyBox.getInstance().render();
         }
         if(Settings.ToggleGrid) {
-            Grid.render();
+            Grid.getInstance().render();
         }
-        glUseProgram(Scene.getSceneShader().getId());
-        Scene.getSceneShader().setUniformMat4("lightSpaceMatrix", lightSpaceMatrix);
 
+        ShaderProgram program = ShaderProgramManager.getInstance().get("SCENE SHADER");
 
+        glUseProgram(program.getId());
+        program.setUniformMat4("lightSpaceMatrix", lightSpaceMatrix);
 
-        Scene.getSceneShader().setUniformVec3("lightPos", new Vector3f().set(Scene.getDirectionalLight().getDirection()).mul(-1));
-        Scene.getSceneShader().setUniformVec3("viewPos", Scene.getFPSCamera().getPosition());
-        Scene.getDirectionalLight().apply(Scene.getSceneShader());
-        Scene.getSceneShader().setUniformMat4("view", Scene.getFPSCamera().getViewMatrix());
-        Scene.getSceneShader().setUniformMat4("proj", Scene.getFPSCamera().getProjectionMatrix());
+        program.setUniformVec3("lightPos", new Vector3f().set(scene.getDirectionalLight().getDirection()).mul(-1));
+        program.setUniformVec3("viewPos", scene.getCamera().getPosition());
+        scene.getDirectionalLight().apply(program);
 
-//        int th1 = glGetUniformLocation( Scene.getSceneShader().getId(), "shadowMap");
-//        int th2 = glGetUniformLocation( Scene.getSceneShader().getId(), "diffuseTexture");
-//        glUniform1i(th1, 0);
-//        glUniform1i(th2, 1);
-        Scene.getSceneShader().setUniformInt("shadowMap", 0);
-        Scene.getSceneShader().setUniformInt("diffuseTexture", 1);
+        program.setUniformMat4("view", scene.getCamera().getViewMatrix());
+        program.setUniformMat4("proj", scene.getCamera().getProjectionMatrix());
+
+        program.setUniformInt("shadowMap", 0);
+        program.setUniformInt("diffuseTexture", 1);
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, ShadowMap.getDepthMap());
-        Scene.getModels().forEach((key, value) -> value.draw(Scene.getSceneShader()));
+        scene.getModels().forEach((key, value) -> value.draw(program));
 
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
     }
@@ -104,16 +98,15 @@ public class Main extends Application {
     protected void renderImGui() {
         ImGui.showDemoWindow();
         GUI.render();
-//        ImGui.begin("Depth");
-//        ImGui.image(ShadowMapper.getDepthMap(), ImGui.getWindowSizeX(), ImGui.getWindowSizeY(), 0, 1, 1, 0);
-//
-//        ImGui.end();
     }
 
     @Override
     protected void onEnd() {
-        Scene.dispose();
-        TextureManager.dispose();
-        SkyBox.dispose();
+        ShaderProgramManager.getInstance().dispose();
+        TextureManager.getInstance().dispose();
+        ModelManager.getInstance().dispose();
+        Scene.getInstance().dispose();
+        SkyBox.getInstance().dispose();
+        Grid.getInstance().dispose();
     }
 }

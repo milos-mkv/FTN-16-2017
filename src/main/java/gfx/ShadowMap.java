@@ -6,6 +6,7 @@ import java.nio.ByteBuffer;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL30.*;
+import static utils.Utils.readFromFile;
 
 public abstract class ShadowMap {
 
@@ -18,12 +19,12 @@ public abstract class ShadowMap {
     public static final int SHADOW_WIDTH = 5024;
     public static final int SHADOW_HEIGHT = 5024;
 
-    public static Shader shader;
+    public static ShaderProgram shaderProgram;
 
     public static void initialize() {
-        shader = new Shader(
-            "src/main/resources/shaders/shadow.vert",
-            "src/main/resources/shaders/shadow.frag");
+        shaderProgram = new ShaderProgram(
+                readFromFile("src/main/resources/shaders/shadow.vert"),
+                readFromFile("src/main/resources/shaders/shadow.frag"));
         depthMapFBO = glGenFramebuffers();
 
         generateTextureForDethMap();

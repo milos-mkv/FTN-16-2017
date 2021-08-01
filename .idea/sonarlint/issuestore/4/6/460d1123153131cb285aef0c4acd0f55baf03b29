@@ -1,0 +1,31 @@
+
+S	java:S106"9Replace this use of System.out or System.err by a logger.(§Ê°üÿÿÿÿ
+L
+java:S3252'"1Use static access with "imgui.ImGui" for "begin".(¬§Ÿ¥ûÿÿÿÿ
+M
+java:S3252("2Use static access with "imgui.ImGui" for "button".(âÇ¦ôûÿÿÿÿ
+C	java:S108(")Either remove or fill this block of code.(âÇ¦ôûÿÿÿÿ
+J
+java:S3252+"4Use static access with "imgui.ImGui" for "sameLine".(›Ó‡Ú
+R
+java:S3252,"<Use static access with "imgui.ImGui" for "setNextItemWidth".(ò ¦¯
+G
+java:S3252-"1Use static access with "imgui.ImGui" for "combo".(ª­É”
+J
+java:S3252."4Use static access with "imgui.ImGui" for "sameLine".(›Ó‡Ú
+R
+java:S3252/"<Use static access with "imgui.ImGui" for "setNextItemWidth".(›¯áì
+L
+java:S32520"1Use static access with "imgui.ImGui" for "combo".(·“ƒÆüÿÿÿÿ
+J
+java:S32521"4Use static access with "imgui.ImGui" for "pushFont".(“Û¨î
+Y
+java:S32522">Use static access with "imgui.ImGui" for "inputTextMultiline".(Û©ŠÅşÿÿÿÿ
+U
+java:S32525":Use static access with "imgui.ImGui" for "getColumnWidth".(ËœÛÆøÿÿÿÿ
+V
+java:S32526";Use static access with "imgui.ImGui" for "getWindowHeight".(¯œ‡şÿÿÿÿ
+I
+java:S32528"3Use static access with "imgui.ImGui" for "popFont".(”·Õ‹
+E
+java:S32529"/Use static access with "imgui.ImGui" for "end".(ã§úï

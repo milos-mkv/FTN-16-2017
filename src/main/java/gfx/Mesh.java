@@ -1,6 +1,5 @@
 package gfx;
 
-import core.Scene;
 import utils.Disposable;
 import lombok.Data;
 import org.lwjgl.system.MemoryUtil;
@@ -12,10 +11,9 @@ import java.util.List;
 import static org.lwjgl.opengl.GL15.glGenBuffers;
 import static org.lwjgl.opengl.GL15C.glDeleteBuffers;
 import static org.lwjgl.opengl.GL30C.*;
-import static org.lwjgl.opengl.GL41.glProgramUniform1i;
 
 @Data
-public class Mesh implements Disposable {
+public class Mesh implements Disposable, Cloneable {
 
     private int vao;
     private int vbo;
@@ -31,6 +29,12 @@ public class Mesh implements Disposable {
         this.indicesSize = indices.size();
 
         setupMesh(vertices, indices);
+    }
+
+    public Mesh clone() throws CloneNotSupportedException {
+        Mesh clone = (Mesh) super.clone();
+        clone.name = String.valueOf(name);
+        return clone;
     }
 
     @Override
@@ -78,19 +82,19 @@ public class Mesh implements Disposable {
         glBindVertexArray(0);
     }
 
-    public void draw(Shader shader) {
+    public void draw(ShaderProgram shaderProgram) {
 
-        shader.setUniformVec3("material.diffuse", material.getDiffuseColor());
-        shader.setUniformVec3("material.ambient", material.getAmbientColor());
-        shader.setUniformVec3("material.specular", material.getSpecularColor());
-        shader.setUniformFloat("material.shniness", material.getShininess());
+        shaderProgram.setUniformVec3("material.diffuse", material.getDiffuseColor());
+        shaderProgram.setUniformVec3("material.ambient", material.getAmbientColor());
+        shaderProgram.setUniformVec3("material.specular", material.getSpecularColor());
+        shaderProgram.setUniformFloat("material.shniness", material.getShininess());
 
         if(material.getDiffuseTexture() != null) {
             glActiveTexture(GL_TEXTURE1);
             glBindTexture(GL_TEXTURE_2D, material.getDiffuseTexture().getId());
-            shader.setUniformBoolean("isDiffuseTextureSet", 1);
+            shaderProgram.setUniformBoolean("isDiffuseTextureSet", 1);
         } else {
-            shader.setUniformBoolean("isDiffuseTextureSet", 0);
+            shaderProgram.setUniformBoolean("isDiffuseTextureSet", 0);
         }
 
         glBindVertexArray(vao);

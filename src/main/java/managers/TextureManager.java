@@ -1,20 +1,25 @@
 package managers;
 
+import exceptions.InvalidDocumentException;
 import gfx.Texture;
+import utils.Disposable;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
-public abstract class TextureManager {
+public class TextureManager implements Disposable {
 
-    protected static Map<String, Texture> textures = new HashMap<>();
+    private static TextureManager textureManager;
 
-    private TextureManager() {
+    public static TextureManager getInstance() {
+        return textureManager == null ? textureManager = new TextureManager() : textureManager;
     }
 
-    public static Texture getTexture(String path) {
+    protected Map<String, Texture> textures = new HashMap<>();
+
+    private TextureManager() { /* Empty */ }
+
+    public Texture getTexture(String path) {
         for (var entry : textures.entrySet()) {
             if (entry.getKey().equals(path)) {
                 return textures.get(entry.getKey());
@@ -24,14 +29,18 @@ public abstract class TextureManager {
         try {
             textures.put(path, new Texture(path));
             return textures.get(path);
-        } catch (RuntimeException e) {
-            Logger.getGlobal().log(Level.WARNING, e.getMessage());
+        } catch (InvalidDocumentException e) {
+            System.out.println(e.getMessage());
             return null;
         }
     }
 
-    public static void dispose() {
-        textures.forEach((key, value) -> { if(value != null) { value.dispose(); } });
+    public void dispose() {
+        textures.forEach((key, value) -> {
+            if(value != null) {
+                value.dispose();
+            }
+        });
     }
 
 }

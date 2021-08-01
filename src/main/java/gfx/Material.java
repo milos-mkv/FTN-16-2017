@@ -21,9 +21,9 @@ public class Material {
     private Texture normalTexture;
 
     public Material() {
-        this.ambientColor  = Constants.DEFAULT_COLOR;
-        this.diffuseColor  = Constants.DEFAULT_COLOR;
-        this.specularColor = Constants.DEFAULT_COLOR;
+        this.ambientColor  = new Vector3f(1, 1, 1);
+        this.diffuseColor  = new Vector3f(1, 1, 1);
+        this.specularColor = new Vector3f(1, 1, 1);
     }
 
     public Material(Vector3f ambient, Vector3f diffuse, Vector3f specular, float shininess) {

@@ -3,67 +3,77 @@ package gui.components;
 import core.Constants;
 import core.Scene;
 import core.Settings;
+import gfx.Texture;
 import gui.Dock;
 import imgui.ImGui;
 import imgui.extension.imguizmo.ImGuizmo;
 import imgui.extension.imguizmo.flag.Mode;
 import imgui.extension.imguizmo.flag.Operation;
-import imgui.flag.ImGuiStyleVar;
-import imgui.flag.ImGuiWindowFlags;
-import lombok.extern.java.Log;
+import imgui.flag.*;
+import lombok.SneakyThrows;
 import managers.Console;
+import managers.ModelManager;
 import managers.TextureManager;
 import org.joml.AxisAngle4f;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
+import org.w3c.dom.Text;
 
 import java.util.Objects;
 
 import static utils.Utils.matrix4x4ToFloatBuffer;
 
-@Log
 public class ViewportDock implements Dock {
+
+    private final Scene scene;
+
+    public ViewportDock() {
+        this.scene = Scene.getInstance();
+    }
 
     @Override
     public synchronized void render() {
         ImGui.pushStyleVar(ImGuiStyleVar.WindowPadding, 0, 0);
         ImGui.begin("Viewport", ImGuiWindowFlags.NoScrollbar);
 
-        ImGui.image(Scene.getFrameBuffer().getTexture(), ImGui.getWindowSizeX(), ImGui.getWindowSizeY(), 0, 1, 1, 0);
-        Scene.getFPSCamera().setAspect(ImGui.getWindowSize().x / ImGui.getWindowSize().y);
+        ImGui.image(scene.getFrameBuffer().getTexture(), ImGui.getWindowSizeX(), ImGui.getWindowSizeY(), 0, 1, 1, 0);
+        scene.getCamera().setAspect(ImGui.getWindowSize().x / ImGui.getWindowSize().y);
 
         manipulate();
 
         var size = 20;
 
         ImGui.setCursorPos(10, 40);
-        if (ImGui.imageButton(Objects.requireNonNull(TextureManager.getTexture(Constants.ICON_TRANSLATE)).getId(),
+        if (ImGui.imageButton(Objects.requireNonNull(TextureManager.getInstance().getTexture(Constants.ICON_TRANSLATE)).getId(),
                 size, size)) {
             Settings.CurrentGizmoMode = Operation.TRANSLATE;
             Console.log(Console.Level.INFO, "Selected Translate Mode");
         }
 
         ImGui.setCursorPos(10, 70);
-        if (ImGui.imageButton(Objects.requireNonNull(TextureManager.getTexture(Constants.ICON_SCALE)).getId(),
+        if (ImGui.imageButton(Objects.requireNonNull(TextureManager.getInstance().getTexture(Constants.ICON_SCALE)).getId(),
                 size, size)) {
             Settings.CurrentGizmoMode = Operation.SCALE;
             Console.log(Console.Level.INFO, "Selected Scale Mode");
         }
 
         ImGui.setCursorPos(10, 100);
-        if (ImGui.imageButton(Objects.requireNonNull(TextureManager.getTexture(Constants.ICON_ROTATE)).getId(),
+        if (ImGui.imageButton(Objects.requireNonNull(TextureManager.getInstance().getTexture(Constants.ICON_ROTATE)).getId(),
                 size, size)) {
             Settings.CurrentGizmoMode = Operation.ROTATE;
             Console.log(Console.Level.INFO, "Selected Rotate Mode");
         }
+        ImGui.popStyleVar();
+
+        if (ImGui.beginPopupContextWindow(ImGuiMouseButton.Middle)) {
+            openContextMenu();
+        }
 
         ImGui.end();
-        ImGui.popStyleVar();
     }
 
-
     private void manipulate() {
-        if (Scene.SelectedModel == null) {
+        if (scene.getSelectedModel() == null) {
             return;
         }
 
@@ -72,9 +82,9 @@ public class ViewportDock implements Dock {
         ImGuizmo.setDrawList();
         ImGuizmo.setRect(ImGui.getWindowPosX(), ImGui.getWindowPosY(), ImGui.getWindowWidth(), ImGui.getWindowHeight());
 
-        var model       = Scene.getModels().get(Scene.SelectedModel);
-        var view        = matrix4x4ToFloatBuffer(Scene.getFPSCamera().getViewMatrix());
-        var proj        = matrix4x4ToFloatBuffer(Scene.getFPSCamera().getProjectionMatrix());
+        var model       = scene.getSelectedModel();
+        var view        = matrix4x4ToFloatBuffer(scene.getCamera().getViewMatrix());
+        var proj        = matrix4x4ToFloatBuffer(scene.getCamera().getProjectionMatrix());
         var transform   = matrix4x4ToFloatBuffer(model.getTransform());
 
         ImGuizmo.manipulate(view, proj, transform, Settings.CurrentGizmoMode, Mode.WORLD);
@@ -96,8 +106,37 @@ public class ViewportDock implements Dock {
                     break;
                 default:
             }
-
         }
+    }
+
+    private void openContextMenu() {
+        var size = 20;
+        ImGui.textColored(0.3f, 0.3f, 0.9f, 1.0f, "Add");
+        ImGui.separator();
+        ImGui.image(TextureManager.getInstance().getTexture("src/main/resources/images/mesh_icons/cone.png").getId(), size, size);
+        ImGui.sameLine();
+        if (ImGui.menuItem("Cone")) {
+            String key = "Model " + scene.getModels().size();
+            scene.getModels().put(key, ModelManager.getInstance().clone("Cone"));
+            scene.setSelectedModel(key);
+        }
+        ImGui.image(TextureManager.getInstance().getTexture("src/main/resources/images/mesh_icons/cube.png").getId(), size, size);
+        ImGui.sameLine();
+        if (ImGui.menuItem("Cube")) { }
+        ImGui.image(TextureManager.getInstance().getTexture("src/main/resources/images/mesh_icons/cylinder.png").getId(), size, size);
+        ImGui.sameLine();
+        if (ImGui.menuItem("Cylinder")) { }
+        ImGui.image(TextureManager.getInstance().getTexture("src/main/resources/images/mesh_icons/grid.png").getId(), size, size);
+        ImGui.sameLine();
+        if (ImGui.menuItem("Grid")) { }
+        ImGui.image(TextureManager.getInstance().getTexture("src/main/resources/images/mesh_icons/sphere.png").getId(), size, size);
+        ImGui.sameLine();
+        if (ImGui.menuItem("Sphere")) { }
+        ImGui.separator();
+        if (ImGui.menuItem("Torus")) { }
+        if (ImGui.menuItem("Icosphere")) { }
+        if (ImGui.menuItem("Monkey")) { }
+        ImGui.endPopup();
 
     }
 

@@ -16,10 +16,10 @@ public class DirectionalLight extends Light {
         this.direction = direction;
     }
 
-    public void apply(Shader shader) {
-        shader.setUniformVec3("dirLight.direction", direction);
-        shader.setUniformVec3("dirLight.ambient",   ambient);
-        shader.setUniformVec3("dirLight.diffuse",   diffuse);
-        shader.setUniformVec3("dirLight.specular",  specular);
+    public void apply(ShaderProgram shaderProgram) {
+        shaderProgram.setUniformVec3("dirLight.direction", direction);
+        shaderProgram.setUniformVec3("dirLight.ambient",   ambient);
+        shaderProgram.setUniformVec3("dirLight.diffuse",   diffuse);
+        shaderProgram.setUniformVec3("dirLight.specular",  specular);
     }
 }

@@ -10,5 +10,8 @@
         <module name="SimpleOpenGLRenderer" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="SimpleOpenGLRenderer" target="11" />
+    </bytecodeTargetLevel>
   </component>
 </project>

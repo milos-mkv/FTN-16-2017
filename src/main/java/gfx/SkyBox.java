@@ -4,35 +4,36 @@ import core.Constants;
 import core.Scene;
 import lombok.Getter;
 import lombok.Setter;
+import managers.ShaderProgramManager;
 import org.joml.Matrix3f;
 import org.joml.Matrix4f;
-import org.lwjgl.opengl.GL32;
+import utils.Disposable;
+import utils.Renderable;
 
-import static org.lwjgl.opengl.GL15.*;
-import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.opengl.GL30.*;
 
 
-public abstract class SkyBox {
+public class SkyBox implements Disposable, Renderable {
 
-    private static int vao;
-    private static int vbo;
-    private static Shader shader;
+    private static SkyBox skyBox;
+
+    public static SkyBox getInstance() {
+        return skyBox == null ? skyBox = new SkyBox() : skyBox;
+    }
+
+    private final int vao;
+    private final int vbo;
 
     @Getter
     @Setter
-    private static CubeMap cubemap;
+    private CubeMap cubemap;
 
-    private SkyBox() { }
-
-    public static void initialize() {
-        shader = new Shader(Constants.DEFAULT_SKYBOX_VERTEX_SHADER_PATH, Constants.DEFAULT_SKYBOX_FRAGMENT_SHADER_PATH);
+    private SkyBox() {
         cubemap = new CubeMap(Constants.DEFAULT_SKYBOX_FACES);
-
         var skyboxVertices = new float[] {
                 -1.0f,  1.0f, -1.0f, -1.0f, -1.0f, -1.0f,  1.0f, -1.0f, -1.0f,  1.0f, -1.0f, -1.0f,  1.0f,  1.0f, -1.0f, -1.0f,  1.0f, -1.0f,
                 -1.0f, -1.0f,  1.0f, -1.0f, -1.0f, -1.0f, -1.0f,  1.0f, -1.0f, -1.0f,  1.0f, -1.0f, -1.0f,  1.0f,  1.0f, -1.0f, -1.0f,  1.0f,
-                 1.0f, -1.0f, -1.0f,  1.0f, -1.0f,  1.0f,  1.0f,  1.0f,  1.0f,  1.0f,  1.0f,  1.0f,  1.0f,  1.0f, -1.0f,  1.0f, -1.0f, -1.0f,
+                1.0f, -1.0f, -1.0f,  1.0f, -1.0f,  1.0f,  1.0f,  1.0f,  1.0f,  1.0f,  1.0f,  1.0f,  1.0f,  1.0f, -1.0f,  1.0f, -1.0f, -1.0f,
                 -1.0f, -1.0f,  1.0f, -1.0f,  1.0f,  1.0f,  1.0f,  1.0f,  1.0f,  1.0f,  1.0f,  1.0f,  1.0f, -1.0f,  1.0f, -1.0f, -1.0f,  1.0f,
                 -1.0f,  1.0f, -1.0f,  1.0f,  1.0f, -1.0f,  1.0f,  1.0f,  1.0f,  1.0f,  1.0f,  1.0f, -1.0f,  1.0f,  1.0f, -1.0f,  1.0f, -1.0f,
                 -1.0f, -1.0f, -1.0f, -1.0f, -1.0f,  1.0f,  1.0f, -1.0f, -1.0f,  1.0f, -1.0f, -1.0f, -1.0f, -1.0f,  1.0f,  1.0f, -1.0f,  1.0f
@@ -47,19 +48,22 @@ public abstract class SkyBox {
         glBindVertexArray(0);
     }
 
-    public static void render() {
+    @Override
+    public void render() {
+        ShaderProgram program = ShaderProgramManager.getInstance().get("SKYBOX SHADER");
+
         glDisable(GL_STENCIL_TEST);
         glDepthFunc(GL_LEQUAL);
-        glUseProgram(shader.getId());
+        glUseProgram(program.getId());
 
-        shader.setUniformMat4("proj", Scene.getFPSCamera().getProjectionMatrix());
-        shader.setUniformMat4("view",
+        program.setUniformMat4("proj", Scene.getInstance().getCamera().getProjectionMatrix());
+        program.setUniformMat4("view",
                 new Matrix4f().set(
-                new Matrix3f().set(Scene.getFPSCamera().getViewMatrix())));
+                new Matrix3f().set(Scene.getInstance().getCamera().getViewMatrix())));
 
         glBindVertexArray(vao);
         glActiveTexture(GL_TEXTURE0);
-        glUniform1i(glGetUniformLocation(shader.getId(), "skybox"), 0);
+        glUniform1i(glGetUniformLocation(program.getId(), "skybox"), 0);
 
         glBindTexture(GL_TEXTURE_CUBE_MAP, cubemap.getId());
         glDrawArrays(GL_TRIANGLES, 0, 36);
@@ -69,10 +73,10 @@ public abstract class SkyBox {
         glEnable(GL_STENCIL_TEST);
     }
 
-    public static void dispose() {
+    @Override
+    public void dispose() {
         glDeleteBuffers(vbo);
         glDeleteVertexArrays(vao);
-        shader.dispose();
         cubemap.dispose();
     }
 
