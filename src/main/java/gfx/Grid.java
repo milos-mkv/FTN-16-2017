@@ -38,6 +38,7 @@ public class Grid implements Disposable, Renderable {
 
     @Override
     public void render() {
+        glDisable(GL_STENCIL_TEST);
         ShaderProgram program = ShaderProgramManager.getInstance().get("GRID SHADER");
         glUseProgram(program.getId());
         program.setUniformMat4("view", Scene.getInstance().getCamera().getViewMatrix());
@@ -48,6 +49,7 @@ public class Grid implements Disposable, Renderable {
         glBindVertexArray(0);
 
         glClear(GL_DEPTH_BUFFER_BIT);
+        glEnable(GL_STENCIL_TEST);
     }
 
     @Override

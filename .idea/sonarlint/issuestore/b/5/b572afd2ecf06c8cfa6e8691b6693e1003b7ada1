@@ -1,7 +1,0 @@
-
-`	java:S1125"FDefine and throw a dedicated exception instead of using a generic one.(âÒË‘ıÿÿÿÿ
-`	java:S112F"FDefine and throw a dedicated exception instead of using a generic one.(Ë·ïİÿÿÿÿÿ
-S	java:S1062"9Replace this use of System.out or System.err by a logger.(àâç”ûÿÿÿÿ
-Q	java:S125N"<This block of commented-out lines of code should be removed.(¬İÂÀ
-j
-java:S20952"OUse try-with-resources or close this "GLFWErrorCallback" in a "finally" clause.(àâç”ûÿÿÿÿ

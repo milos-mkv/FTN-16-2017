@@ -122,20 +122,48 @@ public class ViewportDock implements Dock {
         }
         ImGui.image(TextureManager.getInstance().getTexture("src/main/resources/images/mesh_icons/cube.png").getId(), size, size);
         ImGui.sameLine();
-        if (ImGui.menuItem("Cube")) { }
+        if (ImGui.menuItem("Cube")) {
+            String key = "Model " + scene.getModels().size();
+            scene.getModels().put(key, ModelManager.getInstance().clone("Cube"));
+            scene.setSelectedModel(key);
+        }
         ImGui.image(TextureManager.getInstance().getTexture("src/main/resources/images/mesh_icons/cylinder.png").getId(), size, size);
         ImGui.sameLine();
-        if (ImGui.menuItem("Cylinder")) { }
+        if (ImGui.menuItem("Cylinder")) {
+            String key = "Model " + scene.getModels().size();
+            scene.getModels().put(key, ModelManager.getInstance().clone("Cylinder"));
+            scene.setSelectedModel(key);
+        }
         ImGui.image(TextureManager.getInstance().getTexture("src/main/resources/images/mesh_icons/grid.png").getId(), size, size);
         ImGui.sameLine();
-        if (ImGui.menuItem("Grid")) { }
+        if (ImGui.menuItem("Grid")) {
+            String key = "Model " + scene.getModels().size();
+            scene.getModels().put(key, ModelManager.getInstance().clone("Grid"));
+            scene.setSelectedModel(key);
+        }
         ImGui.image(TextureManager.getInstance().getTexture("src/main/resources/images/mesh_icons/sphere.png").getId(), size, size);
         ImGui.sameLine();
-        if (ImGui.menuItem("Sphere")) { }
+        if (ImGui.menuItem("Sphere")) {
+            String key = "Model " + scene.getModels().size();
+            scene.getModels().put(key, ModelManager.getInstance().clone("Sphere"));
+            scene.setSelectedModel(key);
+        }
         ImGui.separator();
-        if (ImGui.menuItem("Torus")) { }
-        if (ImGui.menuItem("Icosphere")) { }
-        if (ImGui.menuItem("Monkey")) { }
+        if (ImGui.menuItem("Torus")) {
+            String key = "Model " + scene.getModels().size();
+            scene.getModels().put(key, ModelManager.getInstance().clone("Torus"));
+            scene.setSelectedModel(key);
+        }
+        if (ImGui.menuItem("Icosphere")) {
+            String key = "Model " + scene.getModels().size();
+            scene.getModels().put(key, ModelManager.getInstance().clone("Icosphere"));
+            scene.setSelectedModel(key);
+        }
+        if (ImGui.menuItem("Monkey")) {
+            String key = "Model " + scene.getModels().size();
+            scene.getModels().put(key, ModelManager.getInstance().clone("Monkey"));
+            scene.setSelectedModel(key);
+        }
         ImGui.endPopup();
 
     }

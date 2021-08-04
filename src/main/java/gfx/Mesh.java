@@ -12,8 +12,9 @@ import static org.lwjgl.opengl.GL15.glGenBuffers;
 import static org.lwjgl.opengl.GL15C.glDeleteBuffers;
 import static org.lwjgl.opengl.GL30C.*;
 
+
 @Data
-public class Mesh implements Disposable, Cloneable {
+public class Mesh implements Disposable {
 
     private int vao;
     private int vbo;
@@ -23,18 +24,21 @@ public class Mesh implements Disposable, Cloneable {
     private String name;
     private Material material;
 
+    List<Vertex> vertices;
+    List<Integer> indices;
+
     public Mesh(String name, List<Vertex> vertices, List<Integer> indices, Material material) {
         this.material = material;
         this.name     = name;
         this.indicesSize = indices.size();
+        this.vertices = vertices;
+        this.indices = indices;
 
         setupMesh(vertices, indices);
     }
 
-    public Mesh clone() throws CloneNotSupportedException {
-        Mesh clone = (Mesh) super.clone();
-        clone.name = String.valueOf(name);
-        return clone;
+    public static Mesh clone(Mesh mesh, Material material) {
+        return new Mesh(mesh.name, mesh.vertices, mesh.indices, material);
     }
 
     @Override

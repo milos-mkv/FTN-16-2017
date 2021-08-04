@@ -1,6 +1,5 @@
 package gfx;
 
-import core.Constants;
 import lombok.Data;
 import org.joml.Vector3f;
 
@@ -31,6 +30,20 @@ public class Material {
         this.diffuseColor  = diffuse;
         this.specularColor = specular;
         this.shininess     = shininess;
+    }
+
+    public static Material clone(Material material) {
+        Material clone        = new Material();
+        clone.ambientColor    = new Vector3f().set(material.getAmbientColor());
+        clone.diffuseColor    = new Vector3f().set(material.getDiffuseColor());
+        clone.specularColor   = new Vector3f().set(material.getSpecularColor());
+        clone.shininess       = material.getShininess();
+        clone.name            = String.valueOf(material.name);
+        clone.reflectance     = material.getReflectance();
+        clone.diffuseTexture  = material.getDiffuseTexture();
+        clone.specularTexture = material.getSpecularTexture();
+        clone.normalTexture   = material.getNormalTexture();
+        return clone;
     }
 
 }

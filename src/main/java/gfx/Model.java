@@ -1,6 +1,7 @@
 package gfx;
 
-import core.Constants;
+
+import core.Scene;
 import exceptions.InvalidDocumentException;
 import lombok.Getter;
 import managers.TextureManager;
@@ -13,20 +14,23 @@ import utils.Disposable;
 import java.nio.IntBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+
+import static org.lwjgl.opengl.GL11.*;
 
 public class Model extends TransformComponent implements Disposable {
 
     @Getter
-    private ArrayList<Mesh> meshes = new ArrayList<>();
+    private List<Mesh> meshes = new ArrayList<>();
 
     @Getter
-    private ArrayList<Material> materials = new ArrayList<>();
+    private List<Material> materials = new ArrayList<>();
 
     @Getter
     private String path;
 
-    public Model(ArrayList<Mesh> meshes, ArrayList<Material> materials) {
+    public Model(List<Mesh> meshes, List<Material> materials) {
         super();
         this.meshes = meshes;
         this.materials = materials;

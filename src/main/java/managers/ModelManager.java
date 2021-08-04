@@ -3,13 +3,10 @@ package managers;
 import gfx.Material;
 import gfx.Mesh;
 import gfx.Model;
-import lombok.SneakyThrows;
-import org.joml.Vector3f;
 import utils.Disposable;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class ModelManager implements Disposable {
 
@@ -32,36 +29,27 @@ public class ModelManager implements Disposable {
         loadedModels.put("Torus", new Model("src/main/resources/meshes/torus.obj"));
     }
 
-    @SneakyThrows
     public Model clone(String key) {
-        Model model = loadedModels.get(key);
-        ArrayList<Material> materials = new ArrayList<>();
-        for(Material material: model.getMaterials()) {
-            Material mat  = new Material();
-            mat.setSpecularColor((Vector3f) material.getSpecularColor().clone());
-            mat.setDiffuseColor((Vector3f) material.getSpecularColor().clone());
-            mat.setAmbientColor((Vector3f) material.getSpecularColor().clone());
-            mat.setShininess(material.getShininess());
-            mat.setReflectance(material.getReflectance());
-            mat.setDiffuseTexture(material.getDiffuseTexture());
-            mat.setSpecularTexture(material.getSpecularTexture());
-            mat.setNormalTexture(material.getNormalTexture());
-            mat.setName(material.getName());
-            materials.add(mat);
-        }
+        return this.clone(loadedModels.get(key));
+    }
 
-        ArrayList<Mesh> meshes = new ArrayList<>();
-        for(Mesh mesh : model.getMeshes()) {
-            Mesh clone = mesh.clone();
-            for(Material m : materials) {
-                if(m.getName().equals(mesh.getMaterial().getName())) {
-                    clone.setMaterial(m);
-                }
-            }
-            meshes.add(clone);
-        }
-
+    public Model clone(Model model) {
+        List<Material> materials = model.getMaterials()
+                .stream()
+                .map(Material::clone)
+                .collect(Collectors.toList());
+        List<Mesh> meshes = model.getMeshes()
+                .stream()
+                .map(mesh -> Mesh.clone(mesh, findSameMaterial(materials, mesh)))
+                .collect(Collectors.toList());
         return new Model(meshes, materials);
+    }
+
+    private Material findSameMaterial(List<Material> materials, Mesh mesh) {
+        return materials.stream()
+                .filter(material -> material.getName().equals(mesh.getMaterial().getName()))
+                .findFirst()
+                .orElseGet(Material::new);
     }
 
     @Override

@@ -33,7 +33,10 @@ public class Main extends Application {
         GUI.initialize();
         ShadowMap.initialize();
         ModelManager.getInstance();
+        glEnable(GL_STENCIL_TEST);
     }
+
+
 
     @Override
     protected void render(float delta) {
@@ -65,13 +68,17 @@ public class Main extends Application {
         glBindFramebuffer(GL_FRAMEBUFFER, scene.getFrameBuffer().getId());
         glClearColor(Scene.ClearColor[0], Scene.ClearColor[1], Scene.ClearColor[2], Scene.ClearColor[3]);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-
         if(Settings.ToggleSkyBox) {
             SkyBox.getInstance().render();
         }
         if(Settings.ToggleGrid) {
             Grid.getInstance().render();
         }
+
+        glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+        glStencilFunc(GL_ALWAYS, 1, 0xFF);
+        glStencilMask(0xFF);
+
 
         ShaderProgram program = ShaderProgramManager.getInstance().get("SCENE SHADER");
 
@@ -90,6 +97,28 @@ public class Main extends Application {
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, ShadowMap.getDepthMap());
         scene.getModels().forEach((key, value) -> value.draw(program));
+
+        if(scene.getModels().size() >0) {
+            glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
+            glStencilMask(0x00);
+            glDisable(GL_DEPTH_TEST);
+
+            ShaderProgram p = ShaderProgramManager.getInstance().get("BORDER SHADER");
+
+            glUseProgram(p.getId());
+            p.setUniformMat4("proj", scene.getCamera().getProjectionMatrix());
+            p.setUniformMat4("view", scene.getCamera().getViewMatrix());
+
+
+            var model = scene.getSelectedModel();
+            model.getScale().add(new Vector3f(0.015f, 0.015f, 0.015f));
+            model.draw(p);
+            model.getScale().sub(new Vector3f(0.015f, 0.015f, 0.015f));
+            glStencilMask(0xFF);
+            glEnable(GL_DEPTH_TEST);
+            glStencilFunc(GL_ALWAYS, 1, 0xFF);
+            glEnable(GL_DEPTH_TEST);
+        }
 
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
     }

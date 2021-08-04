@@ -1,6 +1,7 @@
 package core;
 
 import core.callbacks.CursorPosCallback;
+import core.callbacks.KeyCallback;
 import core.callbacks.MouseButtonCallback;
 import imgui.ImGui;
 import imgui.ImGuiStyle;
@@ -10,10 +11,7 @@ import imgui.gl3.ImGuiImplGl3;
 import imgui.glfw.ImGuiImplGlfw;
 import lombok.Getter;
 import org.joml.Vector4f;
-import org.lwjgl.glfw.Callbacks;
-import org.lwjgl.glfw.GLFW;
-import org.lwjgl.glfw.GLFWErrorCallback;
-import org.lwjgl.glfw.GLFWVidMode;
+import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.GL;
 import org.lwjgl.system.MemoryUtil;
 
@@ -80,6 +78,7 @@ public abstract class Window {
 
         GLFW.glfwSetCursorPosCallback(handle, new CursorPosCallback());
         GLFW.glfwSetMouseButtonCallback(handle, new MouseButtonCallback());
+        GLFW.glfwSetKeyCallback(handle, new KeyCallback());
 
         GL.createCapabilities();
     }

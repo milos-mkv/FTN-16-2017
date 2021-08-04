@@ -33,6 +33,9 @@ public class ShaderProgramManager implements Disposable {
         shaders.put("SKYBOX SHADER", new ShaderProgram(
                 readFromFile("src/main/resources/shaders/skybox.vert"), readFromFile("src/main/resources/shaders/skybox.frag")
         ));
+        shaders.put("BORDER SHADER", new ShaderProgram(
+                readFromFile("src/main/resources/shaders/border.vert"), readFromFile("src/main/resources/shaders/border.frag")
+        ));
     }
 
     public ShaderProgram get(String shader) {
