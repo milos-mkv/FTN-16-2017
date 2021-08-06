@@ -1,5 +1,7 @@
 package utils;
 
 public enum TextureType {
-    DIFFUSE, SPECULAR, NORMAL
+    DIFFUSE,
+    SPECULAR,
+    NORMAL
 }

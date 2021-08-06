@@ -1,5 +1,7 @@
 package gui.components;
 
+import gui.GUIControls;
+import managers.ModelManager;
 import utils.Renderable;
 import core.Constants;
 import core.Scene;
@@ -84,19 +86,21 @@ public class MainMenuBar implements Renderable {
     }
 
     private void openImportModelFailedDialog() {
-        try {
-            var pointerBuffer = PointerBuffer.allocateDirect(1);
-            NativeFileDialog.NFD_OpenDialog((CharSequence) null, null, pointerBuffer);
+        String path = GUIControls.controlOpenFileDialog();
+        if(path == null) {
+            return;
+        }
 
-            var model = new Model(pointerBuffer.getStringASCII().replace("\\", "/"));
+        try {
+            var model = ModelManager.getInstance().clone(path);
             String key = "Model " + scene.getModels().size();
             scene.getModels().put(key, model);
             scene.setSelectedModel(key);
 
             Console.log(Console.Level.INFO, "Model successfully loaded: " + model.getPath());
-        } catch (InvalidDocumentException e) {
-            Console.log(Console.Level.ERROR, e.getMessage());
-        } catch (Exception e) { }
+        } catch (RuntimeException e) {
+            Console.log(Console.Level.ERROR, "Failed to laod model: " + path);
+        }
     }
 
     private void executeRenderImage() {

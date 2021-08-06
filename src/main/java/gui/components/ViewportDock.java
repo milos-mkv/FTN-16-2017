@@ -19,6 +19,7 @@ import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.w3c.dom.Text;
 
+import java.text.DecimalFormat;
 import java.util.Objects;
 
 import static utils.Utils.matrix4x4ToFloatBuffer;
@@ -26,9 +27,11 @@ import static utils.Utils.matrix4x4ToFloatBuffer;
 public class ViewportDock implements Dock {
 
     private final Scene scene;
+    DecimalFormat df = new DecimalFormat();
 
     public ViewportDock() {
         this.scene = Scene.getInstance();
+        df.setMaximumFractionDigits(2);
     }
 
     @Override
@@ -69,6 +72,9 @@ public class ViewportDock implements Dock {
             openContextMenu();
         }
 
+        ImGui.setCursorPos(ImGui.getWindowSizeX() - 100, 30);
+
+        ImGui.text(df.format(ImGui.getIO().getFramerate()) + " FPS");
         ImGui.end();
     }
 

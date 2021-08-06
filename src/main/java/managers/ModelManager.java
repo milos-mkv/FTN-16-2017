@@ -30,6 +30,9 @@ public class ModelManager implements Disposable {
     }
 
     public Model clone(String key) {
+        if(loadedModels.get(key) == null) {
+            loadedModels.put(key, new Model(key));
+        }
         return this.clone(loadedModels.get(key));
     }
 

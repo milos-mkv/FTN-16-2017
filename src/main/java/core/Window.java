@@ -88,18 +88,7 @@ public abstract class Window {
         ImGui.styleColorsDark();
         ImGui.getIO().addConfigFlags(ImGuiConfigFlags.DockingEnable | ImGuiConfigFlags.ViewportsEnable);
 
-        Assets.Fonts.put(
-                "DEFAULT_FONT",
-                ImGui.getIO().getFonts().addFontFromFileTTF(Constants.DEFAULT_FONT_PATH, Constants.DEFAULT_FONT_SIZE));
-        Assets.Fonts.put(
-                "CONSOLE_FONT",
-                ImGui.getIO().getFonts().addFontFromFileTTF(Constants.CONSOLE_FONT_PATH, Constants.CONSOLE_FONT_SIZE));
-        Assets.Fonts.put(
-                "CODE_FONT",
-                ImGui.getIO().getFonts().addFontFromFileTTF(Constants.CONSOLE_FONT_PATH, 18.0f));
-        Assets.Fonts.put(
-                "SPLASH_FONT",
-                ImGui.getIO().getFonts().addFontFromFileTTF(Constants.JAPANESE_FONT_PATH, Constants.JAPANESE_FONT_SIZE));
+        Assets.getInstance();
 
         imGuiGlfw.init(handle, true);
         imGuiGl3.init("#version 130");

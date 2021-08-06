@@ -5,7 +5,7 @@ import org.joml.Vector3f;
 import org.lwjgl.PointerBuffer;
 import org.lwjgl.util.nfd.NativeFileDialog;
 
-public interface GUIComponents {
+public interface GUIControls {
 
     static void controlDragFloat3(String text, Vector3f vec, float min, float max) {
         var buffer = new float[]{vec.x, vec.y, vec.z};
@@ -15,12 +15,12 @@ public interface GUIComponents {
         vec.set(buffer);
     }
 
-    static void controlRGB(String label, Vector3f vec3) {
-        var buffer = new float[]{vec3.x, vec3.y, vec3.z};
+    static void controlRGB(String label, Vector3f vec) {
+        var buffer = new float[]{vec.x, vec.y, vec.z};
         ImGui.text(label);
         ImGui.setNextItemWidth(ImGui.getColumnWidth());
         ImGui.colorEdit3("##" + label, buffer);
-        vec3.set(buffer);
+        vec.set(buffer);
     }
 
     static float controlDragFloat(String label, float value) {

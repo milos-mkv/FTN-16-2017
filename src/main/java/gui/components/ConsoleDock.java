@@ -16,7 +16,7 @@ public class ConsoleDock implements Dock {
         }
 
         ImGui.begin("Console", Settings.ShowConsoleDock, ImGuiWindowFlags.HorizontalScrollbar);
-        ImGui.pushFont(Assets.Fonts.get("CONSOLE_FONT"));
+        ImGui.pushFont(Assets.getInstance().getFont("CONSOLE_FONT"));
         Console.getLogs().forEach(ImGui::text);
         ImGui.popFont();
         ImGui.end();

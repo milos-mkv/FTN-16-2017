@@ -6,14 +6,16 @@ import gui.Dock;
 import imgui.ImGui;
 import managers.TextureManager;
 
-import static gui.GUIComponents.*;
+import static gui.GUIControls.*;
 
 public class ScenePropertiesDock implements Dock {
 
     private final Scene scene;
+    private final MeshPropertiesPopup meshPropertiesPopup;
 
     public ScenePropertiesDock() {
         this.scene = Scene.getInstance();
+        this.meshPropertiesPopup = new MeshPropertiesPopup();
     }
 
     @Override
@@ -33,8 +35,12 @@ public class ScenePropertiesDock implements Dock {
                     model.getMeshes().forEach(mesh -> {
                         ImGui.image(TextureManager.getInstance().getTexture("src/main/resources/images/aaa.png").getId(), 20, 20);
                         ImGui.sameLine();
-                        ImGui.selectable(mesh.getName());
+                        if(ImGui.selectable(mesh.getName())) {
+                            scene.setSelectedMesh(mesh.getName());
+                            ImGui.openPopup("Mesh Properties");
+                        }
                     });
+                    meshPropertiesPopup.render();
                     ImGui.treePop();
                 }
             });
@@ -49,7 +55,9 @@ public class ScenePropertiesDock implements Dock {
             controlRGB("Specular", scene.getDirectionalLight().getSpecular());
         }
 
+
         ImGui.end();
+
     }
 
 }

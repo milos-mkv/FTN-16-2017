@@ -1,7 +1,4 @@
-import core.Application;
-import core.Constants;
-import core.Scene;
-import core.Settings;
+import core.*;
 import gfx.Grid;
 import gfx.ShaderProgram;
 import gfx.ShadowMap;
@@ -24,19 +21,20 @@ public class Main extends Application {
         launch(new Main());
     }
 
+    private GUI gui;
+
     @Override
     protected void onStart() {
         ShaderProgramManager.getInstance();
         glEnable(GL_DEPTH_TEST);
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        GUI.initialize();
-        ShadowMap.initialize();
+
+        gui = new GUI();
+
         ModelManager.getInstance();
         glEnable(GL_STENCIL_TEST);
     }
-
-
 
     @Override
     protected void render(float delta) {
@@ -46,22 +44,29 @@ public class Main extends Application {
             scene.getCamera().updateController(delta);
         }
 
-        glBindFramebuffer(GL_FRAMEBUFFER, ShadowMap.getDepthMapFBO());
+        glBindFramebuffer(GL_FRAMEBUFFER, ShadowMap.getInstance().getDepthMapFBO());
         glViewport(0, 0, ShadowMap.SHADOW_WIDTH, ShadowMap.SHADOW_HEIGHT);
 
         glClear(GL_DEPTH_BUFFER_BIT);
-        glUseProgram(ShadowMap.shaderProgram.getId());
+
+        ShaderProgram shadowShader = ShaderProgramManager.getInstance().get("SHADOW SHADER");
+
+        glUseProgram(shadowShader.getId());
 
         Matrix4f lightViewMatrix = new Matrix4f().lookAt(
-            new Vector3f().set(scene.getDirectionalLight().getDirection()).mul(-1), new Vector3f(0, 0, 0), new Vector3f(0, 1, 0)
+                new Vector3f()
+                    .set(scene.getDirectionalLight().getDirection())
+                    .mul(-1),
+                new Vector3f(0, 0, 0),
+                new Vector3f(0, 1, 0)
         );
         var projection = new Matrix4f().ortho(-20.0f, 20.f, -20.0f, 20.0f, -20.f, 20.f);
 
         var lightSpaceMatrix = new Matrix4f().set(projection).mul(lightViewMatrix);
 
-        ShadowMap.shaderProgram.setUniformMat4("orthoProjectionMatrix", lightSpaceMatrix);
+        shadowShader.setUniformMat4("orthoProjectionMatrix", lightSpaceMatrix);
 
-        scene.getModels().forEach((key, value) -> value.draw(ShadowMap.shaderProgram));
+        scene.getModels().forEach((key, value) -> value.draw(shadowShader));
 
 
         glViewport(0, 0, Constants.WINDOW_DEFAULT_WIDTH, Constants.WINDOW_DEFAULT_HEIGHT);
@@ -95,7 +100,8 @@ public class Main extends Application {
         program.setUniformInt("shadowMap", 0);
         program.setUniformInt("diffuseTexture", 1);
         glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, ShadowMap.getDepthMap());
+        glBindTexture(GL_TEXTURE_2D, ShadowMap.getInstance().getDepthMap());
+
         scene.getModels().forEach((key, value) -> value.draw(program));
 
         if(scene.getModels().size() >0) {
@@ -126,7 +132,7 @@ public class Main extends Application {
     @Override
     protected void renderImGui() {
         ImGui.showDemoWindow();
-        GUI.render();
+        gui.render();
     }
 
     @Override
@@ -134,8 +140,10 @@ public class Main extends Application {
         ShaderProgramManager.getInstance().dispose();
         TextureManager.getInstance().dispose();
         ModelManager.getInstance().dispose();
+        ShadowMap.getInstance().dispose();
         Scene.getInstance().dispose();
         SkyBox.getInstance().dispose();
         Grid.getInstance().dispose();
+        Assets.getInstance().dispose();
     }
 }

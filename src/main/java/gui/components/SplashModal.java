@@ -32,7 +32,7 @@ public class SplashModal implements Renderable {
             ImGui.getWindowWidth(), ImGui.getWindowHeight() - 30);
 
         ImGui.setCursorPos(110, 245);
-        ImGui.pushFont(Assets.Fonts.get("SPLASH_FONT"));
+        ImGui.pushFont(Assets.getInstance().getFont("SPLASH_FONT"));
         ImGui.pushStyleColor(ImGuiCol.Text, 0.0f, 0.0f, 0.0f, 1.0f);
         ImGui.pushStyleColor(ImGuiCol.Button, 0.6f, 0.9f, 1.0f, 1.0f);
 

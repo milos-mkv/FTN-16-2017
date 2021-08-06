@@ -16,7 +16,7 @@ public class ShadowPropertiesDock implements Dock {
         ImGui.begin("Shadow Properties", Settings.ShowShadowPropertiesDock);
         ImGui.checkbox("Enable Shadows", Settings.ToogleShadows);
         if(ImGui.collapsingHeader("Shadow Map")) {
-            ImGui.image(ShadowMap.getDepthMap(), 300, 300, 0, 1, 1, 0);
+            ImGui.image(ShadowMap.getInstance().getDepthMap(), 300, 300, 0, 1, 1, 0);
         }
         ImGui.end();
     }

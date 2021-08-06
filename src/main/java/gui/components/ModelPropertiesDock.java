@@ -10,7 +10,7 @@ import imgui.flag.ImGuiStyleVar;
 import managers.TextureManager;
 import utils.TextureType;
 
-import static gui.GUIComponents.*;
+import static gui.GUIControls.*;
 
 public class ModelPropertiesDock implements Dock {
 

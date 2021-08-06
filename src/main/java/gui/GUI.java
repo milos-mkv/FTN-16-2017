@@ -6,11 +6,11 @@ import utils.Renderable;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class GUI {
+public class GUI implements Renderable {
 
-    private static final List<Renderable> renderables = new ArrayList<>();
+    private final List<Renderable> renderables = new ArrayList<>();
 
-    public static void initialize() {
+    public GUI() {
         renderables.add(new MainMenuBar());
         renderables.add(new ShadowPropertiesDock());
         renderables.add(new ShaderEditorDock());
@@ -21,7 +21,8 @@ public abstract class GUI {
         renderables.add(new ModelPropertiesDock());
     }
 
-    public static void render() {
+    @Override
+    public void render() {
         renderables.forEach(Renderable::render);
     }
 

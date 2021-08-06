@@ -5,35 +5,42 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5fdce06c-608e-42b4-9d60-dab4fa34989b" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/0/a/0a76b7518972c43ba7e15f62731dde07d2578c44" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/0/f/0fed48ecd35b76350277bbd9cd3074b8fdff5a7f" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/3/5/3534d7a5457b067bfacf25c71d67e9d2d83da3a5" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/6/5/65d35c6c098923337615a01dbaf7e85ce519c5dd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/6/b/6bba91d13d25b3527ce6890c61328381b6daa980" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/8/b/8bdbab70849587cf07925555855e30357b26c233" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/8/b/8bdbab70849587cf07925555855e30357b26c233" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/9/2/92e03181283c22599efbb370a37685455c4b7f7d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/b/5/b572afd2ecf06c8cfa6e8691b6693e1003b7ada1" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/c/b/cbbd8f9c303a20cb4504b85c40286700fbbf80ac" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/d/0/d0bdffa2abebd1a4ca7afd8809bafb79eff4b4be" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/e/4/e44a8606ce010ad9b89aafdfcee2ab49afbf6d10" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/f/2/f2d179b47b21c2af18f26777cf9a9eb5a1af6584" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/f/e/fea5079038682c8c9893e3b531cd3e3c22c7c077" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/f/e/fea5079038682c8c9893e3b531cd3e3c22c7c077" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/0/b/0bed2286518b323a975ce5cf9b039f708d3d8630" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/0/b/0bed2286518b323a975ce5cf9b039f708d3d8630" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/1/f/1fce0bba806cf55ce5a812497960579b6341e68b" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/1/f/1fce0bba806cf55ce5a812497960579b6341e68b" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/4/6/460d1123153131cb285aef0c4acd0f55baf03b29" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/5/0/50fc336d72aece1e029b1c5809d4236aa539c266" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/6/a/6a891099d14e61378fc8191d7c18253e1be13da8" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/6/a/6a891099d14e61378fc8191d7c18253e1be13da8" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/7/9/792c28e7d81805c4cfeb10ee4256caafb9f71a0e" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/8/1/819fe9bd6d6f6b741c34942e4e0c95379b7e2a26" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/8/2/822249b38f8cb490dbea51375aba5da71d2be1e8" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/8/b/8bdbab70849587cf07925555855e30357b26c233" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/9/5/953886c6f484c5eac2da3d44fc26245eba80bf1d" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/d/7/d7d4ecd9c04c959f5c981be135e3236ced0452b7" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/f/e/fea5079038682c8c9893e3b531cd3e3c22c7c077" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/imgui.ini" beforeDir="false" afterPath="$PROJECT_DIR$/imgui.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/core/Assets.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/Assets.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/core/Scene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/Scene.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/core/Settings.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/Settings.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/core/Window.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/Window.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/gfx/Grid.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gfx/Grid.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/gfx/Material.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gfx/Material.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/gfx/Mesh.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gfx/Mesh.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/gfx/Model.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gfx/Model.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gfx/ShadowMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gfx/ShadowMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/GUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/GUIComponents.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/GUIControls.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/components/ConsoleDock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/components/ConsoleDock.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/components/MainMenuBar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/components/MainMenuBar.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/components/ModelPropertiesDock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/components/ModelPropertiesDock.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/components/ScenePropertiesDock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/components/ScenePropertiesDock.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/components/ShaderEditorDock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/components/ShaderEditorDock.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/components/ShadowPropertiesDock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/components/ShadowPropertiesDock.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/components/SplashModal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/components/SplashModal.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/gui/components/ViewportDock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/components/ViewportDock.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/managers/ModelManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/managers/ModelManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/managers/ShaderProgramManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/managers/ShaderProgramManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/meshes/cone.mtl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/meshes/cone.mtl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/test.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/test.jpg" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/utils/Disposable.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/Disposable.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/utils/TextureType.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/TextureType.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/utils/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/Utils.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,6 +65,12 @@
       <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
     </file-type-list>
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="jar://$PROJECT_DIR$/../../../../Program Files/AdoptOpenJDK/jdk-11.0.11.9-hotspot/lib/src.zip!/java.base/java/lang/NullPointerException.java" root0="SKIP_INSPECTION" />
+    <setting file="jar://$PROJECT_DIR$/../../../../Program Files/AdoptOpenJDK/jdk-11.0.11.9-hotspot/lib/src.zip!/java.base/java/util/ArrayList.java" root0="SKIP_INSPECTION" />
+    <setting file="jar://$MAVEN_REPOSITORY$/cz/advel/jbullet/jbullet/20101010-1/jbullet-20101010-1.jar!/com/bulletphysics/collision/shapes/TriangleIndexVertexArray.class" root0="SKIP_INSPECTION" />
+    <setting file="jar://$MAVEN_REPOSITORY$/cz/advel/jbullet/jbullet/20101010-1/jbullet-20101010-1.jar!/com/bulletphysics/linearmath/MotionState.class" root0="SKIP_INSPECTION" />
+  </component>
   <component name="ProjectId" id="1vp7okz8XgNQ9eZH8LcwcrvyGvO" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="1" id="Add" />
@@ -74,7 +87,7 @@
     <property name="project.structure.last.edited" value="Global Libraries" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Color Scheme Font" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.fonts.default" />
   </component>
   <component name="ReaderModeSettings">
     <option name="showLigatures" value="true" />

@@ -9,6 +9,7 @@ public abstract class Settings {
     public static ImBoolean ShowModelPropertiesDock  = new ImBoolean(true);
     public static ImBoolean ShowShadowPropertiesDock = new ImBoolean(true);
     public static ImBoolean ShowConsoleDock          = new ImBoolean(true);
+    public static ImBoolean ShowMeshInformationDock  = new ImBoolean(true);
     public static ImBoolean ShowSplashModal          = new ImBoolean(false);
 
     public static ImBoolean ToogleShadows = new ImBoolean(true);

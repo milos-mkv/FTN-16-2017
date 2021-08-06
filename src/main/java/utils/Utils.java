@@ -5,8 +5,6 @@ import org.joml.Matrix4f;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public interface Utils {
 
@@ -19,7 +17,7 @@ public interface Utils {
                 stringBuilder.append(line).append(System.getProperty("line.separator"));
             }
         } catch (IOException e) {
-            Logger.getGlobal().log(Level.WARNING, e.getMessage());
+            System.out.println(e.getMessage());
         }
         return stringBuilder != null ? stringBuilder.toString() : null;
     }

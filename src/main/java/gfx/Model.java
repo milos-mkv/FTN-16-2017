@@ -1,7 +1,5 @@
 package gfx;
 
-
-import core.Scene;
 import exceptions.InvalidDocumentException;
 import lombok.Getter;
 import managers.TextureManager;
@@ -13,11 +11,7 @@ import utils.Disposable;
 
 import java.nio.IntBuffer;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-
-import static org.lwjgl.opengl.GL11.*;
+import java.util.*;
 
 public class Model extends TransformComponent implements Disposable {
 
@@ -71,7 +65,7 @@ public class Model extends TransformComponent implements Disposable {
     private Vector3f getMaterialColor(AIMaterial material, String type) {
         var color = AIColor4D.create();
         int result = Assimp.aiGetMaterialColor(material, type, Assimp.aiTextureType_NONE, 0, color);
-        return result == 0
+        return (result == 0)
                 ? new Vector3f(color.r(), color.g(), color.b())
                 : new Vector3f(1, 1 ,1);
     }

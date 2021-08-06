@@ -46,7 +46,7 @@ public class ShaderEditorDock implements Dock {
         ImGui.sameLine();
         ImGui.setNextItemWidth(100);
         ImGui.combo("Shader Type", selectedShaderTypeIndex, shaderTypes);
-        ImGui.pushFont(Assets.Fonts.get("CODE_FONT"));
+        ImGui.pushFont(Assets.getInstance().getFont("CODE_FONT"));
         ImGui.inputTextMultiline(
                 "##CODE",
                 code,

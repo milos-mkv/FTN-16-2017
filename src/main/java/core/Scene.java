@@ -28,9 +28,21 @@ public class Scene implements Disposable {
     @Getter
     private final Map<String, Model> models = new LinkedHashMap<>();
 
-    @Getter
     @Setter
     private String selectedModel;
+
+    @Setter
+    private String selectedMesh;
+
+    public Mesh getSelectedMesh() {
+        if(selectedMesh != null) {
+            for(Mesh mesh : getSelectedModel().getMeshes()) {
+                if(selectedMesh == mesh.getName())
+                    return mesh;
+            }
+        }
+        return null;
+    }
 
     public static float[] ClearColor = {0.1f, 0.1f, 0.1f, 1.0f};
 
