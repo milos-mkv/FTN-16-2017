@@ -30,29 +30,25 @@ public class ModelManager implements Disposable {
     }
 
     public Model clone(String key) {
-        if(loadedModels.get(key) == null) {
-            loadedModels.put(key, new Model(key));
-        }
+        loadedModels.computeIfAbsent(key, Model::new);
         return this.clone(loadedModels.get(key));
     }
 
     public Model clone(Model model) {
-        List<Material> materials = model.getMaterials()
+        Map<String, Material> materials = model.getMaterials()
+                .entrySet()
                 .stream()
-                .map(Material::clone)
-                .collect(Collectors.toList());
-        List<Mesh> meshes = model.getMeshes()
-                .stream()
-                .map(mesh -> Mesh.clone(mesh, findSameMaterial(materials, mesh)))
-                .collect(Collectors.toList());
-        return new Model(meshes, materials);
-    }
+                .map(entry -> new AbstractMap.SimpleEntry<>(entry.getKey(), Material.clone(entry.getValue())))
+                .collect(Collectors.toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
 
-    private Material findSameMaterial(List<Material> materials, Mesh mesh) {
-        return materials.stream()
-                .filter(material -> material.getName().equals(mesh.getMaterial().getName()))
-                .findFirst()
-                .orElseGet(Material::new);
+        Map<String, Mesh> meshes = model.getMeshes()
+                .entrySet()
+                .stream()
+                .map(entry -> new AbstractMap.SimpleEntry<>(entry.getKey(),
+                        Mesh.clone(entry.getValue(), materials.get(entry.getValue().getMaterial().getName()))))
+                .collect(Collectors.toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
+
+        return new Model(meshes, materials);
     }
 
     @Override

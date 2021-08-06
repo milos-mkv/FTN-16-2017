@@ -16,15 +16,15 @@ import java.util.*;
 public class Model extends TransformComponent implements Disposable {
 
     @Getter
-    private List<Mesh> meshes = new ArrayList<>();
+    private Map<String, Mesh> meshes = new LinkedHashMap<>();
 
     @Getter
-    private List<Material> materials = new ArrayList<>();
+    private Map<String, Material> materials = new LinkedHashMap<>();
 
     @Getter
     private String path;
 
-    public Model(List<Mesh> meshes, List<Material> materials) {
+    public Model(Map<String, Mesh> meshes,  Map<String, Material> materials) {
         super();
         this.meshes = meshes;
         this.materials = materials;
@@ -50,7 +50,7 @@ public class Model extends TransformComponent implements Disposable {
 
     public void draw(ShaderProgram shaderProgram) {
         shaderProgram.setUniformMat4("model", getTransform());
-        meshes.forEach(mesh -> mesh.draw(shaderProgram));
+        meshes.forEach((key, mesh) -> mesh.draw(shaderProgram));
     }
 
     private Texture getMaterialTexture(AIMaterial material, String texturesDir, int type) {
@@ -83,13 +83,14 @@ public class Model extends TransformComponent implements Disposable {
         var buffer = AIString.calloc();
         Assimp.aiGetMaterialString(aiMaterial, Assimp.AI_MATKEY_NAME, 0, 0, buffer);
         material.setName(buffer.dataString());
-        materials.add(material);
+        materials.put(buffer.dataString(), material);
     }
 
     private void processNode(AINode node, AIScene scene) {
         for (var i = 0; i < node.mNumMeshes(); i++) {
             var mesh = AIMesh.create(Objects.requireNonNull(scene.mMeshes()).get(Objects.requireNonNull(node.mMeshes()).get(i)));
-            meshes.add(processMesh(mesh));
+            Mesh m = processMesh(mesh);
+            meshes.put(m.getName(), m);
         }
         for (var i = 0; i < node.mNumChildren(); i++) {
             processNode(AINode.create(Objects.requireNonNull(node.mChildren()).get(i)), scene);
@@ -124,13 +125,15 @@ public class Model extends TransformComponent implements Disposable {
         }
 
         Material material = mesh.mMaterialIndex() >= 0 && mesh.mMaterialIndex() < materials.size()
-                ? materials.get(mesh.mMaterialIndex()) : new Material();
+                ? materials.get(materials.keySet()
+                    .toArray(new String[0])[mesh.mMaterialIndex()])
+                : new Material();
 
         return new Mesh(StandardCharsets.UTF_8.decode(mesh.mName().data()).toString(), vertices, indices, material);
     }
 
     @Override
     public void dispose() {
-        meshes.forEach(Mesh::dispose);
+        meshes.forEach((key, mesh) -> mesh.dispose());
     }
 }

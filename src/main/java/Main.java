@@ -55,8 +55,8 @@ public class Main extends Application {
 
         Matrix4f lightViewMatrix = new Matrix4f().lookAt(
                 new Vector3f()
-                    .set(scene.getDirectionalLight().getDirection())
-                    .mul(-1),
+                        .set(scene.getDirectionalLight().getDirection())
+                        .mul(-1),
                 new Vector3f(0, 0, 0),
                 new Vector3f(0, 1, 0)
         );
@@ -73,10 +73,10 @@ public class Main extends Application {
         glBindFramebuffer(GL_FRAMEBUFFER, scene.getFrameBuffer().getId());
         glClearColor(Scene.ClearColor[0], Scene.ClearColor[1], Scene.ClearColor[2], Scene.ClearColor[3]);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-        if(Settings.ToggleSkyBox) {
+        if (Settings.ToggleSkyBox) {
             SkyBox.getInstance().render();
         }
-        if(Settings.ToggleGrid) {
+        if (Settings.ToggleGrid) {
             Grid.getInstance().render();
         }
 
@@ -104,7 +104,7 @@ public class Main extends Application {
 
         scene.getModels().forEach((key, value) -> value.draw(program));
 
-        if(scene.getModels().size() >0) {
+        if (scene.getModels().size() > 0 && scene.getSelectedModel() != null) {
             glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
             glStencilMask(0x00);
             glDisable(GL_DEPTH_TEST);

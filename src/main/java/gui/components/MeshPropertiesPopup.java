@@ -8,10 +8,14 @@ import imgui.ImGui;
 import imgui.type.ImInt;
 import utils.Renderable;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class MeshPropertiesPopup implements Renderable {
 
-    private Scene scene;
-    private ImInt selectedMaterialIndex = new ImInt(0);
+    private final Scene scene;
+    private final ImInt selectedMaterialIndex = new ImInt(0);
 
     public MeshPropertiesPopup() {
         scene = Scene.getInstance();
@@ -22,34 +26,28 @@ public class MeshPropertiesPopup implements Renderable {
         if (scene.getSelectedMesh() == null) {
             return;
         }
-        Model model = scene.getSelectedModel();
-        Mesh mesh = scene.getSelectedMesh();
 
-        String[] materials = new String[model.getMaterials().size()];
-        for (int i = 0; i < materials.length; i++) {
-            materials[i] = model.getMaterials().get(i).getName();
-            if (mesh.getMaterial().getName().equals(materials[i])) {
-                selectedMaterialIndex.set(i);
-            }
-        }
-        ImGui.pushFont(Assets.getInstance().getFont("CODE_FONT"));
+        final Model model = scene.getSelectedModel();
+        final Mesh mesh = scene.getSelectedMesh();
+
+        List<String> materials = Arrays.asList(model.getMaterials().keySet().toArray(new String[0]));
+        selectedMaterialIndex.set(materials.indexOf(mesh.getMaterial().getName()));
+
         if (ImGui.beginPopup("Mesh Properties")) {
             ImGui.text("Mesh name: " + mesh.getName());
             ImGui.text("Selected material");
+
             ImGui.setNextItemWidth(200);
-            if (ImGui.combo("##Used material", selectedMaterialIndex, materials)) {
-                model.getMaterials().forEach(material -> {
-                    if (material.getName().equals(materials[selectedMaterialIndex.get()])) {
-                        mesh.setMaterial(material);
-                    }
-                });
+            if (ImGui.combo("##Used material", selectedMaterialIndex, materials.toArray(new String[0]))) {
+                mesh.setMaterial(model.getMaterials().get(materials.get(selectedMaterialIndex.get())));
             }
+
             ImGui.text("Number of vertices: " + mesh.getVertices().size());
             ImGui.text("Number of indices: " + mesh.getIndices().size());
-            if(ImGui.button("Delete this mesh")) {
+            if (ImGui.button("Delete this mesh")) {
+                model.getMeshes().remove(mesh.getName());
             }
             ImGui.endPopup();
         }
-        ImGui.popFont();
     }
 }

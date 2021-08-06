@@ -36,9 +36,9 @@ public class Scene implements Disposable {
 
     public Mesh getSelectedMesh() {
         if(selectedMesh != null) {
-            for(Mesh mesh : getSelectedModel().getMeshes()) {
-                if(selectedMesh == mesh.getName())
-                    return mesh;
+            for(Map.Entry<String, Mesh> entry : getSelectedModel().getMeshes().entrySet()) {
+                if(selectedMesh.equals(entry.getValue().getName()))
+                    return entry.getValue();
             }
         }
         return null;

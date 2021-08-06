@@ -9,8 +9,6 @@ X
 (src/main/java/gfx/PerspectiveCamera.java,f\7\f7cda67f678373a04fc0fae043df3367354e0d93
 S
 #src/main/java/managers/Console.java,5\7\5747f0dd0482f3c966096507bb7a1271a70a5f09
-f
-6src/main/java/exceptions/InvalidDocumentException.java,a\f\affd74ee68103ee8d2e2a03132a2a2ceeacb21c7
 Z
 *src/main/java/managers/TextureManager.java,5\f\5f4e18d5b4e4e393edf4e523869dcb838c66dccd
 Q
@@ -45,7 +43,3 @@ S
 #src/main/java/utils/Renderable.java,5\d\5db1fe0639d3a6d1c31caaa62a1e1ef5ea326cdc
 P
  src/main/java/core/Settings.java,3\5\3534d7a5457b067bfacf25c71d67e9d2d83da3a5
-M
-src/main/java/core/Scene.java,6\b\6bba91d13d25b3527ce6890c61328381b6daa980
-K
-src/main/java/gfx/Mesh.java,c\b\cbbd8f9c303a20cb4504b85c40286700fbbf80ac

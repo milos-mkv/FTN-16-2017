@@ -30,7 +30,7 @@ public class ModelPropertiesDock implements Dock {
         }
 
         if (model != null && ImGui.collapsingHeader("Materials")) {
-            model.getMaterials().forEach(this::renderMaterial);
+            model.getMaterials().forEach((key, material) -> renderMaterial(material));
         }
 
         ImGui.end();
