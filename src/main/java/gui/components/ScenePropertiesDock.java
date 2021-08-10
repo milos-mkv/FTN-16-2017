@@ -5,7 +5,6 @@ import core.Settings;
 import gfx.Model;
 import gui.Dock;
 import imgui.ImGui;
-import imgui.type.ImBoolean;
 import managers.TextureManager;
 
 import static gui.GUIControls.*;
@@ -14,7 +13,6 @@ public class ScenePropertiesDock implements Dock {
 
     private final Scene scene;
     private final MeshPropertiesPopup meshPropertiesPopup;
-    private final ImBoolean enableDirectionalLight = new ImBoolean(true);
     private String modelToRemove = null;
 
     public ScenePropertiesDock() {
@@ -46,7 +44,7 @@ public class ScenePropertiesDock implements Dock {
             ImGui.colorPicker4("##ClearColor", Scene.ClearColor);
         }
         if (ImGui.collapsingHeader("Directional Light")) {
-            ImGui.checkbox("Enable Directional Light", enableDirectionalLight);
+            ImGui.checkbox("Enable Directional Light", Settings.EnableDirectionalLight);
             controlDragFloat3("Direction", scene.getDirectionalLight().getDirection(), -1, 1);
             controlRGB("Ambient", scene.getDirectionalLight().getAmbient());
             controlRGB("Diffuse", scene.getDirectionalLight().getDiffuse());
@@ -76,7 +74,7 @@ public class ScenePropertiesDock implements Dock {
         var cur1 = ImGui.getCursorPos();
 
         ImGui.setCursorPos(ImGui.getWindowSizeX() - 33, cur.y - 2);
-        if (ImGui.imageButton(TextureManager.getInstance().getTexture("src/main/resources/images/trash.png").getId(), 20, 20)) {
+        if (ImGui.imageButton(TextureManager.getInstance().getTexture("src/main/resources/images/trash.png").getId(), 18, 18)) {
             modelToRemove = modelName;
         }
 

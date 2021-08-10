@@ -106,11 +106,17 @@ public class MainMenuBar implements Renderable {
     private void executeRenderImage() {
         glBindFramebuffer(GL_FRAMEBUFFER, scene.getFrameBuffer().getId());
         glPixelStorei(GL_PACK_ALIGNMENT, 1);
-        var data = BufferUtils.createByteBuffer(Constants.WINDOW_DEFAULT_WIDTH * Constants.WINDOW_DEFAULT_HEIGHT * 3);
-        glReadPixels(0, 0, Constants.WINDOW_DEFAULT_WIDTH, Constants.WINDOW_DEFAULT_HEIGHT, GL_RGB, GL_UNSIGNED_BYTE, data);
+        var data = BufferUtils.createByteBuffer(Constants.FRAMEBUFFER_WIDTH * Constants.FRAMEBUFFER_HEIGHT * 3);
+        glReadPixels(0, 0, Constants.FRAMEBUFFER_WIDTH, Constants.FRAMEBUFFER_HEIGHT, GL_RGB, GL_UNSIGNED_BYTE, data);
 
         STBImageWrite.nstbi_flip_vertically_on_write(1);
-        STBImageWrite.stbi_write_jpg("test.jpg", Constants.WINDOW_DEFAULT_WIDTH, Constants.WINDOW_DEFAULT_HEIGHT, 3, data, Constants.WINDOW_DEFAULT_WIDTH * 3);
+        STBImageWrite.stbi_write_jpg(
+                "test.jpg",
+                Constants.FRAMEBUFFER_WIDTH,
+                Constants.FRAMEBUFFER_HEIGHT,
+                3,
+                data,
+                Constants.FRAMEBUFFER_WIDTH * 3);
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
     }
 }

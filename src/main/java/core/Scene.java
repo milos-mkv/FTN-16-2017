@@ -51,7 +51,7 @@ public class Scene implements Disposable {
     }
 
     private Scene() {
-        frameBuffer = new FrameBuffer(Constants.WINDOW_DEFAULT_WIDTH, Constants.WINDOW_DEFAULT_HEIGHT);
+        frameBuffer = new FrameBuffer(Constants.FRAMEBUFFER_WIDTH, Constants.FRAMEBUFFER_HEIGHT);
         directionalLight = new DirectionalLight(
                 new Vector3f(-1.f, -1.f, -1.f),
                 new Vector3f(0.1f, 0.1f, 0.1f),

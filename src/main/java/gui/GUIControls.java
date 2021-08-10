@@ -23,12 +23,16 @@ public interface GUIControls {
         vec.set(buffer);
     }
 
-    static float controlDragFloat(String label, float value) {
+    static float controlDragFloat(String label, float value, float step) {
         var buffer = new float[]{value};
         ImGui.text(label);
         ImGui.setNextItemWidth(ImGui.getColumnWidth());
-        ImGui.dragFloat("##" + label, buffer);
+        ImGui.dragFloat("##" + label, buffer, step);
         return buffer[0];
+    }
+
+    static float controlDragFloat(String label, float value) {
+        return controlDragFloat(label, value, 1.0f);
     }
 
     static String controlOpenFileDialog() {

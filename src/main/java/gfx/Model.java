@@ -56,6 +56,7 @@ public class Model extends TransformComponent implements Disposable {
     private Texture getMaterialTexture(AIMaterial material, String texturesDir, int type) {
         var buffer = AIString.calloc();
         Assimp.aiGetMaterialTexture(material, type, 0, buffer, (IntBuffer) null, null, null, null, null, null);
+        System.out.println(buffer.dataString());
         if (!buffer.dataString().equals("")) {
             return TextureManager.getInstance().getTexture(texturesDir + "/" + buffer.dataString());
         }
@@ -83,6 +84,7 @@ public class Model extends TransformComponent implements Disposable {
         var buffer = AIString.calloc();
         Assimp.aiGetMaterialString(aiMaterial, Assimp.AI_MATKEY_NAME, 0, 0, buffer);
         material.setName(buffer.dataString());
+        System.out.println(material.getName());
         materials.put(buffer.dataString(), material);
     }
 

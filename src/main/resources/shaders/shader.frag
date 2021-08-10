@@ -25,21 +25,11 @@ uniform sampler2D shadowMap;
 uniform sampler2D diffuseTexture;
 
 uniform bool isDiffuseTextureSet;
+uniform bool isUsingDirectionalLight;
 
 in vec4 FragPosLightSpace;
 
-//float ShadowCalculation(vec4 fragPosLightSpace) {
-//    vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
-//    projCoords = projCoords * 0.5 + 0.5;
-//    if(projCoords.z > 1.0f) {
-//        projCoords.z = 1.0f;
-//    }
-//    float closestDepth = texture(shadowMap, projCoords.xy).r;
-//    float bias = 0.05;
-//    return (closestDepth + bias) < projCoords.z ? 1.0 : 0.0;
-//}
-float ShadowCalculation(vec4 fragPosLightSpace)
-{
+float ShadowCalculation(vec4 fragPosLightSpace) {
     // perform perspective divide
     vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
     // transform to [0,1] range
@@ -57,10 +47,8 @@ float ShadowCalculation(vec4 fragPosLightSpace)
     // PCF
     float shadow = 0.0;
     vec2 texelSize = 1.0 / textureSize(shadowMap, 0);
-    for(int x = -1; x <= 1; ++x)
-    {
-        for(int y = -1; y <= 1; ++y)
-        {
+    for(int x = -1; x <= 1; ++x) {
+        for(int y = -1; y <= 1; ++y) {
             float pcfDepth = texture(shadowMap, projCoords.xy + vec2(x, y) * texelSize).r;
             shadow += currentDepth - bias > pcfDepth  ? 1.0 : 0.0;
         }
@@ -68,15 +56,15 @@ float ShadowCalculation(vec4 fragPosLightSpace)
     shadow /= 9.0;
 
     // keep the shadow at 0.0 when outside the far_plane region of the light's frustum.
-    if(projCoords.z > 1.0)
-    shadow = 0.0;
-
+    if(projCoords.z > 1.0) {
+        shadow = 0.0;
+    }
     return shadow;
 }
-vec4 CalculateDirectionalLight(vec3 color, float shadow)
-{
+
+vec4 CalculateDirectionalLight(vec3 color, float shadow) {
     // Ambient
-    vec3 ambient = dirLight.ambient * color;
+    vec3 ambient = dirLight.ambient * color * material.ambient;
 
     // Diffuse
     vec3 norm = normalize(normals);
@@ -87,19 +75,25 @@ vec4 CalculateDirectionalLight(vec3 color, float shadow)
     // Specular
     vec3 viewDir = normalize(viewPos - fragPos);
     vec3 reflectDir = reflect(-lightDir, norm);
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
-    vec3 specular = dirLight.specular * spec * color;
+    float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
+    vec3 specular = dirLight.specular * spec * material.specular * color;
 
     return vec4((ambient +(1.0 - shadow) * (diffuse + specular)) * color, 1.0f);
 }
 
 void main() {
     vec3 objColor;
-    if(isDiffuseTextureSet)
+    if(isDiffuseTextureSet) {
         objColor = texture(diffuseTexture, TexCoords).xyz * material.diffuse;
-    else
+    }
+    else {
         objColor = material.diffuse;
-
+    }
     float shadow = ShadowCalculation(FragPosLightSpace);
-    FragColor = CalculateDirectionalLight(objColor, shadow);
+
+    if (isUsingDirectionalLight) {
+        FragColor = CalculateDirectionalLight(objColor, shadow);
+    } else {
+        FragColor = vec4(objColor, 1.0f);
+    }
 }

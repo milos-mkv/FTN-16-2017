@@ -87,11 +87,10 @@ public class Mesh implements Disposable {
     }
 
     public void draw(ShaderProgram shaderProgram) {
-
         shaderProgram.setUniformVec3("material.diffuse", material.getDiffuseColor());
         shaderProgram.setUniformVec3("material.ambient", material.getAmbientColor());
         shaderProgram.setUniformVec3("material.specular", material.getSpecularColor());
-        shaderProgram.setUniformFloat("material.shniness", material.getShininess());
+        shaderProgram.setUniformFloat("material.shininess", material.getShininess());
 
         if(material.getDiffuseTexture() != null) {
             glActiveTexture(GL_TEXTURE1);

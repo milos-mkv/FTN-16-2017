@@ -69,10 +69,12 @@ public class Main extends Application {
         scene.getModels().forEach((key, value) -> value.draw(shadowShader));
 
 
-        glViewport(0, 0, Constants.WINDOW_DEFAULT_WIDTH, Constants.WINDOW_DEFAULT_HEIGHT);
+        glViewport(0, 0, Constants.FRAMEBUFFER_WIDTH, Constants.FRAMEBUFFER_HEIGHT);
         glBindFramebuffer(GL_FRAMEBUFFER, scene.getFrameBuffer().getId());
+
         glClearColor(Scene.ClearColor[0], Scene.ClearColor[1], Scene.ClearColor[2], Scene.ClearColor[3]);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+
         if (Settings.ToggleSkyBox) {
             SkyBox.getInstance().render();
         }
@@ -89,7 +91,7 @@ public class Main extends Application {
 
         glUseProgram(program.getId());
         program.setUniformMat4("lightSpaceMatrix", lightSpaceMatrix);
-
+        program.setUniformBoolean("isUsingDirectionalLight", Settings.EnableDirectionalLight.get() ? 1 : 0);
         program.setUniformVec3("lightPos", new Vector3f().set(scene.getDirectionalLight().getDirection()).mul(-1));
         program.setUniformVec3("viewPos", scene.getCamera().getPosition());
         scene.getDirectionalLight().apply(program);
@@ -104,27 +106,27 @@ public class Main extends Application {
 
         scene.getModels().forEach((key, value) -> value.draw(program));
 
-        if (scene.getModels().size() > 0 && scene.getSelectedModel() != null) {
-            glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
-            glStencilMask(0x00);
-            glDisable(GL_DEPTH_TEST);
-
-            ShaderProgram p = ShaderProgramManager.getInstance().get("BORDER SHADER");
-
-            glUseProgram(p.getId());
-            p.setUniformMat4("proj", scene.getCamera().getProjectionMatrix());
-            p.setUniformMat4("view", scene.getCamera().getViewMatrix());
-
-
-            var model = scene.getSelectedModel();
-            model.getScale().add(new Vector3f(0.015f, 0.015f, 0.015f));
-            model.draw(p);
-            model.getScale().sub(new Vector3f(0.015f, 0.015f, 0.015f));
-            glStencilMask(0xFF);
-            glEnable(GL_DEPTH_TEST);
-            glStencilFunc(GL_ALWAYS, 1, 0xFF);
-            glEnable(GL_DEPTH_TEST);
-        }
+//        if (scene.getModels().size() > 0 && scene.getSelectedModel() != null) {
+//            glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
+//            glStencilMask(0x00);
+//            glDisable(GL_DEPTH_TEST);
+//
+//            ShaderProgram p = ShaderProgramManager.getInstance().get("BORDER SHADER");
+//
+//            glUseProgram(p.getId());
+//            p.setUniformMat4("proj", scene.getCamera().getProjectionMatrix());
+//            p.setUniformMat4("view", scene.getCamera().getViewMatrix());
+//
+//
+//            var model = scene.getSelectedModel();
+//            model.getScale().add(new Vector3f(0.015f, 0.015f, 0.015f));
+//            model.draw(p);
+//            model.getScale().sub(new Vector3f(0.015f, 0.015f, 0.015f));
+//            glStencilMask(0xFF);
+//            glEnable(GL_DEPTH_TEST);
+//            glStencilFunc(GL_ALWAYS, 1, 0xFF);
+//            glEnable(GL_DEPTH_TEST);
+//        }
 
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
     }

@@ -27,14 +27,12 @@ public class SplashModal implements Renderable {
         ImGui.begin("Hatsune Miku", Settings.ShowSplashModal,
             ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoDocking | ImGuiWindowFlags.NoCollapse | ImGuiWindowFlags.NoResize);
 
-        ImGui.setWindowSize(600, 338);
+        ImGui.setWindowSize(600, 405);
         ImGui.image(Objects.requireNonNull(TextureManager.getInstance().getTexture(Constants.SPLASH_IMAGE_PATH)).getId(),
             ImGui.getWindowWidth(), ImGui.getWindowHeight() - 30);
 
-        ImGui.setCursorPos(110, 245);
+        ImGui.setCursorPos(130, 290);
         ImGui.pushFont(Assets.getInstance().getFont("SPLASH_FONT"));
-        ImGui.pushStyleColor(ImGuiCol.Text, 0.0f, 0.0f, 0.0f, 1.0f);
-        ImGui.pushStyleColor(ImGuiCol.Button, 0.6f, 0.9f, 1.0f, 1.0f);
 
         if (ImGui.button(" Github ")) {
             try {
@@ -44,7 +42,6 @@ public class SplashModal implements Renderable {
             }
         }
 
-        ImGui.popStyleColor(2);
         ImGui.popFont();
         ImGui.end();
         ImGui.popStyleVar();
