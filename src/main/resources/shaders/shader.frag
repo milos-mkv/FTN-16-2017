@@ -76,7 +76,7 @@ vec4 CalculateDirectionalLight(vec3 color, float shadow) {
     vec3 viewDir = normalize(viewPos - fragPos);
     vec3 reflectDir = reflect(-lightDir, norm);
     float spec = pow(max(dot(viewDir, reflectDir), 0.0), material.shininess);
-    vec3 specular = dirLight.specular * spec * material.specular * color;
+    vec3 specular = dirLight.specular * spec * material.specular;//* color;
 
     return vec4((ambient +(1.0 - shadow) * (diffuse + specular)) * color, 1.0f);
 }

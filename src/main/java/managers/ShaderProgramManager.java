@@ -36,6 +36,9 @@ public class ShaderProgramManager implements Disposable {
         shaders.put("BORDER SHADER", new ShaderProgram(
                 readFromFile("src/main/resources/shaders/border.vert"), readFromFile("src/main/resources/shaders/border.frag")
         ));
+        shaders.put("MATERIAL PREVIEW SHADER", new ShaderProgram(
+                readFromFile("src/main/resources/shaders/matprev.vert"), readFromFile("src/main/resources/shaders/matprev.frag")
+        ));
     }
 
     public ShaderProgram get(String shader) {

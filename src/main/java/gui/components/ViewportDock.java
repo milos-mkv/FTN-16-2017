@@ -16,6 +16,7 @@ import managers.ModelManager;
 import managers.TextureManager;
 import org.joml.AxisAngle4f;
 import org.joml.Matrix4f;
+import org.joml.Quaternionf;
 import org.joml.Vector3f;
 import org.w3c.dom.Text;
 
@@ -39,7 +40,7 @@ public class ViewportDock implements Dock {
         ImGui.pushStyleVar(ImGuiStyleVar.WindowPadding, 0, 0);
         ImGui.begin("Viewport", ImGuiWindowFlags.NoScrollbar);
 
-        ImGui.image(scene.getFrameBuffer().getTexture(), ImGui.getWindowSizeX(), ImGui.getWindowSizeY(), 0, 1, 1, 0);
+        ImGui.image(scene.getFrameBuffer().getTexture(), ImGui.getWindowSizeX(), ImGui.getWindowSizeY() - 30, 0, 1, 1, 0);
         scene.getCamera().setAspect(ImGui.getWindowSize().x / ImGui.getWindowSize().y);
 
         manipulate();
@@ -74,7 +75,7 @@ public class ViewportDock implements Dock {
 
         ImGui.setCursorPos(ImGui.getWindowSizeX() - 100, 30);
 
-        ImGui.text(df.format(ImGui.getIO().getFramerate()) + " FPS");
+        ImGui.text("FPS: " + df.format(ImGui.getIO().getFramerate()));
         ImGui.end();
     }
 
@@ -88,10 +89,10 @@ public class ViewportDock implements Dock {
         ImGuizmo.setDrawList();
         ImGuizmo.setRect(ImGui.getWindowPosX(), ImGui.getWindowPosY(), ImGui.getWindowWidth(), ImGui.getWindowHeight());
 
-        var model       = scene.getSelectedModel();
-        var view        = matrix4x4ToFloatBuffer(scene.getCamera().getViewMatrix());
-        var proj        = matrix4x4ToFloatBuffer(scene.getCamera().getProjectionMatrix());
-        var transform   = matrix4x4ToFloatBuffer(model.getTransform());
+        var model = scene.getSelectedModel();
+        var view = matrix4x4ToFloatBuffer(scene.getCamera().getViewMatrix());
+        var proj = matrix4x4ToFloatBuffer(scene.getCamera().getProjectionMatrix());
+        var transform = matrix4x4ToFloatBuffer(model.getTransform());
 
         ImGuizmo.manipulate(view, proj, transform, Settings.CurrentGizmoMode, Mode.WORLD);
 

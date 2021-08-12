@@ -20,6 +20,9 @@ public class TextureManager implements Disposable {
     private TextureManager() { /* Empty */ }
 
     public Texture getTexture(String path) {
+        if(path == null)
+            return null;
+
         for (var entry : textures.entrySet()) {
             if (entry.getKey().equals(path)) {
                 return textures.get(entry.getKey());
@@ -30,7 +33,7 @@ public class TextureManager implements Disposable {
             textures.put(path, new Texture(path));
             return textures.get(path);
         } catch (InvalidDocumentException e) {
-            System.out.println(e.getMessage());
+            Console.log(Console.Level.ERROR, e.getMessage());
             return null;
         }
     }

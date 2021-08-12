@@ -19,6 +19,7 @@ public class GUI implements Renderable {
         renderables.add(new ScenePropertiesDock());
         renderables.add(new SplashModal());
         renderables.add(new ModelPropertiesDock());
+        renderables.add(new SkyboxPropertiesDock());
     }
 
     @Override

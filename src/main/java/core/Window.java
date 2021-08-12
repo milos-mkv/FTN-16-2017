@@ -61,7 +61,7 @@ public abstract class Window {
             GLFW.glfwWindowHint(GLFW.GLFW_OPENGL_FORWARD_COMPAT, GLFW.GLFW_TRUE);
         }
 
-        handle = GLFW.glfwCreateWindow(Constants.WINDOW_DEFAULT_WIDTH, Constants.WINDOW_DEFAULT_HEIGHT, "Hatsune Miku",
+        handle = GLFW.glfwCreateWindow(Constants.WINDOW_DEFAULT_WIDTH, Constants.WINDOW_DEFAULT_HEIGHT, "Misaka Railgun",
                 MemoryUtil.NULL, MemoryUtil.NULL);
 
         if (handle == MemoryUtil.NULL) {
@@ -73,7 +73,7 @@ public abstract class Window {
                 (vidmode.width() - Constants.WINDOW_DEFAULT_WIDTH) / 2, (vidmode.height() - Constants.WINDOW_DEFAULT_HEIGHT) / 2);
 
         GLFW.glfwMakeContextCurrent(handle);
-        GLFW.glfwSwapInterval(GLFW.GLFW_TRUE);
+//        GLFW.glfwSwapInterval(GLFW.GLFW_TRUE);
         GLFW.glfwShowWindow(handle);
 
         GLFW.glfwSetCursorPosCallback(handle, new CursorPosCallback());

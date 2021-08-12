@@ -4,7 +4,6 @@ import core.Assets;
 import core.Constants;
 import core.Settings;
 import imgui.ImGui;
-import imgui.flag.ImGuiCol;
 import imgui.flag.ImGuiStyleVar;
 import imgui.flag.ImGuiWindowFlags;
 import managers.TextureManager;
@@ -24,12 +23,12 @@ public class SplashModal implements Renderable {
             return;
         }
         ImGui.pushStyleVar(ImGuiStyleVar.WindowPadding, 0.0F, 0.0F);
-        ImGui.begin("Hatsune Miku", Settings.ShowSplashModal,
-            ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoDocking | ImGuiWindowFlags.NoCollapse | ImGuiWindowFlags.NoResize);
+        ImGui.begin("Misaka Railgun", Settings.ShowSplashModal,
+                ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoDocking | ImGuiWindowFlags.NoCollapse | ImGuiWindowFlags.NoResize);
 
         ImGui.setWindowSize(600, 405);
         ImGui.image(Objects.requireNonNull(TextureManager.getInstance().getTexture(Constants.SPLASH_IMAGE_PATH)).getId(),
-            ImGui.getWindowWidth(), ImGui.getWindowHeight() - 30);
+                ImGui.getWindowWidth(), ImGui.getWindowHeight() - 30);
 
         ImGui.setCursorPos(130, 290);
         ImGui.pushFont(Assets.getInstance().getFont("SPLASH_FONT"));

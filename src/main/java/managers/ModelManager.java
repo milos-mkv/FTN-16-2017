@@ -27,6 +27,10 @@ public class ModelManager implements Disposable {
         loadedModels.put("Icosphere", new Model("src/main/resources/meshes/icosphere.obj"));
         loadedModels.put("Monkey", new Model("src/main/resources/meshes/monkey.obj"));
         loadedModels.put("Torus", new Model("src/main/resources/meshes/torus.obj"));
+        loadedModels.put("MaterialSphere", new Model("src/main/resources/meshes/materialSphere.obj"));
+
+        Console.log(Console.Level.INFO, "All meshes imported successfully!");
+
     }
 
     public Model clone(String key) {

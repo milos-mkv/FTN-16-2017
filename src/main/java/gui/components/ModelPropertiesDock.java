@@ -1,8 +1,11 @@
 package gui.components;
 
+import core.MaterialPreviewScene;
 import core.Scene;
 import core.Settings;
+import gfx.FrameBuffer;
 import gfx.Material;
+import gfx.ShaderProgram;
 import gfx.Texture;
 import gui.Dock;
 import imgui.ImGui;
@@ -11,16 +14,28 @@ import imgui.flag.ImGuiWindowFlags;
 import imgui.type.ImBoolean;
 import imgui.type.ImInt;
 import imgui.type.ImString;
+import managers.ShaderProgramManager;
 import managers.TextureManager;
+import org.joml.Vector3f;
+import org.lwjgl.system.CallbackI;
 import utils.TextureType;
 
 import static gui.GUIControls.*;
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL20.glUseProgram;
+import static org.lwjgl.opengl.GL30.GL_FRAMEBUFFER;
+import static org.lwjgl.opengl.GL30.glBindFramebuffer;
 
 public class ModelPropertiesDock implements Dock {
 
     private final ImString newMaterialName = new ImString();
     private final ImInt selectedMaterialIndex = new ImInt(0);
-    private final ImBoolean openNewMaterial = new ImBoolean(true);
+
+    MaterialPreviewScene scene;
+
+    public ModelPropertiesDock() {
+        scene = MaterialPreviewScene.getInstance();
+    }
 
     @Override
     public void render() {
@@ -45,6 +60,11 @@ public class ModelPropertiesDock implements Dock {
             ImGui.text("Available materials");
             ImGui.setNextItemWidth(ImGui.getColumnWidth() - 30);
             String[] materialNameList = model.getMaterials().keySet().toArray(new String[0]);
+
+            if(selectedMaterialIndex.get() >= materialNameList.length) {
+                selectedMaterialIndex.set(0);
+            }
+
             ImGui.combo("##Materialss", selectedMaterialIndex, materialNameList);
             ImGui.pushStyleVar(ImGuiStyleVar.ItemSpacing, 3.0f, 10.0f);
             ImGui.sameLine();
@@ -61,6 +81,7 @@ public class ModelPropertiesDock implements Dock {
                 ImGui.sameLine();
                 if (ImGui.button("Add")) {
                     model.getMaterials().computeIfAbsent(newMaterialName.get(), Material::new);
+                    ImGui.closeCurrentPopup();
                 }
                 ImGui.endPopup();
             }
@@ -80,6 +101,8 @@ public class ModelPropertiesDock implements Dock {
         material.setShininess(controlDragFloat("Shininess", material.getShininess(), 0.1f));
 
         ImGui.text("Textures");
+
+        renderMaterialPreview(material);
 
         renderTextureComponent("Diffuse Texture", material, TextureType.DIFFUSE);
         renderTextureComponent("Specular Texture", material, TextureType.SPECULAR);
@@ -140,5 +163,30 @@ public class ModelPropertiesDock implements Dock {
             default:
                 break;
         }
+    }
+
+    private void renderMaterialPreview(Material material) {
+
+        glViewport(0, 0, 600, 600);
+        glBindFramebuffer(GL_FRAMEBUFFER, scene.getFrameBuffer().getId());
+        glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        ShaderProgram program = ShaderProgramManager.getInstance().get("MATERIAL PREVIEW SHADER");
+        scene.getSphere().getMeshes().forEach((key, value) -> value.setMaterial(material));
+        glUseProgram(program.getId());
+        program.setUniformVec3("viewPos", scene.getPerspectiveCamera().getPosition());
+        Scene.getInstance().getDirectionalLight().apply(program);
+
+        program.setUniformMat4("view", scene.getPerspectiveCamera().getViewMatrix());
+        program.setUniformMat4("proj", scene.getPerspectiveCamera().getProjectionMatrix());
+
+        program.setUniformInt("diffuseTexture", 1);
+
+        scene.getSphere().draw(program);
+
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+        ImGui.image(scene.getFrameBuffer().getTexture(), ImGui.getWindowSizeX() - 30, ImGui.getWindowSizeX() - 30, 0, 1, 1, 0);
     }
 }

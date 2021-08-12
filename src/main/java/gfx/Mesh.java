@@ -1,5 +1,7 @@
 package gfx;
 
+import lombok.Getter;
+import lombok.Setter;
 import utils.Disposable;
 import lombok.Data;
 import org.lwjgl.system.MemoryUtil;

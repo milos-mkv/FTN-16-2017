@@ -6,9 +6,10 @@ import gui.Dock;
 import imgui.ImGui;
 import imgui.flag.ImGuiWindowFlags;
 import managers.Console;
-import managers.TextureManager;
 
 public class ConsoleDock implements Dock {
+
+    private int counter = 0;
 
     @Override
     public void render() {
@@ -20,6 +21,11 @@ public class ConsoleDock implements Dock {
 
         ImGui.pushFont(Assets.getInstance().getFont("CONSOLE_FONT"));
         Console.getLogs().forEach(ImGui::text);
+
+        if(counter != Console.getLogs().size()) {
+            counter = Console.getLogs().size();
+            ImGui.setScrollHereY();
+        }
 
         ImGui.popFont();
 
