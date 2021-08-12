@@ -15,7 +15,7 @@ out vec4 FragPosLightSpace;
 
 void main() {
     gl_Position = proj * view * model * vec4(pos, 1);
-    TexCoords = vec2(texCoords.x, -texCoords.y);
+    TexCoords = vec2(texCoords.x, texCoords.y);
     normals = mat3(transpose(inverse(model))) * Normals;
     fragPos =  vec3(model * vec4(pos, 1.0f));
     FragPosLightSpace = lightSpaceMatrix * vec4(fragPos, 1.0);

@@ -21,6 +21,7 @@ import org.lwjgl.system.CallbackI;
 import utils.TextureType;
 
 import static gui.GUIControls.*;
+import static org.lwjgl.glfw.GLFW.glfwGetTime;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL20.glUseProgram;
 import static org.lwjgl.opengl.GL30.GL_FRAMEBUFFER;
@@ -182,7 +183,8 @@ public class ModelPropertiesDock implements Dock {
         program.setUniformMat4("proj", scene.getPerspectiveCamera().getProjectionMatrix());
 
         program.setUniformInt("diffuseTexture", 1);
-
+        scene.getSphere().setRotationAngle((float)Math.toRadians(glfwGetTime() * 30.f));
+        scene.getSphere().setRotation(new Vector3f(0, 1, 0));
         scene.getSphere().draw(program);
 
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
