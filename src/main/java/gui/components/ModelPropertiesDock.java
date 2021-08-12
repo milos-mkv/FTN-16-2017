@@ -100,9 +100,9 @@ public class ModelPropertiesDock implements Dock {
 
         material.setShininess(controlDragFloat("Shininess", material.getShininess(), 0.1f));
 
-        ImGui.text("Textures");
-
+        ImGui.text("Material preview");
         renderMaterialPreview(material);
+        ImGui.text("Textures");
 
         renderTextureComponent("Diffuse Texture", material, TextureType.DIFFUSE);
         renderTextureComponent("Specular Texture", material, TextureType.SPECULAR);
@@ -187,6 +187,8 @@ public class ModelPropertiesDock implements Dock {
 
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-        ImGui.image(scene.getFrameBuffer().getTexture(), ImGui.getWindowSizeX() - 30, ImGui.getWindowSizeX() - 30, 0, 1, 1, 0);
+        ImGui.beginChildFrame(1, ImGui.getWindowWidth() - 30, ImGui.getWindowWidth()-30, ImGuiWindowFlags.NoScrollbar);
+        ImGui.image(scene.getFrameBuffer().getTexture(), ImGui.getColumnWidth(), ImGui.getColumnWidth(), 0, 1, 1, 0);
+        ImGui.endChild();
     }
 }

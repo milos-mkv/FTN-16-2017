@@ -29,12 +29,8 @@ R
 "src/main/java/gfx/FrameBuffer.java,8\5\85a115caf3dabab82da5bec2360e3b9c07313e63
 L
 src/main/java/gfx/Model.java,9\2\92e03181283c22599efbb370a37685455c4b7f7d
-R
-"src/main/java/gui/GUIControls.java,f\2\f217aa9dc9029246fd75d8813451739974b2c0d1
 P
  src/main/java/gfx/ShadowMap.java,6\a\6a891099d14e61378fc8191d7c18253e1be13da8
-O
-src/main/java/gfx/Material.java,6\5\65d35c6c098923337615a01dbaf7e85ce519c5dd
 :
 
 .gitignore,a\5\a5cc2925ca8258af241be7e5b0381edf30266302

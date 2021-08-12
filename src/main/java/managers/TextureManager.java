@@ -2,6 +2,7 @@ package managers;
 
 import exceptions.InvalidDocumentException;
 import gfx.Texture;
+import lombok.Getter;
 import utils.Disposable;
 
 import java.util.HashMap;
@@ -15,6 +16,7 @@ public class TextureManager implements Disposable {
         return textureManager == null ? textureManager = new TextureManager() : textureManager;
     }
 
+    @Getter
     protected Map<String, Texture> textures = new HashMap<>();
 
     private TextureManager() { /* Empty */ }

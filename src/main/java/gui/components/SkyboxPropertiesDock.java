@@ -39,7 +39,7 @@ public class SkyboxPropertiesDock implements Dock {
             }
         }
         ImGui.sameLine();
-        ImGui.text("Make sure all images are same resolution.");
+        ImGui.text("Make sure all images have same resolution.");
 
         float size = 150;
 
