@@ -2,6 +2,8 @@ package gfx;
 
 import lombok.Data;
 import org.joml.Vector3f;
+import org.w3c.dom.Text;
+import utils.TextureType;
 
 @Data
 public class Material {
@@ -36,6 +38,24 @@ public class Material {
         this.diffuseColor = diffuse;
         this.specularColor = specular;
         this.shininess = shininess;
+    }
+
+    public Texture getTexture(TextureType type) {
+        switch (type) {
+            case DIFFUSE:  return diffuseTexture;
+            case SPECULAR: return specularTexture;
+            case NORMAL:   return normalTexture;
+            default:       return null;
+        }
+    }
+
+    public void setTexture(TextureType type, Texture texture) {
+        switch (type) {
+            case DIFFUSE:  diffuseTexture = texture; break;
+            case SPECULAR: specularTexture = texture; break;
+            case NORMAL:   normalTexture = texture; break;
+            default:       break;
+        }
     }
 
     public static Material clone(Material material) {

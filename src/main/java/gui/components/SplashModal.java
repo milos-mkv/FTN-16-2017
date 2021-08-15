@@ -4,6 +4,8 @@ import core.Assets;
 import core.Constants;
 import core.Settings;
 import imgui.ImGui;
+import imgui.ImGuiStyle;
+import imgui.flag.ImGuiCol;
 import imgui.flag.ImGuiStyleVar;
 import imgui.flag.ImGuiWindowFlags;
 import managers.TextureManager;
@@ -23,6 +25,7 @@ public class SplashModal implements Renderable {
             return;
         }
         ImGui.pushStyleVar(ImGuiStyleVar.WindowPadding, 0.0F, 0.0F);
+        ImGui.pushStyleColor(ImGuiCol.WindowBg, 0.1f, .1f, .1f, 1.0f);
         ImGui.begin("Misaka Railgun", Settings.ShowSplashModal,
                 ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoDocking | ImGuiWindowFlags.NoCollapse | ImGuiWindowFlags.NoResize);
 
@@ -43,6 +46,7 @@ public class SplashModal implements Renderable {
 
         ImGui.popFont();
         ImGui.end();
+        ImGui.popStyleColor();
         ImGui.popStyleVar();
     }
 }

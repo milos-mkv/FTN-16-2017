@@ -6,6 +6,7 @@ import lombok.Getter;
 import utils.Disposable;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 public class TextureManager implements Disposable {
@@ -17,7 +18,7 @@ public class TextureManager implements Disposable {
     }
 
     @Getter
-    protected Map<String, Texture> textures = new HashMap<>();
+    protected Map<String, Texture> textures = new LinkedHashMap<>();
 
     private TextureManager() { /* Empty */ }
 

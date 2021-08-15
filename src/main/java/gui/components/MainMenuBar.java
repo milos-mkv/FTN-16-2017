@@ -69,6 +69,9 @@ public class MainMenuBar implements Renderable {
             if (ImGui.menuItem("Toggle Skybox Properties Dock")) {
                 Settings.ShowSkyboxPropertiesDock.set(!Settings.ShowSkyboxPropertiesDock.get());
             }
+            if (ImGui.menuItem("Toggle Texture Preview Dock")) {
+                Settings.ShowTexturePreviewDock.set(!Settings.ShowTexturePreviewDock.get());
+            }
             ImGui.endMenu();
         }
     }

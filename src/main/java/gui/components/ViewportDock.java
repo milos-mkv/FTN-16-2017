@@ -5,24 +5,23 @@ import core.Scene;
 import core.Settings;
 import core.Window;
 import gfx.Model;
-import gfx.Texture;
 import gui.Dock;
 import imgui.ImGui;
 import imgui.ImVec2;
 import imgui.extension.imguizmo.ImGuizmo;
 import imgui.extension.imguizmo.flag.Mode;
 import imgui.extension.imguizmo.flag.Operation;
-import imgui.flag.*;
-import lombok.SneakyThrows;
+import imgui.flag.ImGuiCol;
+import imgui.flag.ImGuiMouseButton;
+import imgui.flag.ImGuiStyleVar;
+import imgui.flag.ImGuiWindowFlags;
 import managers.Console;
 import managers.ModelManager;
 import managers.TextureManager;
 import org.joml.AxisAngle4f;
 import org.joml.Matrix4f;
-import org.joml.Quaternionf;
 import org.joml.Vector3f;
 import org.lwjgl.glfw.GLFW;
-import org.w3c.dom.Text;
 
 import java.text.DecimalFormat;
 import java.util.Map;
@@ -71,15 +70,13 @@ public class ViewportDock implements Dock {
         float finalX = map(m.x, 0, vbounds[1].x - vbounds[0].x, 0, Constants.FRAMEBUFFER_WIDTH);
         float finalY = map(m.y, 0, vbounds[1].y - vbounds[0].y, 0, Constants.FRAMEBUFFER_HEIGHT);
 
-        if (GLFW.glfwGetMouseButton(Window.getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS) {
+        if (GLFW.glfwGetMouseButton(Window.getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS &&
+                GLFW.glfwGetKey(Window.getHandle(), GLFW.GLFW_KEY_LEFT_CONTROL) == GLFW.GLFW_PRESS) {
             glBindFramebuffer(GL_FRAMEBUFFER, Scene.getInstance().selectFrameBuffer.getId());
             int[] i = new int[1];
-            glReadPixels( (int)finalX,
-                    (int)finalY,
-                    1, 1, GL_RED_INTEGER, GL_INT, i);
-
-            for(Map.Entry<String, Model> mas : Scene.getInstance().getModels().entrySet()) {
-                if(mas.getValue().getId() == i[0]) {
+            glReadPixels((int) finalX, (int) finalY, 1, 1, GL_RED_INTEGER, GL_INT, i);
+            for (Map.Entry<String, Model> mas : Scene.getInstance().getModels().entrySet()) {
+                if (mas.getValue().getId() == i[0]) {
                     Scene.getInstance().setSelectedModel(mas.getKey());
                     break;
                 }
@@ -93,8 +90,10 @@ public class ViewportDock implements Dock {
 
         manipulate();
 
-        var size = 20;
-
+        var size = 40;
+        ImGui.pushStyleColor(ImGuiCol.Button, 0.2f, 0.2f, 0.2f, 1.0f);
+        ImGui.pushStyleColor(ImGuiCol.ButtonHovered, 0.1f, 0.1f, 0.1f, 1.0f);
+        ImGui.pushStyleColor(ImGuiCol.ButtonActive, 0.3f, 0.3f, 0.3f, 1.0f);
         ImGui.setCursorPos(10, 40);
         if (ImGui.imageButton(Objects.requireNonNull(TextureManager.getInstance().getTexture(Constants.ICON_TRANSLATE)).getId(),
                 size, size)) {
@@ -102,14 +101,14 @@ public class ViewportDock implements Dock {
             Console.log(Console.Level.INFO, "Selected Translate Mode");
         }
 
-        ImGui.setCursorPos(10, 70);
+        ImGui.setCursorPos(10, 90);
         if (ImGui.imageButton(Objects.requireNonNull(TextureManager.getInstance().getTexture(Constants.ICON_SCALE)).getId(),
                 size, size)) {
             Settings.CurrentGizmoMode = Operation.SCALE;
             Console.log(Console.Level.INFO, "Selected Scale Mode");
         }
 
-        ImGui.setCursorPos(10, 100);
+        ImGui.setCursorPos(10, 140);
         if (ImGui.imageButton(Objects.requireNonNull(TextureManager.getInstance().getTexture(Constants.ICON_ROTATE)).getId(),
                 size, size)) {
             Settings.CurrentGizmoMode = Operation.ROTATE;
@@ -120,7 +119,7 @@ public class ViewportDock implements Dock {
         if (ImGui.beginPopupContextWindow(ImGuiMouseButton.Middle)) {
             openContextMenu();
         }
-
+        ImGui.popStyleColor(3);
         ImGui.setCursorPos(ImGui.getWindowSizeX() - 100, 30);
 
         ImGui.text("FPS: " + df.format(ImGui.getIO().getFramerate()));

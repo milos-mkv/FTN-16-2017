@@ -21,5 +21,6 @@ public abstract class Settings {
 
     public static int CurrentGizmoMode = Operation.TRANSLATE;
     public static int NextModelIndex = 0;
+    public static String TextureForPreview = null;
 
 }

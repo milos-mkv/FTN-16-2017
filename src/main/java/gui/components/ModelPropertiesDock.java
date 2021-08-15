@@ -9,6 +9,7 @@ import gfx.ShaderProgram;
 import gfx.Texture;
 import gui.Dock;
 import imgui.ImGui;
+import imgui.flag.ImGuiInputTextFlags;
 import imgui.flag.ImGuiStyleVar;
 import imgui.flag.ImGuiWindowFlags;
 import imgui.type.ImBoolean;
@@ -31,11 +32,14 @@ public class ModelPropertiesDock implements Dock {
 
     private final ImString newMaterialName = new ImString();
     private final ImInt selectedMaterialIndex = new ImInt(0);
+    private final ImInt selectedTextureType = new ImInt(0);
+    private final String[] textureTypes;
 
     MaterialPreviewScene scene;
 
     public ModelPropertiesDock() {
         scene = MaterialPreviewScene.getInstance();
+        textureTypes = new String[] { "Diffuse", "Specular", "Normal"};
     }
 
     @Override
@@ -104,42 +108,68 @@ public class ModelPropertiesDock implements Dock {
         ImGui.text("Material preview");
         renderMaterialPreview(material);
         ImGui.text("Textures");
+//        ImGui.setNextItemWidth(ImGui.getColumnWidth());
 
-        renderTextureComponent("Diffuse Texture", material, TextureType.DIFFUSE);
-        renderTextureComponent("Specular Texture", material, TextureType.SPECULAR);
-        renderTextureComponent("Normal Texture", material, TextureType.NORMAL);
+
+
+        ImGui.setNextItemWidth(ImGui.getColumnWidth());
+
+        ImGui.combo("##Textures", selectedTextureType,  textureTypes);
+
+        ImGui.separator();
+
+        ImGui.pushStyleVar(ImGuiStyleVar.ItemSpacing, 1.0f,3.0f);
+
+        if(ImGui.imageButton(TextureManager.getInstance().getTexture("src/main/resources/images/folder (2).png").getId(),
+                30, 30)) {
+            loadTextureForModel(material, TextureType.values()[selectedTextureType.get()]);
+
+        }
+        ImGui.sameLine();
+        if(ImGui.imageButton(TextureManager.getInstance().getTexture("src/main/resources/images/gallery (1).png").getId(),
+                30, 30)) {
+            Settings.ShowTexturePreviewDock.set(true);
+            Texture t =  material.getTexture(TextureType.values()[selectedTextureType.get()]);
+            if(t != null) {
+                Settings.TextureForPreview = t.getPath();
+            } else {
+                Settings.TextureForPreview = null;
+            }
+
+        }
+        ImGui.sameLine();
+        if(ImGui.imageButton(TextureManager.getInstance().getTexture("src/main/resources/images/cancel.png").getId(),
+                30, 30)) {
+            material.setTexture(TextureType.values()[selectedTextureType.get()], null);
+        }
+
+        renderTextureComponent(material, TextureType.values()[selectedTextureType.get()]);
+
+        ImGui.popStyleVar();
     }
 
-    private void renderTextureComponent(String label, Material material, TextureType textureType) {
-        ImGui.pushStyleVar(ImGuiStyleVar.IndentSpacing, 0.0f);
-        Texture texture = null;
-        switch (textureType) {
-            case DIFFUSE:
-                texture = material.getDiffuseTexture();
-                break;
-            case SPECULAR:
-                texture = material.getSpecularTexture();
-                break;
-            case NORMAL:
-                texture = material.getNormalTexture();
-                break;
-            default:
-                break;
-        }
-        if (texture == null) {
-            if (ImGui.button("Load " + label, ImGui.getColumnWidth(), 26)) {
-                loadTextureForModel(material, textureType);
-            }
-        } else if (ImGui.treeNode(label)) {
-            ImGui.textDisabled(texture.getPath());
-            ImGui.image(texture.getId(), 300, 300);
-            if (ImGui.button("Change " + label, 300, 26)) {
-                loadTextureForModel(material, textureType);
-            }
-            ImGui.treePop();
-        }
-        ImGui.popStyleVar();
+    private void renderTextureComponent( Material material, TextureType textureType) {
+        Texture texture = material.getTexture(textureType);
+        String path = texture == null ? "null" : texture.getPath();
+        ImGui.setNextItemWidth(ImGui.getColumnWidth());
+        ImGui.inputText("##Texture path", new ImString(path), ImGuiInputTextFlags.ReadOnly);
 
+
+
+//        ImGui.inputText("ASD", new ImString("ASDSAD"), ImGuiInputTextFlags.ReadOnly);
+//        if (texture == null) {
+//            if (ImGui.button("Load " + label, ImGui.getColumnWidth(), 26)) {
+//                loadTextureForModel(material, textureType);
+//            }
+//        }
+//        else if (ImGui.treeNode(label)) {
+//            ImGui.textDisabled(texture.getPath());
+//            ImGui.image(texture.getId(), 300, 300);
+//            if (ImGui.button("Change " + label, 300, 26)) {
+//                loadTextureForModel(material, textureType);
+//            }
+//            ImGui.treePop();
+//        }
     }
 
     private void loadTextureForModel(Material material, TextureType textureType) {
@@ -189,7 +219,7 @@ public class ModelPropertiesDock implements Dock {
 
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-        ImGui.beginChildFrame(1, ImGui.getWindowWidth() - 30, ImGui.getWindowWidth()-30, ImGuiWindowFlags.NoScrollbar);
+        ImGui.beginChildFrame(1, ImGui.getColumnWidth(), ImGui.getColumnWidth(), ImGuiWindowFlags.NoScrollbar);
         ImGui.image(scene.getFrameBuffer().getTexture(), ImGui.getColumnWidth(), ImGui.getColumnWidth(), 0, 1, 1, 0);
         ImGui.endChild();
     }

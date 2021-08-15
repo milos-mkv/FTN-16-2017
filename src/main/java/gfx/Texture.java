@@ -18,10 +18,10 @@ import static org.lwjgl.opengl.GL30.glGenerateMipmap;
 @Data
 public class Texture implements Disposable {
 
-    private final String path;
-    private final int id;
-    private final int width;
-    private final int height;
+    private  String path;
+    private  int id;
+    private  int width;
+    private  int height;
 
     /**
      * This function will create texture object based on provided image.
@@ -46,14 +46,9 @@ public class Texture implements Disposable {
 
             int format;
             switch (noc.get(0)) {
-                case 3:
-                    format = GL_RGB;
-                    break;
-                case 4:
-                    format = GL_RGBA;
-                    break;
-                default:
-                    format = GL_RED;
+                case 3:  format = GL_RGB;  break;
+                case 4:  format = GL_RGBA; break;
+                default: format = GL_RED;
             }
 
             id = glGenTextures();
@@ -68,6 +63,7 @@ public class Texture implements Disposable {
             STBImage.stbi_image_free(data);
         }
     }
+
 
     @Override
     public void dispose() {

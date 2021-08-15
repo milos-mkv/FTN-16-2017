@@ -32,9 +32,9 @@ public abstract class Constants {
     public static final String DEFAULT_SKYBOX_VERTEX_SHADER_PATH = "src/main/resources/shaders/skybox.vert";
     public static final String DEFAULT_SKYBOX_FRAGMENT_SHADER_PATH = "src/main/resources/shaders/skybox.frag";
 
-    public static final String ICON_TRANSLATE ="src/main/resources/images/move.png";
-    public static final String ICON_ROTATE = "src/main/resources/images/rotation.png";
-    public static final String ICON_SCALE = "src/main/resources/images/scale.png";
+    public static final String ICON_TRANSLATE ="src/main/resources/images/move (3).png";
+    public static final String ICON_ROTATE = "src/main/resources/images/rotating.png";
+    public static final String ICON_SCALE = "src/main/resources/images/resize (1).png";
 
 
     public static final List<String> DEFAULT_SKYBOX_FACES = Arrays.asList(
