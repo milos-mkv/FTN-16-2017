@@ -128,6 +128,27 @@ public class Main extends Application {
 //            glEnable(GL_DEPTH_TEST);
 //        }
 
+        glBindFramebuffer(GL_FRAMEBUFFER, scene.selectFrameBuffer.getId());
+
+        glClearColor(0, 0, 0 , 1);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        var pr = ShaderProgramManager.getInstance().get("SELECT SHADER");
+        glUseProgram(pr.getId());
+        pr.setUniformMat4("view", scene.getCamera().getViewMatrix());
+        pr.setUniformMat4("proj", scene.getCamera().getProjectionMatrix());
+        scene.getModels().forEach((key, value) -> {
+            pr.setUniformInt("id", value.getId());
+            value.draw(pr);
+        });
+
+//        int[] i = new int[1];
+//        glReadPixels(Constants.FRAMEBUFFER_WIDTH / 2,
+//                Constants.FRAMEBUFFER_HEIGHT / 2,
+//                1, 1, GL_RED_INTEGER, GL_INT, i);
+//
+//        System.out.println(i[0]);
+
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
     }
 

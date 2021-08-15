@@ -50,6 +50,8 @@ public class Scene implements Disposable {
         return selectedModel == null ? null : models.get(selectedModel);
     }
 
+    public FrameBuffer selectFrameBuffer;
+
     private Scene() {
         frameBuffer = new FrameBuffer(Constants.FRAMEBUFFER_WIDTH, Constants.FRAMEBUFFER_HEIGHT);
         directionalLight = new DirectionalLight(
@@ -61,11 +63,13 @@ public class Scene implements Disposable {
         camera.getPosition().set(0, 1, 4);
         camera.updateCamera();
         camera.updateVectors();
+        selectFrameBuffer = new FrameBuffer(Constants.FRAMEBUFFER_WIDTH, Constants.FRAMEBUFFER_HEIGHT, true);
     }
 
 
     @Override
     public void dispose() {
         frameBuffer.dispose();
+        selectFrameBuffer.dispose();
     }
 }

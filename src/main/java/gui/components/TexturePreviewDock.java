@@ -1,5 +1,6 @@
 package gui.components;
 
+import core.Scene;
 import core.Settings;
 import gfx.Texture;
 import gui.Dock;
@@ -39,6 +40,8 @@ public class TexturePreviewDock implements Dock {
         ImGui.columns(1);
         ImGui.text("Texture width: " + texture.getWidth());
         ImGui.text("Texture height: " + texture.getHeight());
+        ImGui.image(Scene.getInstance().selectFrameBuffer.getTexture(), 400, 400, 0, 1, 1, 0);
+
         ImGui.end();
     }
 }

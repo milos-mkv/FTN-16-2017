@@ -3,9 +3,12 @@ package gui.components;
 import core.Constants;
 import core.Scene;
 import core.Settings;
+import core.Window;
+import gfx.Model;
 import gfx.Texture;
 import gui.Dock;
 import imgui.ImGui;
+import imgui.ImVec2;
 import imgui.extension.imguizmo.ImGuizmo;
 import imgui.extension.imguizmo.flag.Mode;
 import imgui.extension.imguizmo.flag.Operation;
@@ -18,17 +21,22 @@ import org.joml.AxisAngle4f;
 import org.joml.Matrix4f;
 import org.joml.Quaternionf;
 import org.joml.Vector3f;
+import org.lwjgl.glfw.GLFW;
 import org.w3c.dom.Text;
 
 import java.text.DecimalFormat;
+import java.util.Map;
 import java.util.Objects;
 
+import static org.lwjgl.opengl.GL11.glReadPixels;
+import static org.lwjgl.opengl.GL30.*;
+import static utils.Utils.map;
 import static utils.Utils.matrix4x4ToFloatBuffer;
 
 public class ViewportDock implements Dock {
 
     private final Scene scene;
-    DecimalFormat df = new DecimalFormat();
+    private final DecimalFormat df = new DecimalFormat();
 
     public ViewportDock() {
         this.scene = Scene.getInstance();
@@ -40,7 +48,47 @@ public class ViewportDock implements Dock {
         ImGui.pushStyleVar(ImGuiStyleVar.WindowPadding, 0, 0);
         ImGui.begin("Viewport", ImGuiWindowFlags.NoScrollbar);
 
+        var viewportOffset = ImGui.getCursorPos();
+
         ImGui.image(scene.getFrameBuffer().getTexture(), ImGui.getWindowSizeX(), ImGui.getWindowSizeY() - 30, 0, 1, 1, 0);
+
+        var windowSize = ImGui.getWindowSize();
+        var minBound = ImGui.getWindowPos();
+
+        minBound.x += viewportOffset.x;
+        minBound.y += viewportOffset.y;
+
+        var maxBound = new ImVec2(minBound.x + windowSize.x, minBound.y + windowSize.y);
+        ImVec2[] vbounds = new ImVec2[2];
+        vbounds[0] = new ImVec2(minBound.x, minBound.y);
+        vbounds[1] = new ImVec2(maxBound.x, maxBound.y);
+
+        var m = ImGui.getMousePos();
+        m.x -= vbounds[0].x;
+        m.y -= vbounds[1].y - 27;
+        m.y *= -1;
+
+        float finalX = map(m.x, 0, vbounds[1].x - vbounds[0].x, 0, Constants.FRAMEBUFFER_WIDTH);
+        float finalY = map(m.y, 0, vbounds[1].y - vbounds[0].y, 0, Constants.FRAMEBUFFER_HEIGHT);
+
+        if (GLFW.glfwGetMouseButton(Window.getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS) {
+            glBindFramebuffer(GL_FRAMEBUFFER, Scene.getInstance().selectFrameBuffer.getId());
+            int[] i = new int[1];
+            glReadPixels( (int)finalX,
+                    (int)finalY,
+                    1, 1, GL_RED_INTEGER, GL_INT, i);
+
+            for(Map.Entry<String, Model> mas : Scene.getInstance().getModels().entrySet()) {
+                if(mas.getValue().getId() == i[0]) {
+                    Scene.getInstance().setSelectedModel(mas.getKey());
+                    break;
+                }
+            }
+            glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+        }
+
+
         scene.getCamera().setAspect(ImGui.getWindowSize().x / ImGui.getWindowSize().y);
 
         manipulate();
@@ -76,6 +124,7 @@ public class ViewportDock implements Dock {
         ImGui.setCursorPos(ImGui.getWindowSizeX() - 100, 30);
 
         ImGui.text("FPS: " + df.format(ImGui.getIO().getFramerate()));
+
         ImGui.end();
     }
 

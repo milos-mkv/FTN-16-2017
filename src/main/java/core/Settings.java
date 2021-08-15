@@ -20,5 +20,6 @@ public abstract class Settings {
     public static boolean ToggleGrid = true;
 
     public static int CurrentGizmoMode = Operation.TRANSLATE;
+    public static int NextModelIndex = 0;
 
 }

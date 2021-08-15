@@ -5,12 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5fdce06c-608e-42b4-9d60-dab4fa34989b" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/0/b/0bed2286518b323a975ce5cf9b039f708d3d8630" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/imgui.ini" beforeDir="false" afterPath="$PROJECT_DIR$/imgui.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/gui/components/ModelPropertiesDock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/components/ModelPropertiesDock.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/shaders/matprev.vert" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/shaders/matprev.vert" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/shaders/shader.vert" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/shaders/shader.vert" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/core/Scene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/Scene.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/core/Settings.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/Settings.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gfx/FrameBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gfx/FrameBuffer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gfx/Model.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gfx/Model.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/components/TexturePreviewDock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/components/TexturePreviewDock.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/components/ViewportDock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/components/ViewportDock.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/managers/ShaderProgramManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/managers/ShaderProgramManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/utils/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/Utils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/test.jpg" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

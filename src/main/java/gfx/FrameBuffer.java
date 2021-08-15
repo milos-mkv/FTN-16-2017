@@ -18,13 +18,14 @@ public class FrameBuffer {
     @Getter
     private final int rbo;
 
-    public FrameBuffer(int width, int height) throws OpenGLFramebufferException {
+    public FrameBuffer(int width, int height, boolean ri) {
         id = glGenFramebuffers();
         glBindFramebuffer(GL_FRAMEBUFFER, id);
 
         texture = glGenTextures();
         glBindTexture(GL_TEXTURE_2D, texture);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+
+        glTexImage2D(GL_TEXTURE_2D, 0, ri ? GL_R32I : GL_RGB, width, height, 0, ri ? GL_RED_INTEGER : GL_RGB,  GL_UNSIGNED_BYTE, NULL);
 
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
@@ -40,6 +41,11 @@ public class FrameBuffer {
             throw new OpenGLFramebufferException("Failed to create framebuffer!");
         }
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    }
+
+
+    public FrameBuffer(int width, int height) throws OpenGLFramebufferException {
+        this(width, height, false);
     }
 
     public void dispose() {

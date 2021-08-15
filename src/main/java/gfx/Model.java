@@ -1,5 +1,6 @@
 package gfx;
 
+import core.Settings;
 import exceptions.InvalidDocumentException;
 import lombok.Getter;
 import managers.TextureManager;
@@ -24,10 +25,16 @@ public class Model extends TransformComponent implements Disposable {
     @Getter
     private String path;
 
+
+    @Getter
+    private int id;
+
     public Model(Map<String, Mesh> meshes,  Map<String, Material> materials) {
         super();
         this.meshes = meshes;
         this.materials = materials;
+        this.id = Settings.NextModelIndex;
+        Settings.NextModelIndex += 1;
     }
 
     public Model(String resourcePath) throws InvalidDocumentException {
@@ -46,6 +53,8 @@ public class Model extends TransformComponent implements Disposable {
             processMaterial(aiMaterial, resourcePath.substring(0, resourcePath.lastIndexOf("/")));
         }
         processNode(Objects.requireNonNull(scene.mRootNode()), scene);
+        this.id = Settings.NextModelIndex;
+        Settings.NextModelIndex += 1;
     }
 
     public void draw(ShaderProgram shaderProgram) {
