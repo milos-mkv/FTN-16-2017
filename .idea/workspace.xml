@@ -7,27 +7,16 @@
     <list default="true" id="5fdce06c-608e-42b4-9d60-dab4fa34989b" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/0/b/0bed2286518b323a975ce5cf9b039f708d3d8630" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/1/5/15ff9e8b094ac8bcb53dd6ad978d7c7e74154f7d" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/1/a/1aa44877f6ad89af932e71ab2905294d5635a6e4" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/4/4/4469feeec47fa42c0f8731ae29309ff6cf620ecf" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/a/f/affd74ee68103ee8d2e2a03132a2a2ceeacb21c7" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/d/c/dc634c14be588d3eaf13e2b0f2c40e7aef6d0ca4" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/imgui.ini" beforeDir="false" afterPath="$PROJECT_DIR$/imgui.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/core/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/Constants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/core/Scene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/Scene.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/core/Settings.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/Settings.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/gfx/Material.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gfx/Material.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/gfx/Texture.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gfx/Texture.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/gui/GUIControls.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/GUIControls.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/gui/components/MainMenuBar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/components/MainMenuBar.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/gui/components/ModelPropertiesDock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/components/ModelPropertiesDock.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/gui/components/SplashModal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/components/SplashModal.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/gui/components/TexturePreviewDock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/components/TexturePreviewDock.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/gui/components/ViewportDock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/components/ViewportDock.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/managers/TextureManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/managers/TextureManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/utils/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/utils/Utils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/images/image.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/images/image.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/images/move.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/images/move.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gfx/FrameBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gfx/FrameBuffer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/components/ScenePropertiesDock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/components/ScenePropertiesDock.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/test.jpg" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

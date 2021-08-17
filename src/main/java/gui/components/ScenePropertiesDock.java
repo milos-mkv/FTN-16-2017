@@ -8,16 +8,19 @@ import imgui.ImGui;
 import managers.TextureManager;
 
 import static gui.GUIControls.*;
+import static org.lwjgl.opengl.GL11.*;
 
 public class ScenePropertiesDock implements Dock {
 
     private final Scene scene;
     private final MeshPropertiesPopup meshPropertiesPopup;
     private String modelToRemove = null;
+    private float[] lineWidth = new float[1];
 
     public ScenePropertiesDock() {
         this.scene = Scene.getInstance();
         this.meshPropertiesPopup = new MeshPropertiesPopup();
+        this.lineWidth[0] = 1.0f;
     }
 
     @Override
@@ -49,6 +52,18 @@ public class ScenePropertiesDock implements Dock {
             controlRGB("Ambient", scene.getDirectionalLight().getAmbient());
             controlRGB("Diffuse", scene.getDirectionalLight().getDiffuse());
             controlRGB("Specular", scene.getDirectionalLight().getSpecular());
+        }
+
+        if (ImGui.collapsingHeader("OpenGL Functions")) {
+            ImGui.checkbox("Enable line polygon mode", Settings.EnableLinePolygonMode);
+            ImGui.checkbox("Enable face culling", Settings.EnableFaceCulling);
+            ImGui.checkbox("Enable MSAA", Settings.EnableMSAA);
+
+            ImGui.text("Line width");
+            ImGui.setNextItemWidth(ImGui.getColumnWidth());
+            if (ImGui.dragFloat("##Line width", lineWidth, 0.1f, 0.0f, 10.f)) {
+                glLineWidth(lineWidth[0]);
+            }
         }
 
         ImGui.end();

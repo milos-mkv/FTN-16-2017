@@ -10,6 +10,7 @@ import managers.ShaderProgramManager;
 import managers.TextureManager;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
+import org.lwjgl.opengl.GL11;
 
 import static org.lwjgl.opengl.GL11C.*;
 import static org.lwjgl.opengl.GL20.glUseProgram;
@@ -70,8 +71,13 @@ public class Main extends Application {
 
 
         glViewport(0, 0, Constants.FRAMEBUFFER_WIDTH, Constants.FRAMEBUFFER_HEIGHT);
-        glBindFramebuffer(GL_FRAMEBUFFER, scene.getFrameBuffer().getId());
+        if(Settings.EnableMSAA.get()) {
+            glBindFramebuffer(GL_FRAMEBUFFER, scene.msFrameBuffer.getId());
 
+        } else {
+            glBindFramebuffer(GL_FRAMEBUFFER, scene.getFrameBuffer().getId());
+
+        }
         glClearColor(Scene.ClearColor[0], Scene.ClearColor[1], Scene.ClearColor[2], Scene.ClearColor[3]);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
@@ -88,7 +94,13 @@ public class Main extends Application {
 
 
         ShaderProgram program = ShaderProgramManager.getInstance().get("SCENE SHADER");
-
+        if(Settings.EnableLinePolygonMode.get()) {
+            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        }
+        if(Settings.EnableFaceCulling.get()) {
+            GL11.glEnable(GL_CULL_FACE);
+            glCullFace(GL_BACK);
+        }
         glUseProgram(program.getId());
         program.setUniformMat4("lightSpaceMatrix", lightSpaceMatrix);
         program.setUniformBoolean("isUsingDirectionalLight", Settings.EnableDirectionalLight.get() ? 1 : 0);
@@ -106,6 +118,11 @@ public class Main extends Application {
 
         scene.getModels().forEach((key, value) -> value.draw(program));
 
+        if(Settings.EnableMSAA.get()) {
+            glBindFramebuffer(GL_READ_FRAMEBUFFER, scene.msFrameBuffer.getId());
+            glBindFramebuffer(GL_DRAW_FRAMEBUFFER, scene.getFrameBuffer().getId());
+            glBlitFramebuffer(0, 0, Constants.FRAMEBUFFER_WIDTH, Constants.FRAMEBUFFER_HEIGHT, 0, 0, Constants.FRAMEBUFFER_WIDTH, Constants.FRAMEBUFFER_HEIGHT, GL_COLOR_BUFFER_BIT, GL_NEAREST);
+        }
 //        if (scene.getModels().size() > 0 && scene.getSelectedModel() != null) {
 //            glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
 //            glStencilMask(0x00);
@@ -129,6 +146,13 @@ public class Main extends Application {
 //        }
 
         glBindFramebuffer(GL_FRAMEBUFFER, scene.selectFrameBuffer.getId());
+        if(Settings.EnableLinePolygonMode.get()) {
+            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+        }
+        if(Settings.EnableFaceCulling.get()) {
+            glDisable(GL_CULL_FACE);
+            glCullFace(GL_BACK);
+        }
 
         glClearColor(0, 0, 0 , 1);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

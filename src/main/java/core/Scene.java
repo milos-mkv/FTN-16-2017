@@ -35,9 +35,9 @@ public class Scene implements Disposable {
     private String selectedMesh;
 
     public Mesh getSelectedMesh() {
-        if(selectedMesh != null) {
-            for(Map.Entry<String, Mesh> entry : getSelectedModel().getMeshes().entrySet()) {
-                if(selectedMesh.equals(entry.getValue().getName()))
+        if (selectedMesh != null) {
+            for (Map.Entry<String, Mesh> entry : getSelectedModel().getMeshes().entrySet()) {
+                if (selectedMesh.equals(entry.getValue().getName()))
                     return entry.getValue();
             }
         }
@@ -51,6 +51,7 @@ public class Scene implements Disposable {
     }
 
     public FrameBuffer selectFrameBuffer;
+    public MSFrameBuffer msFrameBuffer;
 
     private Scene() {
         frameBuffer = new FrameBuffer(Constants.FRAMEBUFFER_WIDTH, Constants.FRAMEBUFFER_HEIGHT);
@@ -64,6 +65,7 @@ public class Scene implements Disposable {
         camera.updateCamera();
         camera.updateVectors();
         selectFrameBuffer = new FrameBuffer(Constants.FRAMEBUFFER_WIDTH, Constants.FRAMEBUFFER_HEIGHT, true);
+        msFrameBuffer = new MSFrameBuffer(Constants.FRAMEBUFFER_WIDTH, Constants.FRAMEBUFFER_HEIGHT);
     }
 
 
