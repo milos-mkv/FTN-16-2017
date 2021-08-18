@@ -141,6 +141,7 @@ public class ViewportDock implements Dock {
         var view = matrix4x4ToFloatBuffer(scene.getCamera().getViewMatrix());
         var proj = matrix4x4ToFloatBuffer(scene.getCamera().getProjectionMatrix());
         var transform = matrix4x4ToFloatBuffer(model.getTransform());
+//        ImGuizmo.drawGrid(view, proj, matrix4x4ToFloatBuffer(new Matrix4f()), 100);
 
         ImGuizmo.manipulate(view, proj, transform, Settings.CurrentGizmoMode, Mode.WORLD);
 

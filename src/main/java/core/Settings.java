@@ -16,8 +16,8 @@ public abstract class Settings {
     public static ImBoolean ToogleShadows = new ImBoolean(true);
     public static ImBoolean EnableDirectionalLight = new ImBoolean(true);
 
-    public static boolean ToggleSkyBox = false;
-    public static boolean ToggleGrid = true;
+    public static ImBoolean ToggleSkyBox = new ImBoolean(false);
+    public static ImBoolean ToggleGrid = new ImBoolean(true);
 
     public static int CurrentGizmoMode = Operation.TRANSLATE;
     public static int NextModelIndex = 0;
@@ -25,5 +25,9 @@ public abstract class Settings {
 
     public static ImBoolean EnableLinePolygonMode = new ImBoolean(false);
     public static ImBoolean EnableFaceCulling = new ImBoolean(false);
-    public static ImBoolean EnableMSAA = new ImBoolean(true);
+    public static ImBoolean EnableMSAA = new ImBoolean(false);
+    public static ImBoolean CapFPS = new ImBoolean(false);
+    public static ImBoolean EnableShadows = new ImBoolean(false);
+
+    public static float GLLineWidth = 1.0f;
 }

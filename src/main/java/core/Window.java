@@ -5,6 +5,7 @@ import core.callbacks.KeyCallback;
 import core.callbacks.MouseButtonCallback;
 import imgui.ImGui;
 import imgui.ImGuiStyle;
+import imgui.extension.imnodes.ImNodes;
 import imgui.flag.ImGuiCol;
 import imgui.flag.ImGuiConfigFlags;
 import imgui.gl3.ImGuiImplGl3;
@@ -37,6 +38,7 @@ public abstract class Window {
     protected void dispose() {
         imGuiGl3.dispose();
         imGuiGlfw.dispose();
+        ImNodes.destroyContext();
         ImGui.destroyContext();
         Callbacks.glfwFreeCallbacks(handle);
         GLFW.glfwDestroyWindow(handle);
@@ -73,7 +75,6 @@ public abstract class Window {
                 (vidmode.width() - Constants.WINDOW_DEFAULT_WIDTH) / 2, (vidmode.height() - Constants.WINDOW_DEFAULT_HEIGHT) / 2);
 
         GLFW.glfwMakeContextCurrent(handle);
-//        GLFW.glfwSwapInterval(GLFW.GLFW_TRUE);
         GLFW.glfwShowWindow(handle);
 
         GLFW.glfwSetCursorPosCallback(handle, new CursorPosCallback());
@@ -85,6 +86,7 @@ public abstract class Window {
 
     private void initializeImGui() {
         ImGui.createContext();
+        ImNodes.createContext();
         ImGui.styleColorsDark();
         ImGui.getIO().addConfigFlags(ImGuiConfigFlags.DockingEnable | ImGuiConfigFlags.ViewportsEnable);
 

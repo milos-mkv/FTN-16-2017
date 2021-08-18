@@ -25,7 +25,7 @@ public class Material {
         this.ambientColor = new Vector3f(1, 1, 1);
         this.diffuseColor = new Vector3f(1, 1, 1);
         this.specularColor = new Vector3f(1, 1, 1);
-        this.shininess = 32.f;
+        this.shininess = 10.f;
     }
 
     public Material(String name) {

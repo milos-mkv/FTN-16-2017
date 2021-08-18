@@ -10,6 +10,7 @@ import org.lwjgl.PointerBuffer;
 import org.lwjgl.assimp.*;
 import utils.Disposable;
 
+import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
@@ -65,8 +66,8 @@ public class Model extends TransformComponent implements Disposable {
     private Texture getMaterialTexture(AIMaterial material, String texturesDir, int type) {
         var buffer = AIString.calloc();
         Assimp.aiGetMaterialTexture(material, type, 0, buffer, (IntBuffer) null, null, null, null, null, null);
-        System.out.println(buffer.dataString());
         if (!buffer.dataString().equals("")) {
+            System.out.println(buffer.dataString());
             return TextureManager.getInstance().getTexture(texturesDir + "/" + buffer.dataString());
         }
         return null;
@@ -82,18 +83,27 @@ public class Model extends TransformComponent implements Disposable {
 
     private void processMaterial(AIMaterial aiMaterial, String texturesDir) {
         var material = new Material();
+        var buffer = AIString.calloc();
+        Assimp.aiGetMaterialString(aiMaterial, Assimp.AI_MATKEY_NAME, 0, 0, buffer);
+        System.out.println(material.getName());
+
         material.setAmbientColor(getMaterialColor(aiMaterial, Assimp.AI_MATKEY_COLOR_AMBIENT));
         material.setDiffuseColor(getMaterialColor(aiMaterial, Assimp.AI_MATKEY_COLOR_DIFFUSE));
         material.setSpecularColor(getMaterialColor(aiMaterial, Assimp.AI_MATKEY_COLOR_SPECULAR));
 
-        material.setShininess(1.0f);
+
+//        aiMaterial.mProperties().get(Assimp.AI_MATKEY_SHININESS);
+//
+//        Assimp.aigetMaterial(aiMaterial, Assimp.AI_MATKEY_SHININESS, aiMaterial.mProperties());
+//        System.out.println(pb.getFloatBuffer(1).get());
+
+
+        material.setShininess(10.0f);
         material.setDiffuseTexture(getMaterialTexture(aiMaterial, texturesDir, Assimp.aiTextureType_DIFFUSE));
         material.setSpecularTexture(getMaterialTexture(aiMaterial, texturesDir, Assimp.aiTextureType_SPECULAR));
         material.setNormalTexture(getMaterialTexture(aiMaterial, texturesDir, Assimp.aiTextureType_HEIGHT));
-        var buffer = AIString.calloc();
-        Assimp.aiGetMaterialString(aiMaterial, Assimp.AI_MATKEY_NAME, 0, 0, buffer);
+
         material.setName(buffer.dataString());
-        System.out.println(material.getName());
         materials.put(buffer.dataString(), material);
     }
 

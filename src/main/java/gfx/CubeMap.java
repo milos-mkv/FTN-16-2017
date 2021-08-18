@@ -17,7 +17,7 @@ public class CubeMap {
     private final int id;
 
     @Getter
-    private List<String> faces;
+    private final List<String> faces;
 
     // RIGHT => LEFT => TOP => BOTTOM => BACK => FRONT
     public CubeMap(List<String> faces) throws InvalidDocumentException {
@@ -28,26 +28,25 @@ public class CubeMap {
             glBindTexture(GL_TEXTURE_CUBE_MAP, id);
 
             for (var i = 0; i < faces.size(); i++) {
-                IntBuffer width = stack.mallocInt(1);
+                IntBuffer width  = stack.mallocInt(1);
                 IntBuffer height = stack.mallocInt(1);
-                IntBuffer noc = stack.mallocInt(1);
+                IntBuffer noc    = stack.mallocInt(1);
                 ByteBuffer image = STBImage.stbi_load(faces.get(i), width, height, noc, 0);
 
+                int format;
+                switch (noc.get(0)) {
+                    case 3:  format = GL_RGB;  break;
+                    case 4:  format = GL_RGBA; break;
+                    default: format = GL_RED;
+                }
+
                 if (image == null) {
-                    System.out.println("ERR");
                     throw new InvalidDocumentException("Failed to load image for CubeMap: " + faces.get(i));
                 }
 
                 glTexImage2D(
-                        GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
-                        0,
-                        GL_RGB,
-                        width.get(),
-                        height.get(),
-                        0,
-                        GL_RGB,
-                        GL_UNSIGNED_BYTE,
-                        image);
+                        GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, format, width.get(), height.get(), 0, format,
+                        GL_UNSIGNED_BYTE, image);
             }
 
             glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_MAG_FILTER, GL_LINEAR);

@@ -79,10 +79,10 @@ public class MainMenuBar implements Renderable {
     private void renderRenderMenu() {
         if (ImGui.beginMenu("Render")) {
             if (ImGui.menuItem("Toggle SkyBox")) {
-                Settings.ToggleSkyBox = !Settings.ToggleSkyBox;
+                Settings.ToggleSkyBox.set(!Settings.ToggleSkyBox.get());
             }
             if (ImGui.menuItem("Toggle Grid")) {
-                Settings.ToggleGrid = !Settings.ToggleGrid;
+                Settings.ToggleGrid.set(!Settings.ToggleGrid.get());
             }
             if (ImGui.menuItem("Render Image")) {
                 executeRenderImage();

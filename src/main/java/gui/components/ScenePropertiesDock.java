@@ -6,6 +6,7 @@ import gfx.Model;
 import gui.Dock;
 import imgui.ImGui;
 import managers.TextureManager;
+import org.lwjgl.glfw.GLFW;
 
 import static gui.GUIControls.*;
 import static org.lwjgl.opengl.GL11.*;
@@ -55,14 +56,21 @@ public class ScenePropertiesDock implements Dock {
         }
 
         if (ImGui.collapsingHeader("OpenGL Functions")) {
+            ImGui.checkbox("Enable shadows", Settings.EnableShadows);
             ImGui.checkbox("Enable line polygon mode", Settings.EnableLinePolygonMode);
             ImGui.checkbox("Enable face culling", Settings.EnableFaceCulling);
             ImGui.checkbox("Enable MSAA", Settings.EnableMSAA);
+            ImGui.checkbox("Enable skybox", Settings.ToggleSkyBox);
+            ImGui.checkbox("Enable grid", Settings.ToggleGrid);
+            if(ImGui.checkbox("Cap FPS to 60", Settings.CapFPS)) {
+                GLFW.glfwSwapInterval(Settings.CapFPS.get() ? GLFW.GLFW_TRUE : GLFW.GLFW_FALSE);
+            }
 
             ImGui.text("Line width");
             ImGui.setNextItemWidth(ImGui.getColumnWidth());
             if (ImGui.dragFloat("##Line width", lineWidth, 0.1f, 0.0f, 10.f)) {
                 glLineWidth(lineWidth[0]);
+                Settings.GLLineWidth = lineWidth[0];
             }
         }
 

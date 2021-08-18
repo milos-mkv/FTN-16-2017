@@ -21,6 +21,7 @@ public class GUI implements Renderable {
         renderables.add(new ModelPropertiesDock());
         renderables.add(new SkyboxPropertiesDock());
         renderables.add(new TexturePreviewDock());
+//        renderables.add(new NodeEditorDock());
     }
 
     @Override
