@@ -1,21 +1,24 @@
+/**
+ * @file MainMenuBar.java
+ * @author Milos Milicevic (milosh.mkv@gmail.com)
+ * @copyright Copyright (c) 2021
+ * <p>
+ * Distributed under the MIT software license, see the accompanying file LICENCE or https://opensource.org/licenses/MIT.
+ */
 package gui.components;
 
-import gui.GUIControls;
-import managers.ModelManager;
-import utils.Renderable;
 import core.Constants;
 import core.Scene;
 import core.Settings;
 import core.Window;
-import exceptions.InvalidDocumentException;
-import gfx.Model;
+import gui.GUIControls;
 import imgui.ImGui;
 import managers.Console;
+import managers.ModelManager;
 import org.lwjgl.BufferUtils;
-import org.lwjgl.PointerBuffer;
 import org.lwjgl.glfw.GLFW;
 import org.lwjgl.stb.STBImageWrite;
-import org.lwjgl.util.nfd.NativeFileDialog;
+import utils.Renderable;
 
 import static org.lwjgl.opengl.GL11C.*;
 import static org.lwjgl.opengl.GL30C.GL_FRAMEBUFFER;
@@ -102,10 +105,9 @@ public class MainMenuBar implements Renderable {
             String key = "Model " + scene.getModels().size();
             scene.getModels().put(key, model);
             scene.setSelectedModel(key);
-
             Console.log(Console.Level.INFO, "Model successfully loaded: " + model.getPath());
         } catch (RuntimeException e) {
-            Console.log(Console.Level.ERROR, "Failed to laod model: " + path);
+            Console.log(Console.Level.ERROR, "Failed to load model: " + path);
         }
     }
 
@@ -116,13 +118,10 @@ public class MainMenuBar implements Renderable {
         glReadPixels(0, 0, Constants.FRAMEBUFFER_WIDTH, Constants.FRAMEBUFFER_HEIGHT, GL_RGB, GL_UNSIGNED_BYTE, data);
 
         STBImageWrite.nstbi_flip_vertically_on_write(1);
-        STBImageWrite.stbi_write_jpg(
-                "test.jpg",
-                Constants.FRAMEBUFFER_WIDTH,
-                Constants.FRAMEBUFFER_HEIGHT,
-                3,
-                data,
-                Constants.FRAMEBUFFER_WIDTH * 3);
+        STBImageWrite.stbi_write_jpg("image.jpg", Constants.FRAMEBUFFER_WIDTH, Constants.FRAMEBUFFER_HEIGHT,
+                3, data, Constants.FRAMEBUFFER_WIDTH * 3);
+
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        Console.log(Console.Level.INFO, "Scene rendered successfully.");
     }
 }

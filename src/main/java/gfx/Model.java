@@ -10,10 +10,12 @@ import org.lwjgl.PointerBuffer;
 import org.lwjgl.assimp.*;
 import utils.Disposable;
 
-import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.Objects;
 
 public class Model extends TransformComponent implements Disposable {
 
@@ -26,14 +28,14 @@ public class Model extends TransformComponent implements Disposable {
     @Getter
     private String path;
 
-
     @Getter
     private int id;
 
-    public Model(Map<String, Mesh> meshes,  Map<String, Material> materials) {
+    public Model(Map<String, Mesh> meshes,  Map<String, Material> materials, String path) {
         super();
         this.meshes = meshes;
         this.materials = materials;
+        this.path = path;
         this.id = Settings.NextModelIndex;
         Settings.NextModelIndex += 1;
     }
@@ -67,7 +69,6 @@ public class Model extends TransformComponent implements Disposable {
         var buffer = AIString.calloc();
         Assimp.aiGetMaterialTexture(material, type, 0, buffer, (IntBuffer) null, null, null, null, null, null);
         if (!buffer.dataString().equals("")) {
-            System.out.println(buffer.dataString());
             return TextureManager.getInstance().getTexture(texturesDir + "/" + buffer.dataString());
         }
         return null;
@@ -85,18 +86,10 @@ public class Model extends TransformComponent implements Disposable {
         var material = new Material();
         var buffer = AIString.calloc();
         Assimp.aiGetMaterialString(aiMaterial, Assimp.AI_MATKEY_NAME, 0, 0, buffer);
-        System.out.println(material.getName());
 
         material.setAmbientColor(getMaterialColor(aiMaterial, Assimp.AI_MATKEY_COLOR_AMBIENT));
         material.setDiffuseColor(getMaterialColor(aiMaterial, Assimp.AI_MATKEY_COLOR_DIFFUSE));
         material.setSpecularColor(getMaterialColor(aiMaterial, Assimp.AI_MATKEY_COLOR_SPECULAR));
-
-
-//        aiMaterial.mProperties().get(Assimp.AI_MATKEY_SHININESS);
-//
-//        Assimp.aigetMaterial(aiMaterial, Assimp.AI_MATKEY_SHININESS, aiMaterial.mProperties());
-//        System.out.println(pb.getFloatBuffer(1).get());
-
 
         material.setShininess(10.0f);
         material.setDiffuseTexture(getMaterialTexture(aiMaterial, texturesDir, Assimp.aiTextureType_DIFFUSE));

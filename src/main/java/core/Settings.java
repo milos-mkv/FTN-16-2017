@@ -2,6 +2,7 @@ package core;
 
 import imgui.extension.imguizmo.flag.Operation;
 import imgui.type.ImBoolean;
+import org.joml.Vector3f;
 
 public abstract class Settings {
 
@@ -28,6 +29,8 @@ public abstract class Settings {
     public static ImBoolean EnableMSAA = new ImBoolean(false);
     public static ImBoolean CapFPS = new ImBoolean(false);
     public static ImBoolean EnableShadows = new ImBoolean(false);
+    public static ImBoolean EnableSelectorBorder = new ImBoolean(true);
 
     public static float GLLineWidth = 1.0f;
+    public static Vector3f SelectorColor = new Vector3f(1.0F, 1.0F, 0.0F);
 }

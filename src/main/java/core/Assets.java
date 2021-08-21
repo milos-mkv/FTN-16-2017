@@ -24,7 +24,7 @@ public class Assets implements Disposable {
                 ImGui.getIO().getFonts().addFontFromFileTTF(Constants.CONSOLE_FONT_PATH, Constants.CONSOLE_FONT_SIZE));
         fonts.put("CODE_FONT",
                 ImGui.getIO().getFonts().addFontFromFileTTF(Constants.CONSOLE_FONT_PATH, 18.0f));
-        fonts.put("SPLASH_FONT",
+        fonts.put("GithubButton",
                 ImGui.getIO().getFonts().addFontFromFileTTF(Constants.JAPANESE_FONT_PATH, Constants.JAPANESE_FONT_SIZE));
     }
 

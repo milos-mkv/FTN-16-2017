@@ -3,7 +3,6 @@ package gui.components;
 import core.MaterialPreviewScene;
 import core.Scene;
 import core.Settings;
-import gfx.FrameBuffer;
 import gfx.Material;
 import gfx.ShaderProgram;
 import gfx.Texture;
@@ -18,7 +17,6 @@ import imgui.type.ImString;
 import managers.ShaderProgramManager;
 import managers.TextureManager;
 import org.joml.Vector3f;
-import org.lwjgl.system.CallbackI;
 import utils.TextureType;
 
 import static gui.GUIControls.*;
@@ -35,11 +33,13 @@ public class ModelPropertiesDock implements Dock {
     private final ImInt selectedTextureType = new ImInt(0);
     private final String[] textureTypes;
 
-    MaterialPreviewScene scene;
+    private final MaterialPreviewScene scene;
+    private final TextureManager textureManager;
 
     public ModelPropertiesDock() {
-        scene = MaterialPreviewScene.getInstance();
-        textureTypes = new String[] { "Diffuse", "Specular", "Normal"};
+        this.scene = MaterialPreviewScene.getInstance();
+        this.textureManager = TextureManager.getInstance();
+        this.textureTypes = new String[] { "Diffuse", "Specular", "Normal"};
     }
 
     @Override
@@ -47,6 +47,7 @@ public class ModelPropertiesDock implements Dock {
         if (!Settings.ShowModelPropertiesDock.get()) {
             return;
         }
+
         var model = Scene.getInstance().getSelectedModel();
 
         if (model == null) {
@@ -70,10 +71,10 @@ public class ModelPropertiesDock implements Dock {
                 selectedMaterialIndex.set(0);
             }
 
-            ImGui.combo("##Materialss", selectedMaterialIndex, materialNameList);
+            ImGui.combo("##Materials", selectedMaterialIndex, materialNameList);
             ImGui.pushStyleVar(ImGuiStyleVar.ItemSpacing, 3.0f, 10.0f);
             ImGui.sameLine();
-            if (ImGui.imageButton(TextureManager.getInstance().getTexture("src/main/resources/images/plus1.png").getId(), 21, 21)) {
+            if (ImGui.imageButton(textureManager.getTexture("src/main/resources/images/plus1.png").getId(), 21, 21)) {
                 ImGui.openPopup("Add new material");
                 newMaterialName.set("");
             }
@@ -108,26 +109,19 @@ public class ModelPropertiesDock implements Dock {
         ImGui.text("Material preview");
         renderMaterialPreview(material);
         ImGui.text("Textures");
-//        ImGui.setNextItemWidth(ImGui.getColumnWidth());
-
-
 
         ImGui.setNextItemWidth(ImGui.getColumnWidth());
 
         ImGui.combo("##Textures", selectedTextureType,  textureTypes);
-
         ImGui.separator();
 
         ImGui.pushStyleVar(ImGuiStyleVar.ItemSpacing, 1.0f,3.0f);
 
-        if(ImGui.imageButton(TextureManager.getInstance().getTexture("src/main/resources/images/folder (2).png").getId(),
-                30, 30)) {
+        if(ImGui.imageButton(textureManager.getTexture("src/main/resources/images/folder.png").getId(), 30, 30)) {
             loadTextureForModel(material, TextureType.values()[selectedTextureType.get()]);
-
         }
         ImGui.sameLine();
-        if(ImGui.imageButton(TextureManager.getInstance().getTexture("src/main/resources/images/gallery (1).png").getId(),
-                30, 30)) {
+        if(ImGui.imageButton(textureManager.getTexture("src/main/resources/images/gallery.png").getId(), 30, 30)) {
             Settings.ShowTexturePreviewDock.set(true);
             Texture t =  material.getTexture(TextureType.values()[selectedTextureType.get()]);
             if(t != null) {
@@ -138,8 +132,7 @@ public class ModelPropertiesDock implements Dock {
 
         }
         ImGui.sameLine();
-        if(ImGui.imageButton(TextureManager.getInstance().getTexture("src/main/resources/images/cancel.png").getId(),
-                30, 30)) {
+        if(ImGui.imageButton(textureManager.getTexture("src/main/resources/images/cancel.png").getId(), 30, 30)) {
             material.setTexture(TextureType.values()[selectedTextureType.get()], null);
         }
 
@@ -153,23 +146,6 @@ public class ModelPropertiesDock implements Dock {
         String path = texture == null ? "null" : texture.getPath();
         ImGui.setNextItemWidth(ImGui.getColumnWidth());
         ImGui.inputText("##Texture path", new ImString(path), ImGuiInputTextFlags.ReadOnly);
-
-
-
-//        ImGui.inputText("ASD", new ImString("ASDSAD"), ImGuiInputTextFlags.ReadOnly);
-//        if (texture == null) {
-//            if (ImGui.button("Load " + label, ImGui.getColumnWidth(), 26)) {
-//                loadTextureForModel(material, textureType);
-//            }
-//        }
-//        else if (ImGui.treeNode(label)) {
-//            ImGui.textDisabled(texture.getPath());
-//            ImGui.image(texture.getId(), 300, 300);
-//            if (ImGui.button("Change " + label, 300, 26)) {
-//                loadTextureForModel(material, textureType);
-//            }
-//            ImGui.treePop();
-//        }
     }
 
     private void loadTextureForModel(Material material, TextureType textureType) {

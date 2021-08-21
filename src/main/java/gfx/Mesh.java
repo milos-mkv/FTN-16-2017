@@ -110,7 +110,7 @@ public class Mesh implements Disposable {
             shaderProgram.setUniformBoolean("isSpecularTextureSet", 0);
         }
 
-        if(material.getSpecularTexture() != null) {
+        if(material.getNormalTexture() != null) {
             glActiveTexture(GL_TEXTURE3);
             glBindTexture(GL_TEXTURE_2D, material.getNormalTexture().getId());
             shaderProgram.setUniformBoolean("isNormalTextureSet", 1);

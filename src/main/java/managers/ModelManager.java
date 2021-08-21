@@ -27,10 +27,8 @@ public class ModelManager implements Disposable {
         loadedModels.put("Icosphere", new Model("src/main/resources/meshes/icosphere.obj"));
         loadedModels.put("Monkey", new Model("src/main/resources/meshes/monkey.obj"));
         loadedModels.put("Torus", new Model("src/main/resources/meshes/torus.obj"));
+        loadedModels.put("MikotoMisaka", new Model("src/main/resources/models/misaka/misaka.obj"));
         loadedModels.put("MaterialSphere", new Model("src/main/resources/meshes/materialSphere.obj"));
-
-        Console.log(Console.Level.INFO, "All meshes imported successfully!");
-
     }
 
     public Model clone(String key) {
@@ -52,7 +50,7 @@ public class ModelManager implements Disposable {
                         Mesh.clone(entry.getValue(), materials.get(entry.getValue().getMaterial().getName()))))
                 .collect(Collectors.toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue));
 
-        return new Model(meshes, materials);
+        return new Model(meshes, materials, model.getPath());
     }
 
     @Override

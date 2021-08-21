@@ -141,7 +141,6 @@ public class ViewportDock implements Dock {
         var view = matrix4x4ToFloatBuffer(scene.getCamera().getViewMatrix());
         var proj = matrix4x4ToFloatBuffer(scene.getCamera().getProjectionMatrix());
         var transform = matrix4x4ToFloatBuffer(model.getTransform());
-//        ImGuizmo.drawGrid(view, proj, matrix4x4ToFloatBuffer(new Matrix4f()), 100);
 
         ImGuizmo.manipulate(view, proj, transform, Settings.CurrentGizmoMode, Mode.WORLD);
 
@@ -167,7 +166,7 @@ public class ViewportDock implements Dock {
 
     private void openContextMenu() {
         var size = 20;
-        ImGui.textColored(0.3f, 0.3f, 0.9f, 1.0f, "Add");
+        ImGui.textColored(1.0f, 0.5f, 0.25f, 1.0f, "Add");
         ImGui.separator();
         ImGui.image(TextureManager.getInstance().getTexture("src/main/resources/images/mesh_icons/cone.png").getId(), size, size);
         ImGui.sameLine();
@@ -218,6 +217,16 @@ public class ViewportDock implements Dock {
         if (ImGui.menuItem("Monkey")) {
             String key = "Model " + scene.getModels().size();
             scene.getModels().put(key, ModelManager.getInstance().clone("Monkey"));
+            scene.setSelectedModel(key);
+        }
+        ImGui.separator();
+        ImGui.image(TextureManager.getInstance().getTexture("src/main/resources/images/misicon1.png").getId(), 24, 24);
+
+        ImGui.sameLine();
+
+        if (ImGui.menuItem("Mikoto Misaka")) {
+            String key = "Model " + scene.getModels().size();
+            scene.getModels().put(key, ModelManager.getInstance().clone("MikotoMisaka"));
             scene.setSelectedModel(key);
         }
         ImGui.endPopup();

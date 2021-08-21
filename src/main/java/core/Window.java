@@ -14,8 +14,12 @@ import lombok.Getter;
 import org.joml.Vector4f;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.GL;
+import org.lwjgl.stb.STBImage;
+import org.lwjgl.system.MemoryStack;
 import org.lwjgl.system.MemoryUtil;
 
+import java.nio.ByteBuffer;
+import java.nio.IntBuffer;
 import java.util.Objects;
 
 public abstract class Window {
@@ -80,6 +84,21 @@ public abstract class Window {
         GLFW.glfwSetCursorPosCallback(handle, new CursorPosCallback());
         GLFW.glfwSetMouseButtonCallback(handle, new MouseButtonCallback());
         GLFW.glfwSetKeyCallback(handle, new KeyCallback());
+
+        try (var stack = MemoryStack.stackPush()) {
+            IntBuffer w = stack.mallocInt(1);
+            IntBuffer h = stack.mallocInt(1);
+            IntBuffer noc = stack.mallocInt(1);
+
+            ByteBuffer data = STBImage.stbi_load("src/main/resources/images/misicon1.png", w, h, noc, 0);
+            GLFWImage image = GLFWImage.malloc();
+            image.set(w.get(0), h.get(0), data);
+            GLFWImage.Buffer images = GLFWImage.malloc(1);
+            images.put(0, image);
+
+            GLFW.glfwSetWindowIcon(handle, images);
+        }
+
 
         GL.createCapabilities();
     }

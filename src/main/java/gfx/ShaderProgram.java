@@ -21,26 +21,25 @@ public class ShaderProgram implements Disposable {
     private Shader vert;
     private Shader frag;
 
-    public ShaderProgram(final String vertShaderCode, final String fragShaderCode) {
-        try {
-            vert = new VertexShader(vertShaderCode);
-            frag = new FragmentShader(fragShaderCode);
+    public ShaderProgram(final String vertShaderCode, final String fragShaderCode)
+            throws OpenGLFailedToLinkShaderProgramException, OpenGLFailedToCompileShaderException {
 
-            id = glCreateProgram();
-            glAttachShader(id, vert.getId());
-            glAttachShader(id, frag.getId());
-            glLinkProgram(id);
+        vert = new VertexShader(vertShaderCode);
+        frag = new FragmentShader(fragShaderCode);
 
-            String err = glGetProgramInfoLog(id, glGetProgrami(id, GL_INFO_LOG_LENGTH));
-            if (glGetProgrami(id, GL_LINK_STATUS) == GL_FALSE) {
-                throw new OpenGLFailedToLinkShaderProgramException(err);
-            }
+        id = glCreateProgram();
+        glAttachShader(id, vert.getId());
+        glAttachShader(id, frag.getId());
+        glLinkProgram(id);
 
-            vert.dispose();
-            frag.dispose();
-        } catch (OpenGLFailedToLinkShaderProgramException | OpenGLFailedToCompileShaderException e) {
-            System.out.println(e.getMessage());
+        String err = glGetProgramInfoLog(id, glGetProgrami(id, GL_INFO_LOG_LENGTH));
+        if (glGetProgrami(id, GL_LINK_STATUS) == GL_FALSE) {
+            throw new OpenGLFailedToLinkShaderProgramException(err);
         }
+
+        vert.dispose();
+        frag.dispose();
+
     }
 
     public void setUniformBoolean(String name, int value) {

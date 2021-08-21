@@ -34,6 +34,7 @@ public class TextureManager implements Disposable {
 
         try {
             textures.put(path, new Texture(path));
+            Console.log(Console.Level.INFO, "Loaded texture: " + path);
             return textures.get(path);
         } catch (InvalidDocumentException e) {
             Console.log(Console.Level.ERROR, e.getMessage());

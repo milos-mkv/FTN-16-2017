@@ -1,14 +1,20 @@
+/**
+ * @file MeshPropertiesPopup.java
+ * @author Milos Milicevic (milosh.mkv@gmail.com)
+ * @copyright Copyright (c) 2021
+ * <p>
+ * Distributed under the MIT software license, see the accompanying file LICENCE or https://opensource.org/licenses/MIT.
+ */
 package gui.components;
 
-import core.Assets;
 import core.Scene;
 import gfx.Mesh;
 import gfx.Model;
 import imgui.ImGui;
 import imgui.type.ImInt;
+import managers.Console;
 import utils.Renderable;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -34,7 +40,8 @@ public class MeshPropertiesPopup implements Renderable {
         selectedMaterialIndex.set(materials.indexOf(mesh.getMaterial().getName()));
 
         if (ImGui.beginPopup("Mesh Properties")) {
-            ImGui.text("Mesh name: " + mesh.getName());
+            ImGui.textColored(1.0F, 0.5F, 0.2F, 1.0F, "Mesh name: " + mesh.getName());
+            ImGui.separator();
             ImGui.text("Selected material");
 
             ImGui.setNextItemWidth(200);
@@ -45,6 +52,7 @@ public class MeshPropertiesPopup implements Renderable {
             ImGui.text("Number of vertices: " + mesh.getVertices().size());
             ImGui.text("Number of indices: " + mesh.getIndices().size());
             if (ImGui.button("Delete this mesh")) {
+                Console.log(Console.Level.WARNING, "Deleted mesh " + mesh.getName() + " @ " + System.identityHashCode(mesh));
                 model.getMeshes().remove(mesh.getName());
             }
             ImGui.endPopup();

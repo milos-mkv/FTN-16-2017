@@ -10,6 +10,7 @@ import managers.ShaderProgramManager;
 import managers.TextureManager;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
+import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
 import static org.lwjgl.opengl.GL11C.*;
@@ -31,7 +32,8 @@ public class Main extends Application {
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glEnable(GL_LINE_SMOOTH);
-        glHint (GL_LINE_SMOOTH_HINT, GL_NICEST);
+        glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
+
         gui = new GUI();
 
         ModelManager.getInstance();
@@ -72,7 +74,7 @@ public class Main extends Application {
 
 
         glViewport(0, 0, Constants.FRAMEBUFFER_WIDTH, Constants.FRAMEBUFFER_HEIGHT);
-        if(Settings.EnableMSAA.get()) {
+        if (Settings.EnableMSAA.get()) {
             glBindFramebuffer(GL_FRAMEBUFFER, scene.msFrameBuffer.getId());
 
         } else {
@@ -95,10 +97,10 @@ public class Main extends Application {
 
 
         ShaderProgram program = ShaderProgramManager.getInstance().get("SCENE SHADER");
-        if(Settings.EnableLinePolygonMode.get()) {
+        if (Settings.EnableLinePolygonMode.get()) {
             glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
         }
-        if(Settings.EnableFaceCulling.get()) {
+        if (Settings.EnableFaceCulling.get()) {
             GL11.glEnable(GL_CULL_FACE);
             glCullFace(GL_BACK);
         }
@@ -124,48 +126,51 @@ public class Main extends Application {
 
         scene.getModels().forEach((key, value) -> value.draw(program));
 
-        if (scene.getModels().size() > 0 && scene.getSelectedModel() != null) {
-            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-            glLineWidth(10);
-            glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
-            glStencilMask(0x00);
-            glDisable(GL_DEPTH_TEST);
+        if(Settings.EnableSelectorBorder.get()) {
+            if (scene.getModels().size() > 0 && scene.getSelectedModel() != null) {
+                glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+                glLineWidth(10);
+                glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
+                glStencilMask(0x00);
+                glDisable(GL_DEPTH_TEST);
 
-            ShaderProgram p = ShaderProgramManager.getInstance().get("BORDER SHADER");
+                ShaderProgram p = ShaderProgramManager.getInstance().get("BORDER SHADER");
 
-            glUseProgram(p.getId());
-            p.setUniformMat4("proj", scene.getCamera().getProjectionMatrix());
-            p.setUniformMat4("view", scene.getCamera().getViewMatrix());
+                glUseProgram(p.getId());
+                p.setUniformMat4("proj", scene.getCamera().getProjectionMatrix());
+                p.setUniformMat4("view", scene.getCamera().getViewMatrix());
+                p.setUniformVec3("color", Settings.SelectorColor);
 
 
-            var model = scene.getSelectedModel();
+                var model = scene.getSelectedModel();
 
-            model.draw(p);
+                model.draw(p);
 
-            glStencilMask(0xFF);
-            glEnable(GL_DEPTH_TEST);
-            glStencilFunc(GL_ALWAYS, 1, 0xFF);
-            glEnable(GL_DEPTH_TEST);
-            glLineWidth(Settings.GLLineWidth);
-            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+                glStencilMask(0xFF);
+                glEnable(GL_DEPTH_TEST);
+                glStencilFunc(GL_ALWAYS, 1, 0xFF);
+                glEnable(GL_DEPTH_TEST);
+                glLineWidth(Settings.GLLineWidth);
+                glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 
+            }
         }
 
-        if(Settings.EnableMSAA.get()) {
+        if (Settings.EnableMSAA.get()) {
             glBindFramebuffer(GL_READ_FRAMEBUFFER, scene.msFrameBuffer.getId());
             glBindFramebuffer(GL_DRAW_FRAMEBUFFER, scene.getFrameBuffer().getId());
             glBlitFramebuffer(0, 0, Constants.FRAMEBUFFER_WIDTH, Constants.FRAMEBUFFER_HEIGHT, 0, 0, Constants.FRAMEBUFFER_WIDTH, Constants.FRAMEBUFFER_HEIGHT, GL_COLOR_BUFFER_BIT, GL_NEAREST);
         }
         glBindFramebuffer(GL_FRAMEBUFFER, scene.selectFrameBuffer.getId());
-        if(Settings.EnableLinePolygonMode.get()) {
+        if (Settings.EnableLinePolygonMode.get()) {
             glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
         }
-        if(Settings.EnableFaceCulling.get()) {
+        if (Settings.EnableFaceCulling.get()) {
             glDisable(GL_CULL_FACE);
             glCullFace(GL_BACK);
         }
 
-        glClearColor(0, 0, 0 , 1);
+        glClearColor(0, 0, 0, 1);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         var pr = ShaderProgramManager.getInstance().get("SELECT SHADER");
@@ -182,7 +187,6 @@ public class Main extends Application {
 
     @Override
     protected void renderImGui() {
-        ImGui.showDemoWindow();
         gui.render();
     }
 

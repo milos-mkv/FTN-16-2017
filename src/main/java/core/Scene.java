@@ -28,8 +28,12 @@ public class Scene implements Disposable {
     @Getter
     private final Map<String, Model> models = new LinkedHashMap<>();
 
-    @Setter
     private String selectedModel;
+
+    public void setSelectedModel(String selectedModel) {
+        this.selectedModel =selectedModel;
+        this.selectedMesh = null;
+    }
 
     @Setter
     private String selectedMesh;
@@ -43,6 +47,7 @@ public class Scene implements Disposable {
         }
         return null;
     }
+
 
     public static float[] ClearColor = {0.1f, 0.1f, 0.1f, 1.0f};
 
@@ -61,7 +66,7 @@ public class Scene implements Disposable {
                 new Vector3f(1.0f, 1.0f, 1.0f),
                 new Vector3f(0.4f, 0.4f, 0.4f));
         camera = new FirstPersonCameraController(45.0F, 1280.F / 768.F, 0.1F, 100.0F);
-        camera.getPosition().set(0, 1, 4);
+        camera.getPosition().set(0, 1.6f, 0.8f);
         camera.updateCamera();
         camera.updateVectors();
         selectFrameBuffer = new FrameBuffer(Constants.FRAMEBUFFER_WIDTH, Constants.FRAMEBUFFER_HEIGHT, true);

@@ -20,7 +20,7 @@ public class FirstPersonCameraController extends PerspectiveCamera {
         super(fov, aspect, near, far);
         this.yaw    = -90.0F;
         this.pitch  = 0.0F;
-        this.speed  = 6.0F;
+        this.speed  = 5.0F;
         this.sensitivity = 0.25F;
         updateCamera();
         updateVectors();
