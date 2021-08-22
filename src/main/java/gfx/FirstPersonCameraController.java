@@ -28,7 +28,7 @@ public class FirstPersonCameraController extends PerspectiveCamera {
 
     public void updateVectors() {
         front.x = (float) (Math.cos(Math.toRadians(yaw)) * Math.cos(Math.toRadians(pitch)));
-        front.y = (float) Math.sin(Math.toRadians(pitch));
+        front.y = (float)  Math.sin(Math.toRadians(pitch));
         front.z = (float) (Math.sin(Math.toRadians(yaw)) * Math.cos(Math.toRadians(pitch)));
 
         front.normalize();
@@ -55,7 +55,7 @@ public class FirstPersonCameraController extends PerspectiveCamera {
             position.add(tmp.set(right).mul(speed * delta));
         }
 
-        yaw += (Window.getMouse().x - Window.getMouse().z) * 0.25f;
+        yaw   += (Window.getMouse().x - Window.getMouse().z) * 0.25f;
         pitch += (Window.getMouse().w - Window.getMouse().y) * 0.25f;
 
 

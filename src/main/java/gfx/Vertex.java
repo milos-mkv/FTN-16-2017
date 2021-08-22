@@ -4,9 +4,6 @@ import lombok.Data;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
 
-/**
- * This class is used for storing information about vertex attributes that will be passed to shader.
- */
 @Data
 public class Vertex {
 

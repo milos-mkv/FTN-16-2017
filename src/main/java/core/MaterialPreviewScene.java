@@ -32,5 +32,6 @@ public class MaterialPreviewScene implements Disposable {
     @Override
     public void dispose() {
         frameBuffer.dispose();
+        sphere.dispose();
     }
 }

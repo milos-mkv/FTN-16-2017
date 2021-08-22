@@ -1,10 +1,3 @@
-/**
- * @file ScenePropertiesDock.java
- * @author Milos Milicevic (milosh.mkv@gmail.com)
- * @copyright Copyright (c) 2021
- * <p>
- * Distributed under the MIT software license, see the accompanying file LICENCE or https://opensource.org/licenses/MIT.
- */
 package gui.components;
 
 import core.Scene;
@@ -27,7 +20,7 @@ public class ScenePropertiesDock implements Dock {
     private final MeshPropertiesPopup meshPropertiesPopup;
     private String modelToRemove = null;
 
-    private final float[] lineWidth = {1.0F};
+    private final float[] lineWidth   = {1.0F};
     private final float[] cameraSpeed = {5.0F};
 
     public ScenePropertiesDock() {

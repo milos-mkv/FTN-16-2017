@@ -19,7 +19,6 @@ public class CubeMap {
     @Getter
     private final List<String> faces;
 
-    // RIGHT => LEFT => TOP => BOTTOM => BACK => FRONT
     public CubeMap(List<String> faces) throws InvalidDocumentException {
         this.faces = faces;
         id = glGenTextures();

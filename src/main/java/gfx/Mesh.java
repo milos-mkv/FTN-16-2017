@@ -26,15 +26,15 @@ public class Mesh implements Disposable {
     private String name;
     private Material material;
 
-    List<Vertex> vertices;
-    List<Integer> indices;
+    private List<Vertex> vertices;
+    private List<Integer> indices;
 
     public Mesh(String name, List<Vertex> vertices, List<Integer> indices, Material material) {
-        this.material = material;
-        this.name     = name;
+        this.material    = material;
+        this.name        = name;
         this.indicesSize = indices.size();
-        this.vertices = vertices;
-        this.indices = indices;
+        this.vertices    = vertices;
+        this.indices     = indices;
 
         setupMesh(vertices, indices);
     }

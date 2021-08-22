@@ -12,9 +12,6 @@ import java.nio.IntBuffer;
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL30.glGenerateMipmap;
 
-/**
- * This class is used for creating 2D OpenGL textures.
- */
 @Data
 public class Texture implements Disposable {
 
@@ -23,11 +20,6 @@ public class Texture implements Disposable {
     private  int width;
     private  int height;
 
-    /**
-     * This function will create texture object based on provided image.
-     * @param filePath relative or absoulte path to image file.
-     * @throws InvalidDocumentException when provided file does not exist or path does not exist.
-     */
     public Texture(final String filePath) throws InvalidDocumentException {
         path = filePath;
         try (var stack = MemoryStack.stackPush()) {

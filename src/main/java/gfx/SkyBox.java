@@ -2,6 +2,7 @@ package gfx;
 
 import core.Constants;
 import core.Scene;
+import gfx.shaders.Shader;
 import lombok.Getter;
 import lombok.Setter;
 import managers.ShaderProgramManager;
@@ -9,6 +10,8 @@ import org.joml.Matrix3f;
 import org.joml.Matrix4f;
 import utils.Disposable;
 import utils.Renderable;
+
+import java.util.Arrays;
 
 import static org.lwjgl.opengl.GL30.*;
 
@@ -28,8 +31,18 @@ public class SkyBox implements Disposable, Renderable {
     @Setter
     private CubeMap cubemap;
 
+    private final ShaderProgramManager shaderProgramManager;
+
     private SkyBox() {
-        cubemap = new CubeMap(Constants.DEFAULT_SKYBOX_FACES);
+        shaderProgramManager = ShaderProgramManager.getInstance();
+        cubemap = new CubeMap(Arrays.asList(
+                "src/main/resources/images/right.jpg",
+                "src/main/resources/images/left.jpg",
+                "src/main/resources/images/top.jpg",
+                "src/main/resources/images/bottom.jpg",
+                "src/main/resources/images/back.jpg",
+                "src/main/resources/images/front.jpg"
+        ));
         var skyboxVertices = new float[] {
                 -1.0f,  1.0f, -1.0f, -1.0f, -1.0f, -1.0f,  1.0f, -1.0f, -1.0f,  1.0f, -1.0f, -1.0f,  1.0f,  1.0f, -1.0f, -1.0f,  1.0f, -1.0f,
                 -1.0f, -1.0f,  1.0f, -1.0f, -1.0f, -1.0f, -1.0f,  1.0f, -1.0f, -1.0f,  1.0f, -1.0f, -1.0f,  1.0f,  1.0f, -1.0f, -1.0f,  1.0f,
@@ -50,7 +63,7 @@ public class SkyBox implements Disposable, Renderable {
 
     @Override
     public void render() {
-        ShaderProgram program = ShaderProgramManager.getInstance().get("SKYBOX SHADER");
+        ShaderProgram program = shaderProgramManager.get("SKYBOX SHADER");
 
         glDisable(GL_STENCIL_TEST);
         glDepthFunc(GL_LEQUAL);

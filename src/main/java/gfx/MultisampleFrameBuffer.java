@@ -8,7 +8,7 @@ import static org.lwjgl.opengl.GL30C.*;
 import static org.lwjgl.opengl.GL32.GL_TEXTURE_2D_MULTISAMPLE;
 import static org.lwjgl.opengl.GL32.glTexImage2DMultisample;
 
-public class MSFrameBuffer {
+public class MultisampleFrameBuffer {
 
     @Getter
     private final int id;
@@ -19,7 +19,7 @@ public class MSFrameBuffer {
     @Getter
     private final int rbo;
 
-    public MSFrameBuffer(int width, int height) {
+    public MultisampleFrameBuffer(int width, int height) {
         id = glGenFramebuffers();
         glBindFramebuffer(GL_FRAMEBUFFER, id);
 

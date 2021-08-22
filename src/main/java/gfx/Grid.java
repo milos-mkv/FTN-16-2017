@@ -20,7 +20,12 @@ public class Grid implements Disposable, Renderable {
     private final int vao;
     private final int vbo;
 
+    private final ShaderProgramManager shaderProgramManager;
+    private final Scene scene;
+
     private Grid() {
+        this.scene = Scene.getInstance();
+        this.shaderProgramManager = ShaderProgramManager.getInstance();
         vao = glGenVertexArrays();
         vbo = glGenBuffers();
 
@@ -39,10 +44,10 @@ public class Grid implements Disposable, Renderable {
     @Override
     public void render() {
         glDisable(GL_STENCIL_TEST);
-        ShaderProgram program = ShaderProgramManager.getInstance().get("GRID SHADER");
+        ShaderProgram program = shaderProgramManager.get("GRID SHADER");
         glUseProgram(program.getId());
-        program.setUniformMat4("view", Scene.getInstance().getCamera().getViewMatrix());
-        program.setUniformMat4("proj", Scene.getInstance().getCamera().getProjectionMatrix());
+        program.setUniformMat4("view", scene.getCamera().getViewMatrix());
+        program.setUniformMat4("proj", scene.getCamera().getProjectionMatrix());
 
         glBindVertexArray(vao);
         glDrawArrays(GL_TRIANGLES, 0, 6);

@@ -4,9 +4,6 @@ import lombok.Data;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
 
-/**
- * The Transform component determines the Position, Rotation, and Scale of each object in the scene.
- */
 @Data
 public class TransformComponent {
 
@@ -22,20 +19,8 @@ public class TransformComponent {
         this.rotationAngle = 0;
     }
 
-    /**
-     * This function calculates and returns the transform matrix.
-     *
-     * @return Matrix4f
-     */
     public Matrix4f getTransform() {
-        return new Matrix4f()
-                .translate(position)
-                .rotate(rotationAngle, rotation)
-//                .rotate(rotation.x, 1, 0, 0)
-//                .rotate(rotation.y, 0, 1, 0)
-//                .rotate(rotation.z, 0, 0, 1)
-
-                .scale(scale);
+        return new Matrix4f().translate(position).rotate(rotationAngle, rotation).scale(scale);
     }
 
 }

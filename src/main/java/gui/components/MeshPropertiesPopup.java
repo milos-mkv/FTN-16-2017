@@ -1,10 +1,3 @@
-/**
- * @file MeshPropertiesPopup.java
- * @author Milos Milicevic (milosh.mkv@gmail.com)
- * @copyright Copyright (c) 2021
- * <p>
- * Distributed under the MIT software license, see the accompanying file LICENCE or https://opensource.org/licenses/MIT.
- */
 package gui.components;
 
 import core.Scene;
@@ -34,7 +27,7 @@ public class MeshPropertiesPopup implements Renderable {
         }
 
         final Model model = scene.getSelectedModel();
-        final Mesh mesh = scene.getSelectedMesh();
+        final Mesh  mesh  = scene.getSelectedMesh();
 
         List<String> materials = Arrays.asList(model.getMaterials().keySet().toArray(new String[0]));
         selectedMaterialIndex.set(materials.indexOf(mesh.getMaterial().getName()));
@@ -50,7 +43,7 @@ public class MeshPropertiesPopup implements Renderable {
             }
 
             ImGui.text("Number of vertices: " + mesh.getVertices().size());
-            ImGui.text("Number of indices: " + mesh.getIndices().size());
+            ImGui.text("Number of indices: "  + mesh.getIndices().size());
             if (ImGui.button("Delete this mesh")) {
                 Console.log(Console.Level.WARNING, "Deleted mesh " + mesh.getName() + " @ " + System.identityHashCode(mesh));
                 model.getMeshes().remove(mesh.getName());

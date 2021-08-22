@@ -1,4 +1,7 @@
-import core.*;
+import core.Application;
+import core.Constants;
+import core.Scene;
+import core.Settings;
 import gfx.Grid;
 import gfx.ShaderProgram;
 import gfx.ShadowMap;
@@ -10,7 +13,6 @@ import managers.ShaderProgramManager;
 import managers.TextureManager;
 import org.joml.Matrix4f;
 import org.joml.Vector3f;
-import org.lwjgl.glfw.GLFW;
 import org.lwjgl.opengl.GL11;
 
 import static org.lwjgl.opengl.GL11C.*;
@@ -24,36 +26,42 @@ public class Main extends Application {
     }
 
     private GUI gui;
+    private TextureManager textureManager;
+    private ModelManager modelManager;
+    private Scene scene;
+    private ShaderProgramManager shaderProgramManager;
+    private ShadowMap shadowMap;
 
     @Override
     protected void onStart() {
-        ShaderProgramManager.getInstance();
+        shaderProgramManager = ShaderProgramManager.getInstance();
+        modelManager = ModelManager.getInstance();
+        scene = Scene.getInstance();
+        textureManager = TextureManager.getInstance();
+        shadowMap = ShadowMap.getInstance();
+        gui = new GUI();
+
         glEnable(GL_DEPTH_TEST);
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glEnable(GL_LINE_SMOOTH);
         glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
-
-        gui = new GUI();
-
-        ModelManager.getInstance();
         glEnable(GL_STENCIL_TEST);
     }
 
     @Override
     protected void render(float delta) {
-        Scene scene = Scene.getInstance();
 
         if (ImGui.isMouseDown(1)) {
             scene.getCamera().updateController(delta);
         }
 
-        glBindFramebuffer(GL_FRAMEBUFFER, ShadowMap.getInstance().getDepthMapFBO());
+        glBindFramebuffer(GL_FRAMEBUFFER, shadowMap.getDepthMapFBO());
         glViewport(0, 0, ShadowMap.SHADOW_WIDTH, ShadowMap.SHADOW_HEIGHT);
 
         glClear(GL_DEPTH_BUFFER_BIT);
 
-        ShaderProgram shadowShader = ShaderProgramManager.getInstance().get("SHADOW SHADER");
+        ShaderProgram shadowShader = shaderProgramManager.get("SHADOW SHADER");
 
         glUseProgram(shadowShader.getId());
 
@@ -75,7 +83,7 @@ public class Main extends Application {
 
         glViewport(0, 0, Constants.FRAMEBUFFER_WIDTH, Constants.FRAMEBUFFER_HEIGHT);
         if (Settings.EnableMSAA.get()) {
-            glBindFramebuffer(GL_FRAMEBUFFER, scene.msFrameBuffer.getId());
+            glBindFramebuffer(GL_FRAMEBUFFER, scene.getMsFrameBuffer().getId());
 
         } else {
             glBindFramebuffer(GL_FRAMEBUFFER, scene.getFrameBuffer().getId());
@@ -96,7 +104,7 @@ public class Main extends Application {
         glStencilMask(0xFF);
 
 
-        ShaderProgram program = ShaderProgramManager.getInstance().get("SCENE SHADER");
+        ShaderProgram program = shaderProgramManager.get("SCENE SHADER");
         if (Settings.EnableLinePolygonMode.get()) {
             glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
         }
@@ -126,42 +134,46 @@ public class Main extends Application {
 
         scene.getModels().forEach((key, value) -> value.draw(program));
 
-        if(Settings.EnableSelectorBorder.get()) {
-            if (scene.getModels().size() > 0 && scene.getSelectedModel() != null) {
-                glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-                glLineWidth(10);
-                glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
-                glStencilMask(0x00);
-                glDisable(GL_DEPTH_TEST);
+        if (Settings.EnableSelectorBorder.get() && scene.getModels().size() > 0 && scene.getSelectedModel() != null) {
+            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+            glLineWidth(10);
+            glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
+            glStencilMask(0x00);
+            glDisable(GL_DEPTH_TEST);
 
-                ShaderProgram p = ShaderProgramManager.getInstance().get("BORDER SHADER");
+            ShaderProgram p = shaderProgramManager.get("BORDER SHADER");
 
-                glUseProgram(p.getId());
-                p.setUniformMat4("proj", scene.getCamera().getProjectionMatrix());
-                p.setUniformMat4("view", scene.getCamera().getViewMatrix());
-                p.setUniformVec3("color", Settings.SelectorColor);
+            glUseProgram(p.getId());
+            p.setUniformMat4("proj", scene.getCamera().getProjectionMatrix());
+            p.setUniformMat4("view", scene.getCamera().getViewMatrix());
+            p.setUniformVec3("color", Settings.SelectorColor);
 
+            var model = scene.getSelectedModel();
+            model.draw(p);
 
-                var model = scene.getSelectedModel();
-
-                model.draw(p);
-
-                glStencilMask(0xFF);
-                glEnable(GL_DEPTH_TEST);
-                glStencilFunc(GL_ALWAYS, 1, 0xFF);
-                glEnable(GL_DEPTH_TEST);
-                glLineWidth(Settings.GLLineWidth);
-                glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-
-            }
+            glStencilMask(0xFF);
+            glEnable(GL_DEPTH_TEST);
+            glStencilFunc(GL_ALWAYS, 1, 0xFF);
+            glEnable(GL_DEPTH_TEST);
+            glLineWidth(Settings.GLLineWidth);
+            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
         }
 
         if (Settings.EnableMSAA.get()) {
-            glBindFramebuffer(GL_READ_FRAMEBUFFER, scene.msFrameBuffer.getId());
+            glBindFramebuffer(GL_READ_FRAMEBUFFER, scene.getMsFrameBuffer().getId());
             glBindFramebuffer(GL_DRAW_FRAMEBUFFER, scene.getFrameBuffer().getId());
-            glBlitFramebuffer(0, 0, Constants.FRAMEBUFFER_WIDTH, Constants.FRAMEBUFFER_HEIGHT, 0, 0, Constants.FRAMEBUFFER_WIDTH, Constants.FRAMEBUFFER_HEIGHT, GL_COLOR_BUFFER_BIT, GL_NEAREST);
+            glBlitFramebuffer(0,
+                    0,
+                    Constants.FRAMEBUFFER_WIDTH,
+                    Constants.FRAMEBUFFER_HEIGHT,
+                    0,
+                    0,
+                    Constants.FRAMEBUFFER_WIDTH,
+                    Constants.FRAMEBUFFER_HEIGHT,
+                    GL_COLOR_BUFFER_BIT,
+                    GL_NEAREST);
         }
-        glBindFramebuffer(GL_FRAMEBUFFER, scene.selectFrameBuffer.getId());
+        glBindFramebuffer(GL_FRAMEBUFFER, scene.getSelectFrameBuffer().getId());
         if (Settings.EnableLinePolygonMode.get()) {
             glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
         }
@@ -173,7 +185,7 @@ public class Main extends Application {
         glClearColor(0, 0, 0, 1);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        var pr = ShaderProgramManager.getInstance().get("SELECT SHADER");
+        var pr = shaderProgramManager.get("SELECT SHADER");
         glUseProgram(pr.getId());
         pr.setUniformMat4("view", scene.getCamera().getViewMatrix());
         pr.setUniformMat4("proj", scene.getCamera().getProjectionMatrix());
@@ -192,13 +204,12 @@ public class Main extends Application {
 
     @Override
     protected void onEnd() {
-        ShaderProgramManager.getInstance().dispose();
-        TextureManager.getInstance().dispose();
-        ModelManager.getInstance().dispose();
-        ShadowMap.getInstance().dispose();
-        Scene.getInstance().dispose();
+        shaderProgramManager.dispose();
+        textureManager.dispose();
+        modelManager.dispose();
+        shadowMap.dispose();
+        scene.dispose();
         SkyBox.getInstance().dispose();
         Grid.getInstance().dispose();
-        Assets.getInstance().dispose();
     }
 }

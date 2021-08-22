@@ -5,7 +5,8 @@ import exceptions.InvalidDocumentException;
 import gfx.CubeMap;
 import gfx.SkyBox;
 import gui.Dock;
-import imgui.internal.ImGui;
+import imgui.ImGui;
+import imgui.ImVec2;
 import managers.TextureManager;
 
 import java.util.List;
@@ -16,9 +17,11 @@ public class SkyboxPropertiesDock implements Dock {
 
     private final SkyBox skyBox;
     private final List<String> list;
+    private final TextureManager textureManager;
 
     public SkyboxPropertiesDock() {
         this.skyBox = SkyBox.getInstance();
+        this.textureManager = TextureManager.getInstance();
         this.list = this.skyBox.getCubemap().getFaces();
     }
 
@@ -41,64 +44,14 @@ public class SkyboxPropertiesDock implements Dock {
         ImGui.sameLine();
         ImGui.text("Make sure all images have same resolution.");
 
-        float size = 150;
-
-        ImGui.columns(6);
-        for (int i = 0; i < 6; i++)
-            ImGui.setColumnWidth(i, 173);
-        ImGui.text("Right image");
-        if (ImGui.imageButton(TextureManager.getInstance().getTexture(skyBox.getCubemap().getFaces().get(0)).getId(),
-                size, size)) {
-            String path = controlOpenFileDialog();
-            if(TextureManager.getInstance().getTexture(path) != null) {
-                list.set(0, path);
+        for (int i = 0; i < 6; i++) {
+            if (ImGui.imageButton(textureManager.getTexture(skyBox.getCubemap().getFaces().get(i)).getId(), 150, 150)) {
+                String path = controlOpenFileDialog();
+                if(textureManager.getTexture(path) != null) {
+                    list.set(i, path);
+                }
             }
-
-        }
-        ImGui.nextColumn();
-        ImGui.text("Left image");
-        if (ImGui.imageButton(TextureManager.getInstance().getTexture(skyBox.getCubemap().getFaces().get(1)).getId(),
-                size, size)) {
-            String path = controlOpenFileDialog();
-            if(TextureManager.getInstance().getTexture(path) != null) {
-                list.set(1, path);
-            }
-        }
-        ImGui.nextColumn();
-        ImGui.text("Top image");
-        if (ImGui.imageButton(TextureManager.getInstance().getTexture(skyBox.getCubemap().getFaces().get(2)).getId(),
-                size, size)) {
-            String path = controlOpenFileDialog();
-            if(TextureManager.getInstance().getTexture(path) != null) {
-                list.set(2, path);
-            }
-        }
-        ImGui.nextColumn();
-        ImGui.text("Bottom image");
-        if (ImGui.imageButton(TextureManager.getInstance().getTexture(skyBox.getCubemap().getFaces().get(3)).getId(),
-                size, size)) {
-            String path = controlOpenFileDialog();
-            if(TextureManager.getInstance().getTexture(path) != null) {
-                list.set(3, path);
-            }
-        }
-        ImGui.nextColumn();
-        ImGui.text("Back image");
-        if (ImGui.imageButton(TextureManager.getInstance().getTexture(skyBox.getCubemap().getFaces().get(4)).getId(),
-                size, size)) {
-            String path = controlOpenFileDialog();
-            if(TextureManager.getInstance().getTexture(path) != null) {
-                list.set(4, path);
-            }
-        }
-        ImGui.nextColumn();
-        ImGui.text("Front image");
-        if (ImGui.imageButton(TextureManager.getInstance().getTexture(skyBox.getCubemap().getFaces().get(5)).getId(),
-                size, size)) {
-            String path = controlOpenFileDialog();
-            if(TextureManager.getInstance().getTexture(path) != null) {
-                list.set(5, path);
-            }
+            ImGui.sameLine();
         }
         ImGui.end();
     }

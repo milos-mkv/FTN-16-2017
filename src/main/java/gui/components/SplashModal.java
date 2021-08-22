@@ -1,11 +1,3 @@
-/**
- * @file SplashModal.java
- * @author Milos Milicevic (milosh.mkv@gmail.com)
- * @copyright Copyright (c) 2021
- * <p>
- * Distributed under the MIT software license, see the accompanying file LICENCE or https://opensource.org/licenses/MIT.
- */
-
 package gui.components;
 
 import core.Assets;
@@ -26,10 +18,14 @@ import java.net.URISyntaxException;
 public class SplashModal implements Renderable {
 
     private final int flags;
+    private final TextureManager textureManager;
+    private final Assets assets;
 
     public SplashModal() {
         this.flags = ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoDocking | ImGuiWindowFlags.NoCollapse |
                      ImGuiWindowFlags.NoResize;
+        this.textureManager = TextureManager.getInstance();
+        this.assets = Assets.getInstance();
     }
 
     @Override
@@ -43,11 +39,11 @@ public class SplashModal implements Renderable {
         ImGui.begin("Misaka Railgun", Settings.ShowSplashModal, flags);
 
         ImGui.setWindowSize(600, 405);
-        ImGui.image(TextureManager.getInstance().getTexture("src/main/resources/images/splash.png").getId(),
+        ImGui.image(textureManager.getTexture("src/main/resources/images/splash.png").getId(),
                 ImGui.getWindowWidth(), ImGui.getWindowHeight() - 30);
 
         ImGui.setCursorPos(370, 320);
-        ImGui.pushFont(Assets.getInstance().getFont("GithubButton"));
+        ImGui.pushFont(assets.getFont("GithubButton"));
 
         if (ImGui.button(" Github ")) {
             try {

@@ -7,7 +7,7 @@ import utils.Disposable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Assets implements Disposable {
+public class Assets  {
 
     private static Assets assets;
 
@@ -19,20 +19,17 @@ public class Assets implements Disposable {
 
     private Assets() {
         fonts.put("DEFAULT_FONT",
-                ImGui.getIO().getFonts().addFontFromFileTTF(Constants.DEFAULT_FONT_PATH, Constants.DEFAULT_FONT_SIZE));
+                ImGui.getIO().getFonts().addFontFromFileTTF("src/main/resources/fonts/font.ttf", 21.0F));
         fonts.put("CONSOLE_FONT",
-                ImGui.getIO().getFonts().addFontFromFileTTF(Constants.CONSOLE_FONT_PATH, Constants.CONSOLE_FONT_SIZE));
+                ImGui.getIO().getFonts().addFontFromFileTTF("src/main/resources/fonts/CONSOLA.ttf", 14.0F));
         fonts.put("CODE_FONT",
-                ImGui.getIO().getFonts().addFontFromFileTTF(Constants.CONSOLE_FONT_PATH, 18.0f));
+                ImGui.getIO().getFonts().addFontFromFileTTF("src/main/resources/fonts/CONSOLA.ttf", 18.0f));
         fonts.put("GithubButton",
-                ImGui.getIO().getFonts().addFontFromFileTTF(Constants.JAPANESE_FONT_PATH, Constants.JAPANESE_FONT_SIZE));
+                ImGui.getIO().getFonts().addFontFromFileTTF("src/main/resources/fonts/CONSOLA.ttf", 19.0F));
     }
 
     public ImFont getFont(String key) {
         return fonts.get(key);
     }
 
-    @Override
-    public void dispose() {
-    }
 }

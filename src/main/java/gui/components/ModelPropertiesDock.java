@@ -33,13 +33,17 @@ public class ModelPropertiesDock implements Dock {
     private final ImInt selectedTextureType = new ImInt(0);
     private final String[] textureTypes;
 
-    private final MaterialPreviewScene scene;
+    private final MaterialPreviewScene materialPreviewScene;
     private final TextureManager textureManager;
+    private final Scene scene;
+    private final ShaderProgramManager shaderProgramManager;
 
     public ModelPropertiesDock() {
-        this.scene = MaterialPreviewScene.getInstance();
+        this.materialPreviewScene = MaterialPreviewScene.getInstance();
         this.textureManager = TextureManager.getInstance();
-        this.textureTypes = new String[] { "Diffuse", "Specular", "Normal"};
+        this.scene = Scene.getInstance();
+        this.shaderProgramManager = ShaderProgramManager.getInstance();
+        this.textureTypes = new String[]{"Diffuse", "Specular", "Normal"};
     }
 
     @Override
@@ -48,7 +52,7 @@ public class ModelPropertiesDock implements Dock {
             return;
         }
 
-        var model = Scene.getInstance().getSelectedModel();
+        var model = scene.getSelectedModel();
 
         if (model == null) {
             return;
@@ -67,7 +71,7 @@ public class ModelPropertiesDock implements Dock {
             ImGui.setNextItemWidth(ImGui.getColumnWidth() - 30);
             String[] materialNameList = model.getMaterials().keySet().toArray(new String[0]);
 
-            if(selectedMaterialIndex.get() >= materialNameList.length) {
+            if (selectedMaterialIndex.get() >= materialNameList.length) {
                 selectedMaterialIndex.set(0);
             }
 
@@ -99,7 +103,7 @@ public class ModelPropertiesDock implements Dock {
         ImGui.end();
     }
 
-    private void renderMaterial(Material material) {
+    private synchronized void renderMaterial(Material material) {
         controlRGB("Ambient Color", material.getAmbientColor());
         controlRGB("Diffuse Color", material.getDiffuseColor());
         controlRGB("Specular Color", material.getSpecularColor());
@@ -112,27 +116,28 @@ public class ModelPropertiesDock implements Dock {
 
         ImGui.setNextItemWidth(ImGui.getColumnWidth());
 
-        ImGui.combo("##Textures", selectedTextureType,  textureTypes);
+        ImGui.combo("##Textures", selectedTextureType, textureTypes);
         ImGui.separator();
 
-        ImGui.pushStyleVar(ImGuiStyleVar.ItemSpacing, 1.0f,3.0f);
+        ImGui.pushStyleVar(ImGuiStyleVar.ItemSpacing, 1.0f, 3.0f);
 
-        if(ImGui.imageButton(textureManager.getTexture("src/main/resources/images/folder.png").getId(), 30, 30)) {
+        if (ImGui.imageButton(textureManager.getTexture("src/main/resources/images/folder.png").getId(), 30, 30)) {
             loadTextureForModel(material, TextureType.values()[selectedTextureType.get()]);
         }
+
         ImGui.sameLine();
-        if(ImGui.imageButton(textureManager.getTexture("src/main/resources/images/gallery.png").getId(), 30, 30)) {
+        if (ImGui.imageButton(textureManager.getTexture("src/main/resources/images/gallery.png").getId(), 30, 30)) {
             Settings.ShowTexturePreviewDock.set(true);
-            Texture t =  material.getTexture(TextureType.values()[selectedTextureType.get()]);
-            if(t != null) {
+            Texture t = material.getTexture(TextureType.values()[selectedTextureType.get()]);
+            if (t != null) {
                 Settings.TextureForPreview = t.getPath();
             } else {
                 Settings.TextureForPreview = null;
             }
-
         }
+
         ImGui.sameLine();
-        if(ImGui.imageButton(textureManager.getTexture("src/main/resources/images/cancel.png").getId(), 30, 30)) {
+        if (ImGui.imageButton(textureManager.getTexture("src/main/resources/images/cancel.png").getId(), 30, 30)) {
             material.setTexture(TextureType.values()[selectedTextureType.get()], null);
         }
 
@@ -141,7 +146,7 @@ public class ModelPropertiesDock implements Dock {
         ImGui.popStyleVar();
     }
 
-    private void renderTextureComponent( Material material, TextureType textureType) {
+    private void renderTextureComponent(Material material, TextureType textureType) {
         Texture texture = material.getTexture(textureType);
         String path = texture == null ? "null" : texture.getPath();
         ImGui.setNextItemWidth(ImGui.getColumnWidth());
@@ -158,45 +163,37 @@ public class ModelPropertiesDock implements Dock {
             return;
         }
         switch (textureType) {
-            case DIFFUSE:
-                material.setDiffuseTexture(texture);
-                break;
-            case SPECULAR:
-                material.setSpecularTexture(texture);
-                break;
-            case NORMAL:
-                material.setNormalTexture(texture);
-                break;
-            default:
-                break;
+            case DIFFUSE:   material.setDiffuseTexture(texture);  break;
+            case SPECULAR:  material.setSpecularTexture(texture); break;
+            case NORMAL:    material.setNormalTexture(texture);   break;
+            default: break;
         }
     }
 
     private void renderMaterialPreview(Material material) {
-
         glViewport(0, 0, 600, 600);
-        glBindFramebuffer(GL_FRAMEBUFFER, scene.getFrameBuffer().getId());
+        glBindFramebuffer(GL_FRAMEBUFFER, materialPreviewScene.getFrameBuffer().getId());
         glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        ShaderProgram program = ShaderProgramManager.getInstance().get("MATERIAL PREVIEW SHADER");
-        scene.getSphere().getMeshes().forEach((key, value) -> value.setMaterial(material));
+        ShaderProgram program = shaderProgramManager.get("MATERIAL PREVIEW SHADER");
+        materialPreviewScene.getSphere().getMeshes().forEach((key, value) -> value.setMaterial(material));
         glUseProgram(program.getId());
-        program.setUniformVec3("viewPos", scene.getPerspectiveCamera().getPosition());
+        program.setUniformVec3("viewPos", materialPreviewScene.getPerspectiveCamera().getPosition());
         Scene.getInstance().getDirectionalLight().apply(program);
 
-        program.setUniformMat4("view", scene.getPerspectiveCamera().getViewMatrix());
-        program.setUniformMat4("proj", scene.getPerspectiveCamera().getProjectionMatrix());
+        program.setUniformMat4("view", materialPreviewScene.getPerspectiveCamera().getViewMatrix());
+        program.setUniformMat4("proj", materialPreviewScene.getPerspectiveCamera().getProjectionMatrix());
 
         program.setUniformInt("diffuseTexture", 1);
-        scene.getSphere().setRotationAngle((float)Math.toRadians(glfwGetTime() * 30.f));
-        scene.getSphere().setRotation(new Vector3f(0, 1, 0));
-        scene.getSphere().draw(program);
+        materialPreviewScene.getSphere().setRotationAngle((float) Math.toRadians(glfwGetTime() * 30.f));
+        materialPreviewScene.getSphere().setRotation(new Vector3f(0, 1, 0));
+        materialPreviewScene.getSphere().draw(program);
 
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
         ImGui.beginChildFrame(1, ImGui.getColumnWidth(), ImGui.getColumnWidth(), ImGuiWindowFlags.NoScrollbar);
-        ImGui.image(scene.getFrameBuffer().getTexture(), ImGui.getColumnWidth(), ImGui.getColumnWidth(), 0, 1, 1, 0);
+        ImGui.image(materialPreviewScene.getFrameBuffer().getTexture(), ImGui.getColumnWidth(), ImGui.getColumnWidth(), 0, 1, 1, 0);
         ImGui.endChild();
     }
 }

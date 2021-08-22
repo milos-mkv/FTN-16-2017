@@ -1,10 +1,3 @@
-/**
- * @file MainMenuBar.java
- * @author Milos Milicevic (milosh.mkv@gmail.com)
- * @copyright Copyright (c) 2021
- * <p>
- * Distributed under the MIT software license, see the accompanying file LICENCE or https://opensource.org/licenses/MIT.
- */
 package gui.components;
 
 import core.Constants;
@@ -27,9 +20,11 @@ import static org.lwjgl.opengl.GL30C.glBindFramebuffer;
 public class MainMenuBar implements Renderable {
 
     private final Scene scene;
+    private final ModelManager modelManager;
 
     public MainMenuBar() {
         this.scene = Scene.getInstance();
+        this.modelManager = ModelManager.getInstance();
     }
 
     @Override
@@ -96,12 +91,13 @@ public class MainMenuBar implements Renderable {
 
     private void openImportModelFailedDialog() {
         String path = GUIControls.controlOpenFileDialog();
+
         if(path == null) {
             return;
         }
 
         try {
-            var model = ModelManager.getInstance().clone(path);
+            var model = modelManager.clone(path);
             String key = "Model " + scene.getModels().size();
             scene.getModels().put(key, model);
             scene.setSelectedModel(key);

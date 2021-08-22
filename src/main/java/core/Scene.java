@@ -48,6 +48,11 @@ public class Scene implements Disposable {
         return null;
     }
 
+    @Getter
+    private final FrameBuffer selectFrameBuffer;
+
+    @Getter
+    private final MultisampleFrameBuffer msFrameBuffer;
 
     public static float[] ClearColor = {0.1f, 0.1f, 0.1f, 1.0f};
 
@@ -55,8 +60,7 @@ public class Scene implements Disposable {
         return selectedModel == null ? null : models.get(selectedModel);
     }
 
-    public FrameBuffer selectFrameBuffer;
-    public MSFrameBuffer msFrameBuffer;
+
 
     private Scene() {
         frameBuffer = new FrameBuffer(Constants.FRAMEBUFFER_WIDTH, Constants.FRAMEBUFFER_HEIGHT);
@@ -70,7 +74,7 @@ public class Scene implements Disposable {
         camera.updateCamera();
         camera.updateVectors();
         selectFrameBuffer = new FrameBuffer(Constants.FRAMEBUFFER_WIDTH, Constants.FRAMEBUFFER_HEIGHT, true);
-        msFrameBuffer = new MSFrameBuffer(Constants.FRAMEBUFFER_WIDTH, Constants.FRAMEBUFFER_HEIGHT);
+        msFrameBuffer = new MultisampleFrameBuffer(Constants.FRAMEBUFFER_WIDTH, Constants.FRAMEBUFFER_HEIGHT);
     }
 
 
@@ -78,5 +82,7 @@ public class Scene implements Disposable {
     public void dispose() {
         frameBuffer.dispose();
         selectFrameBuffer.dispose();
+        msFrameBuffer.dispose();
+        models.forEach((key, value) -> value.dispose());
     }
 }

@@ -26,18 +26,17 @@ public class Model extends TransformComponent implements Disposable {
     private Map<String, Material> materials = new LinkedHashMap<>();
 
     @Getter
-    private String path;
+    private final String path;
 
     @Getter
-    private int id;
+    private final int id;
 
     public Model(Map<String, Mesh> meshes,  Map<String, Material> materials, String path) {
         super();
         this.meshes = meshes;
         this.materials = materials;
         this.path = path;
-        this.id = Settings.NextModelIndex;
-        Settings.NextModelIndex += 1;
+        this.id = Settings.NextModelIndex++;
     }
 
     public Model(String resourcePath) throws InvalidDocumentException {

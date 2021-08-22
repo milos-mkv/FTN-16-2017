@@ -36,8 +36,11 @@ public class ViewportDock implements Dock {
 
     private final Scene scene;
     private final DecimalFormat df = new DecimalFormat();
-
+    private final TextureManager textureManager;
+    private final ModelManager modelManager;
     public ViewportDock() {
+        this.textureManager = TextureManager.getInstance();
+        this.modelManager = ModelManager.getInstance();
         this.scene = Scene.getInstance();
         df.setMaximumFractionDigits(2);
     }
@@ -72,19 +75,17 @@ public class ViewportDock implements Dock {
 
         if (GLFW.glfwGetMouseButton(Window.getHandle(), GLFW.GLFW_MOUSE_BUTTON_LEFT) == GLFW.GLFW_PRESS &&
                 GLFW.glfwGetKey(Window.getHandle(), GLFW.GLFW_KEY_LEFT_CONTROL) == GLFW.GLFW_PRESS) {
-            glBindFramebuffer(GL_FRAMEBUFFER, Scene.getInstance().selectFrameBuffer.getId());
+            glBindFramebuffer(GL_FRAMEBUFFER, scene.getSelectFrameBuffer().getId());
             int[] i = new int[1];
             glReadPixels((int) finalX, (int) finalY, 1, 1, GL_RED_INTEGER, GL_INT, i);
-            for (Map.Entry<String, Model> mas : Scene.getInstance().getModels().entrySet()) {
+            for (Map.Entry<String, Model> mas : scene.getModels().entrySet()) {
                 if (mas.getValue().getId() == i[0]) {
                     Scene.getInstance().setSelectedModel(mas.getKey());
                     break;
                 }
             }
             glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
         }
-
 
         scene.getCamera().setAspect(ImGui.getWindowSize().x / ImGui.getWindowSize().y);
 
@@ -95,22 +96,19 @@ public class ViewportDock implements Dock {
         ImGui.pushStyleColor(ImGuiCol.ButtonHovered, 0.1f, 0.1f, 0.1f, 1.0f);
         ImGui.pushStyleColor(ImGuiCol.ButtonActive, 0.3f, 0.3f, 0.3f, 1.0f);
         ImGui.setCursorPos(10, 40);
-        if (ImGui.imageButton(Objects.requireNonNull(TextureManager.getInstance().getTexture(Constants.ICON_TRANSLATE)).getId(),
-                size, size)) {
+        if (ImGui.imageButton(textureManager.getTexture("src/main/resources/images/move.png").getId(), size, size)) {
             Settings.CurrentGizmoMode = Operation.TRANSLATE;
             Console.log(Console.Level.INFO, "Selected Translate Mode");
         }
 
         ImGui.setCursorPos(10, 90);
-        if (ImGui.imageButton(Objects.requireNonNull(TextureManager.getInstance().getTexture(Constants.ICON_SCALE)).getId(),
-                size, size)) {
+        if (ImGui.imageButton(textureManager.getTexture("src/main/resources/images/resize.png").getId(), size, size)) {
             Settings.CurrentGizmoMode = Operation.SCALE;
             Console.log(Console.Level.INFO, "Selected Scale Mode");
         }
 
         ImGui.setCursorPos(10, 140);
-        if (ImGui.imageButton(Objects.requireNonNull(TextureManager.getInstance().getTexture(Constants.ICON_ROTATE)).getId(),
-                size, size)) {
+        if (ImGui.imageButton(textureManager.getTexture("src/main/resources/images/rotating.png").getId(), size, size)) {
             Settings.CurrentGizmoMode = Operation.ROTATE;
             Console.log(Console.Level.INFO, "Selected Rotate Mode");
         }
@@ -168,67 +166,65 @@ public class ViewportDock implements Dock {
         var size = 20;
         ImGui.textColored(1.0f, 0.5f, 0.25f, 1.0f, "Add");
         ImGui.separator();
-        ImGui.image(TextureManager.getInstance().getTexture("src/main/resources/images/mesh_icons/cone.png").getId(), size, size);
+        ImGui.image(textureManager.getTexture("src/main/resources/images/mesh_icons/cone.png").getId(), size, size);
         ImGui.sameLine();
+        String key = "Model " + scene.getModels().size();
+        int startSize = scene.getModels().size();
         if (ImGui.menuItem("Cone")) {
-            String key = "Model " + scene.getModels().size();
-            scene.getModels().put(key, ModelManager.getInstance().clone("Cone"));
+            scene.getModels().put(key, modelManager.clone("Cone"));
             scene.setSelectedModel(key);
         }
-        ImGui.image(TextureManager.getInstance().getTexture("src/main/resources/images/mesh_icons/cube.png").getId(), size, size);
+        ImGui.image(textureManager.getTexture("src/main/resources/images/mesh_icons/cube.png").getId(), size, size);
         ImGui.sameLine();
         if (ImGui.menuItem("Cube")) {
-            String key = "Model " + scene.getModels().size();
-            scene.getModels().put(key, ModelManager.getInstance().clone("Cube"));
+            scene.getModels().put(key, modelManager.clone("Cube"));
             scene.setSelectedModel(key);
         }
-        ImGui.image(TextureManager.getInstance().getTexture("src/main/resources/images/mesh_icons/cylinder.png").getId(), size, size);
+        ImGui.image(textureManager.getTexture("src/main/resources/images/mesh_icons/cylinder.png").getId(), size, size);
         ImGui.sameLine();
         if (ImGui.menuItem("Cylinder")) {
-            String key = "Model " + scene.getModels().size();
-            scene.getModels().put(key, ModelManager.getInstance().clone("Cylinder"));
+            scene.getModels().put(key, modelManager.clone("Cylinder"));
             scene.setSelectedModel(key);
         }
-        ImGui.image(TextureManager.getInstance().getTexture("src/main/resources/images/mesh_icons/grid.png").getId(), size, size);
+        ImGui.image(textureManager.getTexture("src/main/resources/images/mesh_icons/grid.png").getId(), size, size);
         ImGui.sameLine();
         if (ImGui.menuItem("Grid")) {
-            String key = "Model " + scene.getModels().size();
-            scene.getModels().put(key, ModelManager.getInstance().clone("Grid"));
+            scene.getModels().put(key, modelManager.clone("Grid"));
             scene.setSelectedModel(key);
         }
-        ImGui.image(TextureManager.getInstance().getTexture("src/main/resources/images/mesh_icons/sphere.png").getId(), size, size);
+        ImGui.image(textureManager.getTexture("src/main/resources/images/mesh_icons/sphere.png").getId(), size, size);
         ImGui.sameLine();
         if (ImGui.menuItem("Sphere")) {
-            String key = "Model " + scene.getModels().size();
-            scene.getModels().put(key, ModelManager.getInstance().clone("Sphere"));
+            scene.getModels().put(key, modelManager.clone("Sphere"));
             scene.setSelectedModel(key);
         }
         ImGui.separator();
         if (ImGui.menuItem("Torus")) {
-            String key = "Model " + scene.getModels().size();
-            scene.getModels().put(key, ModelManager.getInstance().clone("Torus"));
+            scene.getModels().put(key, modelManager.clone("Torus"));
             scene.setSelectedModel(key);
         }
         if (ImGui.menuItem("Icosphere")) {
-            String key = "Model " + scene.getModels().size();
-            scene.getModels().put(key, ModelManager.getInstance().clone("Icosphere"));
+            scene.getModels().put(key, modelManager.clone("Icosphere"));
             scene.setSelectedModel(key);
         }
         if (ImGui.menuItem("Monkey")) {
-            String key = "Model " + scene.getModels().size();
-            scene.getModels().put(key, ModelManager.getInstance().clone("Monkey"));
+            scene.getModels().put(key, modelManager.clone("Monkey"));
             scene.setSelectedModel(key);
         }
         ImGui.separator();
-        ImGui.image(TextureManager.getInstance().getTexture("src/main/resources/images/misicon1.png").getId(), 24, 24);
+        ImGui.image(textureManager.getTexture("src/main/resources/images/misicon1.png").getId(), 24, 24);
 
         ImGui.sameLine();
 
         if (ImGui.menuItem("Mikoto Misaka")) {
-            String key = "Model " + scene.getModels().size();
-            scene.getModels().put(key, ModelManager.getInstance().clone("MikotoMisaka"));
+            scene.getModels().put(key, modelManager.clone("MikotoMisaka"));
             scene.setSelectedModel(key);
         }
+
+        if(scene.getModels().size() > startSize) {
+            Console.log(Console.Level.INFO, "Added new model to scene. @ " + System.identityHashCode(scene.getModels().get(key)));
+        }
+
         ImGui.endPopup();
 
     }

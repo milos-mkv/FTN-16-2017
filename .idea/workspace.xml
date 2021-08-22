@@ -5,106 +5,45 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="5fdce06c-608e-42b4-9d60-dab4fa34989b" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/5/7/5747f0dd0482f3c966096507bb7a1271a70a5f09" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/5/d/5db1fe0639d3a6d1c31caaa62a1e1ef5ea326cdc" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/7/e/7e995149692ff81bad46c06160fee37b80951266" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/a/f/affd74ee68103ee8d2e2a03132a2a2ceeacb21c7" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/c/b/cb3ae8c252947f410057d693a27d2fb08c225853" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/0/f/0fed48ecd35b76350277bbd9cd3074b8fdff5a7f" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/0/f/0fed48ecd35b76350277bbd9cd3074b8fdff5a7f" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/1/a/1aa44877f6ad89af932e71ab2905294d5635a6e4" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/e/8/e8ecc115a69da1f795f8dfec6a4f48f65837aa66" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/imgui.ini" beforeDir="false" afterPath="$PROJECT_DIR$/imgui.ini" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/core/Assets.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/Assets.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/core/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/Constants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/core/MaterialPreviewScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/MaterialPreviewScene.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/core/Scene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/Scene.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/core/Settings.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/Settings.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/core/Window.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/Window.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gfx/CubeMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gfx/CubeMap.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/gfx/FirstPersonCameraController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gfx/FirstPersonCameraController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gfx/Grid.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gfx/Grid.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gfx/MSFrameBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gfx/MultisampleFrameBuffer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gfx/Material.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gfx/Material.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/gfx/Mesh.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gfx/Mesh.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/gfx/Model.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gfx/Model.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/gfx/ShaderProgram.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gfx/ShaderProgram.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gfx/SkyBox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gfx/SkyBox.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gfx/Texture.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gfx/Texture.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gfx/TransformComponent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gfx/TransformComponent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gfx/Vertex.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gfx/Vertex.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/GUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/GUIControls.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/GUIControls.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/gui/components/ConsoleDock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/components/ConsoleDock.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/gui/components/MainMenuBar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/components/MainMenuBar.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/gui/components/MeshPropertiesPopup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/components/MeshPropertiesPopup.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/gui/components/ModelPropertiesDock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/components/ModelPropertiesDock.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/components/NodeEditorDock.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/gui/components/ScenePropertiesDock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/components/ScenePropertiesDock.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/gui/components/ShaderEditorDock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/components/ShaderEditorDock.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/components/ShadowPropertiesDock.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/components/SkyboxPropertiesDock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/components/SkyboxPropertiesDock.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/gui/components/SplashModal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/components/SplashModal.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/gui/components/TexturePreviewDock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/components/TexturePreviewDock.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/gui/components/ViewportDock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/components/ViewportDock.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/managers/Console.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/managers/Console.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/managers/ModelManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/managers/ModelManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/managers/TextureManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/managers/TextureManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/images/333.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/images/33d.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/images/3d-modeling (1).png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/images/3d-modeling.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/images/3d.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/images/3dd.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/images/Untitled.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/images/aaa.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/images/add.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/images/add1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/images/clear.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/images/close.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/images/console.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/images/cube.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/images/delete (1).png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/images/delete-folder.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/images/delete.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/images/error_icon.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/images/folder (1).png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/images/folder (2).png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/images/folder.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/images/folder.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/images/gallery (1).png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/images/gallery.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/images/gallery.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/images/hero_alt.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/images/image.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/images/maximize.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/images/mesh.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/images/misaka.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/images/misaka1.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/images/misaka2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/images/miska1.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/images/mo.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/images/modeing2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/images/modeling.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/images/modeling1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/images/move (2).png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/images/move (3).png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/images/move.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/images/move.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/images/picture.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/images/plus.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/images/preview.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/images/resize (1).png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/images/resize (2).png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/images/resize.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/images/resize.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/images/rot.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/images/rota.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/images/rotate.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/images/rotating (1).png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/images/rotation.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/images/rsd.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/images/save.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/images/scale.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/images/splash.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/images/splash.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/images/tech.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/images/test.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/images/test1.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/images/test2.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/images/tex.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/images/trash (1).png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/images/trash.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/models/ao.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/models/backpack.mtl" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/models/backpack.obj" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/models/diffuse.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/models/normal.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/models/roughness.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/models/source_attribution.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/models/specular.jpg" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/shaders/border.frag" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/shaders/border.frag" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/test.jpg" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

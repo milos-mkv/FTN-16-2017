@@ -12,7 +12,6 @@ public class GUI implements Renderable {
 
     public GUI() {
         renderables.add(new MainMenuBar());
-        renderables.add(new ShadowPropertiesDock());
         renderables.add(new ShaderEditorDock());
         renderables.add(new ViewportDock());
         renderables.add(new ConsoleDock());
@@ -21,7 +20,6 @@ public class GUI implements Renderable {
         renderables.add(new ModelPropertiesDock());
         renderables.add(new SkyboxPropertiesDock());
         renderables.add(new TexturePreviewDock());
-//        renderables.add(new NodeEditorDock());
     }
 
     @Override
