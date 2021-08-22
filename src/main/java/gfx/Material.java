@@ -1,39 +1,75 @@
 package gfx;
 
-import core.Constants;
-import org.joml.Vector4f;
+import lombok.Data;
+import org.joml.Vector3f;
+import org.w3c.dom.Text;
+import utils.TextureType;
 
-public class Material implements Cloneable {
+@Data
+public class Material {
 
-    public Vector4f ambientColor;
-    public Vector4f diffuseColor;
-    public Vector4f specularColor;
+    private String name;
 
-    public float shininess;
-    public float reflectance;
+    private Vector3f ambientColor;
+    private Vector3f diffuseColor;
+    private Vector3f specularColor;
 
-    public Texture diffuseTexture;
-    public Texture specularTexture;
-    public Texture normalTexture;
+    private float shininess;
+    private float reflectance;
+
+    private Texture diffuseTexture;
+    private Texture specularTexture;
+    private Texture normalTexture;
 
     public Material() {
-        this.ambientColor  = Constants.DEFAULT_COLOR;
-        this.diffuseColor  = Constants.DEFAULT_COLOR;
-        this.specularColor = Constants.DEFAULT_COLOR;
+        this.ambientColor  = new Vector3f(1, 1, 1);
+        this.diffuseColor  = new Vector3f(1, 1, 1);
+        this.specularColor = new Vector3f(1, 1, 1);
+        this.shininess     = 10.f;
     }
 
-    public Material(Vector4f ambient, Vector4f diffuse, Vector4f specular, float shininess) {
-        this.ambientColor  = ambient;
-        this.diffuseColor  = diffuse;
+    public Material(String name) {
+        this();
+        this.name = name;
+    }
+
+    public Material(Vector3f ambient, Vector3f diffuse, Vector3f specular, float shininess) {
+        this.ambientColor = ambient;
+        this.diffuseColor = diffuse;
         this.specularColor = specular;
-        this.shininess     = shininess;
+        this.shininess = shininess;
     }
 
-    public Material clone() throws CloneNotSupportedException {
-        Material clone      = (Material) super.clone();
-        clone.diffuseColor  = (Vector4f) diffuseColor.clone();
-        clone.ambientColor  = (Vector4f) ambientColor.clone();
-        clone.specularColor = (Vector4f) specularColor.clone();
+    public Texture getTexture(TextureType type) {
+        switch (type) {
+            case DIFFUSE:  return diffuseTexture;
+            case SPECULAR: return specularTexture;
+            case NORMAL:   return normalTexture;
+            default:       return null;
+        }
+    }
+
+    public void setTexture(TextureType type, Texture texture) {
+        switch (type) {
+            case DIFFUSE:  diffuseTexture = texture; break;
+            case SPECULAR: specularTexture = texture; break;
+            case NORMAL:   normalTexture = texture; break;
+            default:       break;
+        }
+    }
+
+    public static Material clone(Material material) {
+        Material clone        = new Material();
+        clone.ambientColor    = new Vector3f().set(material.getAmbientColor());
+        clone.diffuseColor    = new Vector3f().set(material.getDiffuseColor());
+        clone.specularColor   = new Vector3f().set(material.getSpecularColor());
+        clone.shininess       = material.getShininess();
+        clone.name            = String.valueOf(material.name);
+        clone.reflectance     = material.getReflectance();
+        clone.diffuseTexture  = material.getDiffuseTexture();
+        clone.specularTexture = material.getSpecularTexture();
+        clone.normalTexture   = material.getNormalTexture();
         return clone;
     }
+
 }

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="5fdce06c-608e-42b4-9d60-dab4fa34989b" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/0/f/0fed48ecd35b76350277bbd9cd3074b8fdff5a7f" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/0/f/0fed48ecd35b76350277bbd9cd3074b8fdff5a7f" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/1/a/1aa44877f6ad89af932e71ab2905294d5635a6e4" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/e/8/e8ecc115a69da1f795f8dfec6a4f48f65837aa66" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/imgui.ini" beforeDir="false" afterPath="$PROJECT_DIR$/imgui.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/core/Assets.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/Assets.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/core/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/Constants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/core/MaterialPreviewScene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/MaterialPreviewScene.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/core/Scene.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/Scene.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/core/Settings.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/core/Settings.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gfx/CubeMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gfx/CubeMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gfx/FirstPersonCameraController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gfx/FirstPersonCameraController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gfx/Grid.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gfx/Grid.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gfx/MSFrameBuffer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gfx/MultisampleFrameBuffer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gfx/Material.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gfx/Material.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gfx/Mesh.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gfx/Mesh.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gfx/Model.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gfx/Model.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gfx/SkyBox.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gfx/SkyBox.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gfx/Texture.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gfx/Texture.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gfx/TransformComponent.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gfx/TransformComponent.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gfx/Vertex.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gfx/Vertex.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/GUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/GUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/GUIControls.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/GUIControls.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/components/ConsoleDock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/components/ConsoleDock.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/components/MainMenuBar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/components/MainMenuBar.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/components/MeshPropertiesPopup.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/components/MeshPropertiesPopup.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/components/ModelPropertiesDock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/components/ModelPropertiesDock.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/components/NodeEditorDock.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/components/ScenePropertiesDock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/components/ScenePropertiesDock.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/components/ShaderEditorDock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/components/ShaderEditorDock.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/components/ShadowPropertiesDock.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/components/SkyboxPropertiesDock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/components/SkyboxPropertiesDock.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/components/SplashModal.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/components/SplashModal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/components/TexturePreviewDock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/components/TexturePreviewDock.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/gui/components/ViewportDock.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/gui/components/ViewportDock.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/managers/Console.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/managers/Console.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="jar://$PROJECT_DIR$/../../../../Program Files/AdoptOpenJDK/jdk-11.0.11.9-hotspot/lib/src.zip!/java.base/java/lang/NullPointerException.java" root0="SKIP_INSPECTION" />
+    <setting file="jar://$PROJECT_DIR$/../../../../Program Files/AdoptOpenJDK/jdk-11.0.11.9-hotspot/lib/src.zip!/java.base/java/util/ArrayList.java" root0="SKIP_INSPECTION" />
+    <setting file="jar://$MAVEN_REPOSITORY$/cz/advel/jbullet/jbullet/20101010-1/jbullet-20101010-1.jar!/com/bulletphysics/collision/shapes/TriangleIndexVertexArray.class" root0="SKIP_INSPECTION" />
+    <setting file="jar://$MAVEN_REPOSITORY$/cz/advel/jbullet/jbullet/20101010-1/jbullet-20101010-1.jar!/com/bulletphysics/linearmath/MotionState.class" root0="SKIP_INSPECTION" />
+  </component>
+  <component name="ProjectId" id="1vp7okz8XgNQ9eZH8LcwcrvyGvO" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="1" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="project.structure.last.edited" value="Global Libraries" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
+  </component>
+  <component name="ReaderModeSettings">
+    <option name="showLigatures" value="true" />
+  </component>
+  <component name="RunManager">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="SimpleOpenGLRenderer" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Main" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="5fdce06c-608e-42b4-9d60-dab4fa34989b" name="Default Changelist" comment="" />
+      <created>1627247354224</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1627247354224</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+</project>

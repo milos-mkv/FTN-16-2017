@@ -1,35 +1,18 @@
 package core;
 
-import org.joml.Vector4f;
+import org.joml.Vector3f;
 
 public abstract class Constants {
 
-    public static final int FRAMEBUFFER_DEFAULT_WIDTH = 1280;
-    public static final int FRAMEBUFFER_DEFAULT_HEIGHT = 769;
+    private Constants() {}
 
-    public static final float FPS_CAMERA_DEFAULT_FOV = 45.0F;
-    public static final float FPS_CAMERA_DEFAULT_ASPECT = 1280.F / 769.F;
-    public static final float FPS_CAMERA_DEFAULT_NEAR = 0.1F;
-    public static final float FPS_CAMERA_DEFAULT_FAR = 100.0F;
+    public static final String GITHUB_URL = "https://github.com/milos-mkv/FTN-16-2017";
 
-    public static final String SCENE_GRID_VERTEX_SHADER_PATH = "src/main/resources/shaders/grid.vert";
-    public static final String SCENE_GRID_FRAGMENT_SHADER_PATH = "src/main/resources/shaders/grid.frag";
-    public static final String SCENE_VERTEX_SHADER_PATH = "src/main/resources/shaders/shader.vert";
-    public static final String SCENE_FRAGMENT_SHADER_PATH = "src/main/resources/shaders/shader.frag";
+    public static final int WINDOW_DEFAULT_WIDTH  = 1480;
+    public static final int WINDOW_DEFAULT_HEIGHT =  768;
+    public static final int FRAMEBUFFER_WIDTH     = 1920;
+    public static final int FRAMEBUFFER_HEIGHT    = 1280;
 
-    public static final Vector4f DEFAULT_COLOR = new Vector4f(1, 1, 1, 1);
-
-    public static final String[] DEFAULT_MESHES_PATHS = {
-            "src/main/resources/meshes/cone.obj",
-            "src/main/resources/meshes/cube.obj",
-            "src/main/resources/meshes/cylinder.obj",
-            "src/main/resources/meshes/grid.obj",
-            "src/main/resources/meshes/icosphere.obj",
-            "src/main/resources/meshes/monkey.obj",
-            "src/main/resources/meshes/plane.obj",
-            "src/main/resources/meshes/sphere.obj",
-            "src/main/resources/meshes/torus.obj"
-    };
-
+    public static final Vector3f WORLD_UP = new Vector3f(0, 1, 0);
 
 }

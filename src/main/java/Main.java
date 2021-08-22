@@ -1,13 +1,23 @@
-import core.*;
-import gfx.*;
-//import imgui.ImGui;
-import imgui.internal.ImGui;
-
-import lombok.SneakyThrows;
+import core.Application;
+import core.Constants;
+import core.Scene;
+import core.Settings;
+import gfx.Grid;
+import gfx.ShaderProgram;
+import gfx.ShadowMap;
+import gfx.SkyBox;
+import gui.GUI;
+import imgui.ImGui;
+import managers.ModelManager;
+import managers.ShaderProgramManager;
+import managers.TextureManager;
+import org.joml.Matrix4f;
 import org.joml.Vector3f;
-import org.lwjgl.opengl.GL32;
+import org.lwjgl.opengl.GL11;
 
-import static utils.Utils.ReadFromFile;
+import static org.lwjgl.opengl.GL11C.*;
+import static org.lwjgl.opengl.GL20.glUseProgram;
+import static org.lwjgl.opengl.GL30C.*;
 
 public class Main extends Application {
 
@@ -15,71 +25,191 @@ public class Main extends Application {
         launch(new Main());
     }
 
+    private GUI gui;
+    private TextureManager textureManager;
+    private ModelManager modelManager;
+    private Scene scene;
+    private ShaderProgramManager shaderProgramManager;
+    private ShadowMap shadowMap;
 
-    private Shader shader;
-
-    DirectionalLight dl;
-    @SneakyThrows
     @Override
-    public void preProcess() {
-        TextureManager.getInstance();
-        Scene.init();
-        GUI.init();
-        GL32.glEnable(GL32.GL_DEPTH_TEST);
-        dl = new DirectionalLight(new Vector3f(0.3f, -0.5f, 0.5f), new Vector3f(0.1f, 0.1f, 0.1f),
-                new Vector3f(1.0f, 1.0f, 1.0f), new Vector3f(0.4f, 0.4f, 0.4f));
-        shader = new Shader(Constants.SCENE_VERTEX_SHADER_PATH, Constants.SCENE_FRAGMENT_SHADER_PATH);
+    protected void onStart() {
+        shaderProgramManager = ShaderProgramManager.getInstance();
+        modelManager = ModelManager.getInstance();
+        scene = Scene.getInstance();
+        textureManager = TextureManager.getInstance();
+        shadowMap = ShadowMap.getInstance();
+        gui = new GUI();
 
-//        GL32.glEnable(GL32.GL_CULL_FACE);
-//        GL32.glCullFace(GL32.GL_BACK);
-
+        glEnable(GL_DEPTH_TEST);
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glEnable(GL_LINE_SMOOTH);
+        glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
+        glEnable(GL_STENCIL_TEST);
     }
 
-
     @Override
-    public void render(float delta) {
+    protected void render(float delta) {
+
         if (ImGui.isMouseDown(1)) {
-            Scene.FPSCamera.UpdateController(delta);
+            scene.getCamera().updateController(delta);
         }
 
-        GL32.glBindFramebuffer(GL32.GL_FRAMEBUFFER, Scene.frameBuffer.getId());
-//        GL32.glPolygonMode(GL32.GL_FRONT_AND_BACK, GL32.GL_LINE);
-        GL32.glClearColor(0.1F, 0.1F, 0.1F, 1.0F);
-        GL32.glClear(GL32.GL_COLOR_BUFFER_BIT | GL32.GL_DEPTH_BUFFER_BIT | GL32.GL_STENCIL_BUFFER_BIT);
+        glBindFramebuffer(GL_FRAMEBUFFER, shadowMap.getDepthMapFBO());
+        glViewport(0, 0, ShadowMap.SHADOW_WIDTH, ShadowMap.SHADOW_HEIGHT);
 
-        if (Settings.EnableGrid) {
-            SceneGrid.getInstance().render();
+        glClear(GL_DEPTH_BUFFER_BIT);
+
+        ShaderProgram shadowShader = shaderProgramManager.get("SHADOW SHADER");
+
+        glUseProgram(shadowShader.getId());
+
+        Matrix4f lightViewMatrix = new Matrix4f().lookAt(
+                new Vector3f()
+                        .set(scene.getDirectionalLight().getDirection())
+                        .mul(-1),
+                new Vector3f(0, 0, 0),
+                new Vector3f(0, 1, 0)
+        );
+        var projection = new Matrix4f().ortho(-20.0f, 20.f, -20.0f, 20.0f, -20.f, 20.f);
+
+        var lightSpaceMatrix = new Matrix4f().set(projection).mul(lightViewMatrix);
+
+        shadowShader.setUniformMat4("orthoProjectionMatrix", lightSpaceMatrix);
+
+        scene.getModels().forEach((key, value) -> value.draw(shadowShader));
+
+
+        glViewport(0, 0, Constants.FRAMEBUFFER_WIDTH, Constants.FRAMEBUFFER_HEIGHT);
+        if (Settings.EnableMSAA.get()) {
+            glBindFramebuffer(GL_FRAMEBUFFER, scene.getMsFrameBuffer().getId());
+
+        } else {
+            glBindFramebuffer(GL_FRAMEBUFFER, scene.getFrameBuffer().getId());
+
+        }
+        glClearColor(Scene.ClearColor[0], Scene.ClearColor[1], Scene.ClearColor[2], Scene.ClearColor[3]);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+
+        if (Settings.ToggleSkyBox.get()) {
+            SkyBox.getInstance().render();
+        }
+        if (Settings.ToggleGrid.get()) {
+            Grid.getInstance().render();
         }
 
-        GL32.glUseProgram(shader.getId());
-        shader.setUniformVec3("viewPos", Scene.FPSCamera.position);
-        dl.apply(shader);
-        shader.setUniformMat4("view", Scene.FPSCamera.getViewMatrix());
-        shader.setUniformMat4("proj", Scene.FPSCamera.getProjectionMatrix());
+        glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
+        glStencilFunc(GL_ALWAYS, 1, 0xFF);
+        glStencilMask(0xFF);
 
-        for (Model model : Scene.models) {
-            model.draw(shader);
+
+        ShaderProgram program = shaderProgramManager.get("SCENE SHADER");
+        if (Settings.EnableLinePolygonMode.get()) {
+            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        }
+        if (Settings.EnableFaceCulling.get()) {
+            GL11.glEnable(GL_CULL_FACE);
+            glCullFace(GL_BACK);
+        }
+        glUseProgram(program.getId());
+        program.setUniformMat4("lightSpaceMatrix", lightSpaceMatrix);
+        program.setUniformBoolean("isUsingDirectionalLight", Settings.EnableDirectionalLight.get() ? 1 : 0);
+        program.setUniformVec3("lightPos", new Vector3f().set(scene.getDirectionalLight().getDirection()).mul(-1));
+        program.setUniformVec3("viewPos", scene.getCamera().getPosition());
+        scene.getDirectionalLight().apply(program);
+
+        program.setUniformMat4("view", scene.getCamera().getViewMatrix());
+        program.setUniformMat4("proj", scene.getCamera().getProjectionMatrix());
+
+        program.setUniformInt("shadowMap", 0);
+        program.setUniformInt("diffuseTexture", 1);
+        program.setUniformInt("specularTexture", 2);
+        program.setUniformInt("normalTexture", 3);
+
+        program.setUniformBoolean("isUsingShadows", Settings.EnableShadows.get() ? 1 : 0);
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, ShadowMap.getInstance().getDepthMap());
+
+        scene.getModels().forEach((key, value) -> value.draw(program));
+
+        if (Settings.EnableSelectorBorder.get() && scene.getModels().size() > 0 && scene.getSelectedModel() != null) {
+            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+            glLineWidth(10);
+            glStencilFunc(GL_NOTEQUAL, 1, 0xFF);
+            glStencilMask(0x00);
+            glDisable(GL_DEPTH_TEST);
+
+            ShaderProgram p = shaderProgramManager.get("BORDER SHADER");
+
+            glUseProgram(p.getId());
+            p.setUniformMat4("proj", scene.getCamera().getProjectionMatrix());
+            p.setUniformMat4("view", scene.getCamera().getViewMatrix());
+            p.setUniformVec3("color", Settings.SelectorColor);
+
+            var model = scene.getSelectedModel();
+            model.draw(p);
+
+            glStencilMask(0xFF);
+            glEnable(GL_DEPTH_TEST);
+            glStencilFunc(GL_ALWAYS, 1, 0xFF);
+            glEnable(GL_DEPTH_TEST);
+            glLineWidth(Settings.GLLineWidth);
+            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
         }
 
-        GL32.glBindFramebuffer(GL32.GL_FRAMEBUFFER, 0);
-        GL32.glPolygonMode(GL32.GL_FRONT_AND_BACK, GL32.GL_FILL);
+        if (Settings.EnableMSAA.get()) {
+            glBindFramebuffer(GL_READ_FRAMEBUFFER, scene.getMsFrameBuffer().getId());
+            glBindFramebuffer(GL_DRAW_FRAMEBUFFER, scene.getFrameBuffer().getId());
+            glBlitFramebuffer(0,
+                    0,
+                    Constants.FRAMEBUFFER_WIDTH,
+                    Constants.FRAMEBUFFER_HEIGHT,
+                    0,
+                    0,
+                    Constants.FRAMEBUFFER_WIDTH,
+                    Constants.FRAMEBUFFER_HEIGHT,
+                    GL_COLOR_BUFFER_BIT,
+                    GL_NEAREST);
+        }
+        glBindFramebuffer(GL_FRAMEBUFFER, scene.getSelectFrameBuffer().getId());
+        if (Settings.EnableLinePolygonMode.get()) {
+            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+        }
+        if (Settings.EnableFaceCulling.get()) {
+            glDisable(GL_CULL_FACE);
+            glCullFace(GL_BACK);
+        }
 
+        glClearColor(0, 0, 0, 1);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+        var pr = shaderProgramManager.get("SELECT SHADER");
+        glUseProgram(pr.getId());
+        pr.setUniformMat4("view", scene.getCamera().getViewMatrix());
+        pr.setUniformMat4("proj", scene.getCamera().getProjectionMatrix());
+        scene.getModels().forEach((key, value) -> {
+            pr.setUniformInt("id", value.getId());
+            value.draw(pr);
+        });
+
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
     }
 
     @Override
-    public void process() {
-        ImGui.showDemoWindow();
-        GUI.renderMenuBar(Scene.frameBuffer);
-        GUI.renderViewport(Scene.frameBuffer, Scene.FPSCamera);
-        GUI.renderSceneItemsDock();
-        GUI.renderProperties();
-        GUI.renderLightProperties(dl, Scene.pointLights);
-
+    protected void renderImGui() {
+        gui.render();
     }
 
     @Override
-    public void postProcess() {
-        SceneGrid.getInstance().dispose();
-        TextureManager.getInstance().dispose();
+    protected void onEnd() {
+        shaderProgramManager.dispose();
+        textureManager.dispose();
+        modelManager.dispose();
+        shadowMap.dispose();
+        scene.dispose();
+        SkyBox.getInstance().dispose();
+        Grid.getInstance().dispose();
     }
 }

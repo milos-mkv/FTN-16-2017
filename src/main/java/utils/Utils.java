@@ -1,42 +1,35 @@
 package utils;
 
-import org.joml.Vector3f;
-import org.joml.Vector4f;
+import org.joml.Matrix4f;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
-public abstract class Utils {
+public interface Utils {
 
-    public static void Assert(boolean expression, final String message) {
-        if (!expression) {
-            throw new RuntimeException(message);
-        }
-    }
-
-    public static String ReadFromFile(final String file) {
-        try {
-            BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
-            StringBuilder stringBuilder = new StringBuilder();
+    static String readFromFile(final String file) {
+        StringBuilder stringBuilder = null;
+        try (var bufferedReader = new BufferedReader(new FileReader(file))) {
+            stringBuilder = new StringBuilder();
             String line;
-            while((line = bufferedReader.readLine()) != null) {
+            while ((line = bufferedReader.readLine()) != null) {
                 stringBuilder.append(line).append(System.getProperty("line.separator"));
             }
-            bufferedReader.close();
-            return stringBuilder.toString();
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println(e.getMessage());
         }
-        return null;
+        return stringBuilder != null ? stringBuilder.toString() : null;
     }
 
-    public static float[] ToFloat3(final Vector3f vec) {
-        return new float[] { vec.x, vec.y, vec.z };
+    static float[] matrix4x4ToFloatBuffer(Matrix4f matrix4f) {
+        var buffer = new float[16];
+        matrix4f.get(buffer);
+        return buffer;
     }
 
-    public static float[] ToFloat4(final Vector4f vec) {
-        return new float[] { vec.x, vec.y, vec.z, vec.w };
+    static float map(float value, float start1, float stop1, float start2, float stop2) {
+        return start2 + (stop2 - start2) * ((value - start1) / (stop1 - start1));
     }
 
 }

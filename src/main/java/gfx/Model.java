@@ -1,56 +1,71 @@
 package gfx;
 
-
-import core.Constants;
-import lombok.SneakyThrows;
-import org.joml.Matrix4f;
+import core.Settings;
+import exceptions.InvalidDocumentException;
+import lombok.Getter;
+import managers.TextureManager;
 import org.joml.Vector2f;
 import org.joml.Vector3f;
-import org.joml.Vector4f;
 import org.lwjgl.PointerBuffer;
 import org.lwjgl.assimp.*;
+import utils.Disposable;
 
 import java.nio.IntBuffer;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Objects;
 
-public class Model extends TransformComponent implements Cloneable {
+public class Model extends TransformComponent implements Disposable {
 
-    public ArrayList<Mesh> meshes = new ArrayList<>();
-    public List<Material> materials = new ArrayList<>();
+    @Getter
+    private Map<String, Mesh> meshes = new LinkedHashMap<>();
 
-    public Matrix4f getTransform() {
-        return new Matrix4f().translate(position).rotate(rotation.x, 1, 0, 0)
-                .rotate(rotation.y, 0, 1, 0).rotate(rotation.z, 0, 0, 1).scale(scale);
-    }
+    @Getter
+    private Map<String, Material> materials = new LinkedHashMap<>();
 
-    public Model clone() throws CloneNotSupportedException {
-        return (Model) super.clone();
-    }
+    @Getter
+    private final String path;
 
-    public Model(String resourcePath) {
+    @Getter
+    private final int id;
+
+    public Model(Map<String, Mesh> meshes,  Map<String, Material> materials, String path) {
         super();
+        this.meshes = meshes;
+        this.materials = materials;
+        this.path = path;
+        this.id = Settings.NextModelIndex++;
+    }
+
+    public Model(String resourcePath) throws InvalidDocumentException {
+        super();
+        path = resourcePath;
         AIScene scene = Assimp.aiImportFile(resourcePath, Assimp.aiProcess_Triangulate | Assimp.aiProcess_FlipUVs
                 | Assimp.aiProcess_GenSmoothNormals | Assimp.aiProcess_CalcTangentSpace);
+
         if (scene == null) {
-            throw new RuntimeException("Failed to load model");
+            throw new InvalidDocumentException("Failed to load model: " + resourcePath);
         }
 
-        int numMaterials = scene.mNumMaterials();
-        System.out.println(numMaterials);
         PointerBuffer aiMaterials = scene.mMaterials();
-        for (int i = 0; i < numMaterials; i++) {
-            AIMaterial aiMaterial = AIMaterial.create(Objects.requireNonNull(aiMaterials).get(i));
+        for (var i = 0; i < scene.mNumMaterials(); i++) {
+            var aiMaterial = AIMaterial.create(Objects.requireNonNull(aiMaterials).get(i));
             processMaterial(aiMaterial, resourcePath.substring(0, resourcePath.lastIndexOf("/")));
         }
-
         processNode(Objects.requireNonNull(scene.mRootNode()), scene);
+        this.id = Settings.NextModelIndex;
+        Settings.NextModelIndex += 1;
+    }
+
+    public void draw(ShaderProgram shaderProgram) {
+        shaderProgram.setUniformMat4("model", getTransform());
+        meshes.forEach((key, mesh) -> mesh.draw(shaderProgram));
     }
 
     private Texture getMaterialTexture(AIMaterial material, String texturesDir, int type) {
-        AIString buffer = AIString.calloc();
+        var buffer = AIString.calloc();
         Assimp.aiGetMaterialTexture(material, type, 0, buffer, (IntBuffer) null, null, null, null, null, null);
         if (!buffer.dataString().equals("")) {
             return TextureManager.getInstance().getTexture(texturesDir + "/" + buffer.dataString());
@@ -58,92 +73,80 @@ public class Model extends TransformComponent implements Cloneable {
         return null;
     }
 
-    private Vector4f getMaterialColor(AIMaterial material, String type) {
-        AIColor4D color = AIColor4D.create();
+    private Vector3f getMaterialColor(AIMaterial material, String type) {
+        var color = AIColor4D.create();
         int result = Assimp.aiGetMaterialColor(material, type, Assimp.aiTextureType_NONE, 0, color);
-        if (result == 0) {
-            return new Vector4f(color.r(), color.g(), color.b(), color.a());
-        }
-        return Constants.DEFAULT_COLOR;
+        return (result == 0)
+                ? new Vector3f(color.r(), color.g(), color.b())
+                : new Vector3f(1, 1 ,1);
     }
 
-    @SneakyThrows
-    public void processMaterial(AIMaterial aiMaterial, String texturesDir) throws RuntimeException {
+    private void processMaterial(AIMaterial aiMaterial, String texturesDir) {
+        var material = new Material();
+        var buffer = AIString.calloc();
+        Assimp.aiGetMaterialString(aiMaterial, Assimp.AI_MATKEY_NAME, 0, 0, buffer);
 
-        System.out.println(texturesDir);
+        material.setAmbientColor(getMaterialColor(aiMaterial, Assimp.AI_MATKEY_COLOR_AMBIENT));
+        material.setDiffuseColor(getMaterialColor(aiMaterial, Assimp.AI_MATKEY_COLOR_DIFFUSE));
+        material.setSpecularColor(getMaterialColor(aiMaterial, Assimp.AI_MATKEY_COLOR_SPECULAR));
 
-        Texture diffuseTexture = getMaterialTexture(aiMaterial, texturesDir, Assimp.aiTextureType_DIFFUSE);
-        Texture specularTexture = getMaterialTexture(aiMaterial, texturesDir, Assimp.aiTextureType_SPECULAR);
-        Texture normalsTexture = getMaterialTexture(aiMaterial, texturesDir, Assimp.aiTextureType_NORMALS);
+        material.setShininess(10.0f);
+        material.setDiffuseTexture(getMaterialTexture(aiMaterial, texturesDir, Assimp.aiTextureType_DIFFUSE));
+        material.setSpecularTexture(getMaterialTexture(aiMaterial, texturesDir, Assimp.aiTextureType_SPECULAR));
+        material.setNormalTexture(getMaterialTexture(aiMaterial, texturesDir, Assimp.aiTextureType_HEIGHT));
 
-
-        Vector4f ambient = getMaterialColor(aiMaterial, Assimp.AI_MATKEY_COLOR_AMBIENT);
-        Vector4f diffuse = getMaterialColor(aiMaterial, Assimp.AI_MATKEY_COLOR_DIFFUSE);
-        Vector4f specular = getMaterialColor(aiMaterial, Assimp.AI_MATKEY_COLOR_SPECULAR);
-
-
-        Material material = new Material((Vector4f)ambient.clone(), (Vector4f)diffuse.clone(),(Vector4f) specular.clone(), 1.0f);
-        material.diffuseTexture = diffuseTexture;
-        material.specularTexture = specularTexture;
-        material.normalTexture = normalsTexture;
-        materials.add(material);
+        material.setName(buffer.dataString());
+        materials.put(buffer.dataString(), material);
     }
 
-    public void processNode(AINode node, AIScene scene) {
-        for (int i = 0; i < node.mNumMeshes(); i++) {
-            AIMesh mesh = AIMesh.create(Objects.requireNonNull(scene.mMeshes()).get(Objects.requireNonNull(node.mMeshes()).get(i)));
-            meshes.add(processMesh(mesh, scene));
+    private void processNode(AINode node, AIScene scene) {
+        for (var i = 0; i < node.mNumMeshes(); i++) {
+            var mesh = AIMesh.create(Objects.requireNonNull(scene.mMeshes()).get(Objects.requireNonNull(node.mMeshes()).get(i)));
+            Mesh m = processMesh(mesh);
+            meshes.put(m.getName(), m);
         }
-        for (int i = 0; i < node.mNumChildren(); i++) {
+        for (var i = 0; i < node.mNumChildren(); i++) {
             processNode(AINode.create(Objects.requireNonNull(node.mChildren()).get(i)), scene);
         }
     }
 
-    public void draw(Shader shader) {
-        for (int i = 0; i < meshes.size(); i++) {
-            meshes.get(i).draw(shader);
-        }
-    }
+    private Mesh processMesh(AIMesh mesh) {
+        var vertices = new ArrayList<Vertex>();
+        var indices = new ArrayList<Integer>();
 
-    @SneakyThrows
-    public Mesh processMesh(AIMesh mesh, AIScene scene) {
-        ArrayList<Vertex> vertices = new ArrayList<>();
-        ArrayList<Integer> indices = new ArrayList<>();
-
-        for (int i = 0; i < mesh.mNumVertices(); i++) {
-            Vertex vertex = new Vertex();
-            vertex.position = new Vector3f(mesh.mVertices().get(i).x(), mesh.mVertices().get(i).y(), mesh.mVertices().get(i).z());
+        for (var i = 0; i < mesh.mNumVertices(); i++) {
+            var vertex = new Vertex();
+            vertex.setPosition(new Vector3f(mesh.mVertices().get(i).x(), mesh.mVertices().get(i).y(), mesh.mVertices().get(i).z()));
 
             if (mesh.mNormals() != null) {
-                vertex.normal = new Vector3f(mesh.mNormals().get(i).x(), mesh.mNormals().get(i).y(), mesh.mNormals().get(i).z());
+                vertex.setNormal(new Vector3f(mesh.mNormals().get(i).x(), mesh.mNormals().get(i).y(), mesh.mNormals().get(i).z()));
             }
 
             if (mesh.mTextureCoords().get(0) != 0) {
-                vertex.texCoords = new Vector2f(mesh.mTextureCoords(0).get(i).x(),
-                        mesh.mTextureCoords(0).get(i).y());
+                vertex.setTexCoords(new Vector2f(mesh.mTextureCoords(0).get(i).x(), mesh.mTextureCoords(0).get(i).y()));
             } else {
-                vertex.texCoords = new Vector2f(0, 0);
+                vertex.setTexCoords(new Vector2f(0, 0));
             }
             vertices.add(vertex);
         }
 
-        for (int i = 0; i < mesh.mNumFaces(); i++) {
+        for (var i = 0; i < mesh.mNumFaces(); i++) {
             AIFace face = mesh.mFaces().get(i);
-            for (int j = 0; j < face.mNumIndices(); j++) {
+            for (var j = 0; j < face.mNumIndices(); j++) {
                 indices.add(face.mIndices().get(j));
             }
         }
 
-        Material material;
-
-        int materialIdx = mesh.mMaterialIndex();
-        if (materialIdx >= 0 && materialIdx < materials.size()) {
-            material = materials.get(materialIdx).clone();
-        } else {
-            material = new Material();
-        }
+        Material material = mesh.mMaterialIndex() >= 0 && mesh.mMaterialIndex() < materials.size()
+                ? materials.get(materials.keySet()
+                    .toArray(new String[0])[mesh.mMaterialIndex()])
+                : new Material();
 
         return new Mesh(StandardCharsets.UTF_8.decode(mesh.mName().data()).toString(), vertices, indices, material);
     }
 
+    @Override
+    public void dispose() {
+        meshes.forEach((key, mesh) -> mesh.dispose());
+    }
 }
