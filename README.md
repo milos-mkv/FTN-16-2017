@@ -2,7 +2,7 @@
 
 ## <i> FTN 16-2017 Graduate Thesis - Project Misaka Railgun </i>
 
-Through this project i aim to explain how basics of computer graphics works using <a href="https://www.opengl.org/"> OpenGL graphics API </a> in combination with <a href="https://github.com/ocornut/imgui"> Dear ImGui </a> to create simple 3D rendering software that looks somewhat cool in my own way. Project name Misaka Railgun comes from main anime protagonist Mikoto Misaka from <a href="https://www.imdb.com/title/tt1515996/"> "A Certain Scientific Railgun" </a> anime series.
+Through this project I aim to explain how basics of computer graphics works using <a href="https://www.opengl.org/"> OpenGL graphics API </a> in combination with <a href="https://github.com/ocornut/imgui"> Dear ImGui </a> to create simple 3D rendering software that looks somewhat cool in my own way. Project name Misaka Railgun comes from main anime protagonist Mikoto Misaka from <a href="https://www.imdb.com/title/tt1515996/"> "A Certain Scientific Railgun" </a> anime series.
 
 > :warning: **This program is still in development and may contain bugs.**
 
@@ -50,7 +50,7 @@ Through this project i aim to explain how basics of computer graphics works usin
 
 ## Program manual
 
-* By holding mouse right button down you will enter first person mode and will be able to move on W,A,S,D keys.
+* By holding right mouse button down you will enter first person mode and will be able to move on W, A, S, D keys.
 * Pressing S key you will select Scale mode for model mainpulation.
 * Pressing T key you will select Transalte mode for model mainpulation.
 * Pressing R key you will select Rotate mode for model mainpulation.
