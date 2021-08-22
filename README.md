@@ -57,3 +57,7 @@ Through this project i aim to explain how basics of computer graphics works usin
 * Pressing mouse middle button on viewport dock context menu will be opened for adding new preexisting models to scene.
 * You can select model by holding down CTRL and clicking on model with mouse left button.
 * Everything elese is done using controls displayed in existing docks in program.
+
+## Licence
+Project Misaka Railgun is licensed under the MIT License, see LICENSE for more information.
+
