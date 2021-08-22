@@ -2,7 +2,7 @@
 
 ## <i> FTN 16-2017 Graduate Thesis - Project Misaka Railgun </i>
 
-Through this project i aim to explain how basics of computer graphics works using OpenGL graphics API in combination with Dear ImGui to create simple 3D rendering software that looks somewhat cool in my own way. Project name Misaka Railgun comes from main anime protagonist Mikoto Misaka from "A Certain Scientific Railgun" anime series.
+Through this project i aim to explain how basics of computer graphics works using <a href="https://www.opengl.org/"> OpenGL graphics API </a> in combination with <a href="https://github.com/ocornut/imgui"> Dear ImGui </a> to create simple 3D rendering software that looks somewhat cool in my own way. Project name Misaka Railgun comes from main anime protagonist Mikoto Misaka from <a href="https://www.imdb.com/title/tt1515996/"> "A Certain Scientific Railgun" </a> anime series.
 
 > :warning: **This program is still in development and may contain bugs.**
 
@@ -12,7 +12,7 @@ Through this project i aim to explain how basics of computer graphics works usin
 
 ## Features
 
-* Importing 3D models from files such as: FBX, OBJ, 3DS and many others that are supported by Assimp.
+* Importing 3D models from files such as: FBX, OBJ, 3DS and many others that are supported by <a href="https://www.assimp.org/"> Assimp</a>.
 * Creating new or editing old materials for meshes that imported model contains.
     * Ambient, Diffuse and Specular colors.
     * Material shininess.
@@ -31,7 +31,7 @@ Through this project i aim to explain how basics of computer graphics works usin
 ## Topics covered in this thesis
 
 * History of computer graphics.
-* What is Modern OpenGL? (Vulkan, DirectX)
+* What is Modern OpenGL? (<a href="https://www.vulkan.org/">Vulkan</a>, <a href="https://www.microsoft.com/en-us/download/details.aspx?id=35"> DirectX</a>)
 * Introduction for some libraries like: GLFW, Assimp, STB, ImGui
 * How graphics pipeline works.
 * Programming in GLSL.
