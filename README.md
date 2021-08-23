@@ -8,7 +8,7 @@ Through this project I aim to explain how basics of computer graphics works usin
 
 
 ## Preview
-<img style="border: 1px solid black;'" src="preview.PNG" />
+<img src="preview.PNG" />
 
 ## Features
 
