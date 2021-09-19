@@ -25,6 +25,8 @@ public class Scene implements Disposable {
     @Getter
     private final DirectionalLight directionalLight;
 
+    public int nextModelIndex = 0;
+
     @Getter
     private final Map<String, Model> models = new LinkedHashMap<>();
 

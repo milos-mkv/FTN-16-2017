@@ -98,7 +98,7 @@ public class MainMenuBar implements Renderable {
 
         try {
             var model = modelManager.clone(path);
-            String key = "Model " + scene.getModels().size();
+            String key = "Model " + scene.nextModelIndex++;
             scene.getModels().put(key, model);
             scene.setSelectedModel(key);
             Console.log(Console.Level.INFO, "Model successfully loaded: " + model.getPath());

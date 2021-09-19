@@ -168,7 +168,7 @@ public class ViewportDock implements Dock {
         ImGui.separator();
         ImGui.image(textureManager.getTexture("src/main/resources/images/mesh_icons/cone.png").getId(), size, size);
         ImGui.sameLine();
-        String key = "Model " + scene.getModels().size();
+        String key = "Model " +  scene.nextModelIndex;
         int startSize = scene.getModels().size();
         if (ImGui.menuItem("Cone")) {
             scene.getModels().put(key, modelManager.clone("Cone"));
@@ -223,6 +223,7 @@ public class ViewportDock implements Dock {
 
         if(scene.getModels().size() > startSize) {
             Console.log(Console.Level.INFO, "Added new model to scene. @ " + System.identityHashCode(scene.getModels().get(key)));
+            scene.nextModelIndex++;
         }
 
         ImGui.endPopup();
